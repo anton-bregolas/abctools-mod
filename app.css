@@ -311,7 +311,7 @@ margin-bottom:24px;
 
 #add-new-tune-dialog{
 display:block;
-margin-bottom:24px;
+/* margin-bottom:24px; */
 }
 
 #sharing-controls-dialog{
@@ -1028,8 +1028,8 @@ opacity: 0.45;
 #swingexplorerhelp{
 font-size: var(--abctools-font-size-header-xl-24);
 position:absolute;
-left:20px;
-top:20px;
+/* left:20px;
+top:20px; */
 }
 
 #graceexplorerinject{
@@ -2093,7 +2093,7 @@ body.noui svg {
 	padding: 5px; box-sizing: border-box;
 }
 
-.modal_flat_inner { padding: 10px 30px 30px 30px; background: #fff; color: #000; }
+/* .modal_flat_inner { padding: 10px 30px 30px 30px; background: #fff; color: #000; } */
 .modal_flat_content { font-family: var(--abctools-font-fallback-ui); margin: 20px 0px;}
 .modal_flat_input { margin: 20px 0px;}
 .modal_flat_buttons { text-align:center;margin-top: 40px; }
@@ -5228,7 +5228,7 @@ cursor: pointer;
 
 /* Container */
 .adv-tabs {
-  margin-top: 9px;
+  /* margin-top: 9px; */
   padding-top: 12px;
 }
 
@@ -5341,7 +5341,7 @@ cursor: pointer;
 
 /* Configure Settings: fixed-height tab content area */
 .configure-settings-tab-panels{
-  height: 450px;           /* adjust if you want taller/shorter */
+  height: 350px;           /* adjust if you want taller/shorter */
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -6036,7 +6036,7 @@ body.dp-tabs-building .modal_flat_main {
 
 .chord_matcher_dialog_title {
   text-align: center;
-  margin: 0 0 18px 0;
+  /* margin: 0 0 18px 0; */
   font-size: 1.333rem;
 }
 

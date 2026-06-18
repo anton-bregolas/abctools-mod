@@ -235,6 +235,11 @@ body {																											/* vanilla abc tools settings */
 // APP LITE: MODAL DIALOGS
 /////////////////////////////////////////*/
 
+#playerholder:focus-visible {
+  outline-offset: -0.25rem;
+  border-radius: 0.5rem;
+}
+
 .modal_flat_main *:not(.abcjs-container *),
 .modal_flat_wide_main *:not(.abcjs-container *) {
   font-family: var(--abctools-font-fallback-ui);
@@ -340,8 +345,13 @@ div.modal_flat_form_item_label {
   border-radius: 50%;
 }
 
+.modal-header-ui svg {
+  width: 100%;
+  height: 100%;
+}
+
 .modal_flat_x {
-  top: 0.75rem;
+  /* top: 0.75rem; */
   right: 0.75rem;
   transition:
   transform 150ms ease-in-out;
@@ -363,7 +373,7 @@ div.modal_flat_form_item_label {
 
 .modal-link-help {
   left: 0.75rem;
-  top: 0.75rem;
+  /* top: 0.75rem; */
 }
 
 .modal-link-help-player {
@@ -414,7 +424,7 @@ div.modal_flat_form_item_label {
   color: dimgray;
   position: absolute;
   left: 30px;
-  bottom: 30px;
+  bottom: 12px;
   margin: 0;
   cursor: pointer;
 }
@@ -500,6 +510,7 @@ label:has(input[type="file"]):focus-within,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
+#playerholder:focus-visible,
 .btn:focus-visible,
 .modal-header-ui:focus-visible {
   outline: 0.17rem solid var(--abctools-ui-btn-outlinecolor);
@@ -556,6 +567,10 @@ a:focus-visible,
 .btn.btn-padded {
   padding-left: 20px;
   padding-right: 20px;
+}
+
+#advanced_settings_tabs_root .adv-tab-panels {
+  height: 350px;
 }
 
 .adv-tab-links-container {

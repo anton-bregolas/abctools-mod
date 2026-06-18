@@ -1,0 +1,106 @@
+dialog.dp-lite-dialog {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 1px solid var(--abctools-bgcolor-secondary, #d8d8d8);
+  border-radius: 1rem;
+  box-shadow: 0 0 15px -2px rgba(0, 0, 0, 0.75);
+  background: var(--abctools-bgcolor-primary, #fff);
+  color: var(--abctools-textcolor-primary, #000);
+  max-height: 100vh;
+  max-width: 860px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: var(--abctools-font-fallback-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+}
+  
+dialog.dp-lite-dialog::backdrop {
+  background-color: var(--abctools-bgcolor-backdrop, rgba(0, 0, 0, 0.4));
+}
+
+dialog.dp-lite-dialog.dp-lite-top::backdrop {
+  background-color: transparent;
+}
+
+.dp-lite-dialog .dp-lite-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 50px;
+  padding: 0;
+  box-sizing: border-box;
+  background: var(--abctools-textcolor-contrast, #fafafa);
+  color: var(--abctools-textcolor-secondary, #111);
+  border-bottom: 1px solid var(--abctools-bgcolor-secondary, #d8d8d8);
+}
+
+.dp-lite-dialog .dp-lite-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.dp-lite-dialog .dp-lite-body-scroll {
+  flex: 1;
+  min-height: 0;
+  padding: 5px 30px 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable both-edges;
+}
+
+.dp-lite-body-scroll:focus-visible {
+  outline: 0.17rem solid var(--abctools-ui-btn-outlinecolor);
+  outline-offset: -0.33rem;
+  border-radius: 1rem;
+}
+
+.dp-lite-dialog .dp-lite-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 20px 0 20px;
+  border-top: 1px solid var(--abctools-bgcolor-secondary, #d8d8d8);
+  box-sizing: border-box;
+  background: var(--abctools-textcolor-contrast, #fafafa);
+  color: var(--abctools-textcolor-secondary, #111);
+  margin-top: 0 !important;
+}
+
+.dp-lite-dialog .dp-lite-footer .dp-lite-cancel {
+  margin-left: 5px;
+}
+
+.dp-lite-dialog-compact .dp-lite-body-scroll {
+  padding: 10px 30px 5px;
+}
+
+.dp-lite-dialog-compact .modal-link-help,
+.dp-lite-dialog-legacy .modal-link-help,
+.dp-lite-dialog-compact .modal_flat_x:not(.corner-x),
+.dp-lite-dialog-legacy .modal_flat_x:not(.corner-x) {
+  top: 0.75rem;
+}
+
+.dp-lite-dialog-legacy.dp-lite-dialog {
+  max-width: none;
+  width: 850px;
+}
+
+.dp-lite-dialog-legacy .dp-lite-footer {
+  border: 0;
+  background: none;
+}
+
+body.dp-dialog-open {
+  overflow: hidden;
+}

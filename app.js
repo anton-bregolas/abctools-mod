@@ -20981,8 +20981,7 @@ function AddABC() {
   modal_msg += '<p style="font-size:2pt;">&nbsp;</p>';
   modal_msg += '</div></div>';
 
-  modal_msg += '<p style="text-align:center;font-size:18px;margin-top:24px;">Change the Order or Delete Tunes</p>';
-  modal_msg += '<p style="text-align:center;margin-top:16px;">';
+  modal_msg += '<p style="text-align:center;margin-top:40px;">';
 
   if (isPureDesktopBrowser()) {
     modal_msg += '<input id="changetuneorder" class="advancedcontrols btn btn-injectcontrols-addabc" onclick="ChangeTuneOrder();" type="button" value="Change the Order of the Tunes" title="Change the order of the tunes">';
@@ -24986,7 +24985,7 @@ function InjectCustomStringedInstrumentTab() {
 		'title="View documentation in new tab" ' +
 		'class="modal-header-ui modal-link-help dialogcornerbutton">?</a>' +
 		'<h2 class="modal-header">' +
-		'Inject Custom Stringed Instrument Tab Annotation&nbsp;&nbsp;' +
+		'Inject Stringed Instrument Tab Annotation&nbsp;&nbsp;' +
 		'</h2>'
   }, {
     html: '<p style="margin-top:20px;margin-bottom:20px;font-size:12pt;line-height:18pt;">This will inject an %abcjs_rendering_params annotation into the ABC tune(s) to generate custom stringed instrument tablature. </p>'
@@ -26121,7 +26120,7 @@ function NotationSpacingExplorer() {
   modal_msg += '</div>';
   // Lite: Customized
   // Replace inline styles with reusable classes
-  modal_msg += '<a id="notationspacingexplorer_help" href="https://michaeleskin.com/abctools/userguide.html#advanced_notationspacingexplorer" target="_blank" title="Learn more about the Notation Spacing Explorer" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+  modal_msg += '<a id="notationspacingexplorer_help" href="https://michaeleskin.com/abctools/userguide.html#advanced_notationspacingexplorer" target="_blank" title="Learn more about the Notation Spacing Explorer" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
  
   // New row: Mode + Scale (NO inline handlers)
   modal_msg += '<p class="configure_layout_text" style="text-align:center;margin:0px;margin-top:12px;margin-bottom:20px">';
@@ -34929,12 +34928,12 @@ function ExportAll() {
 
   var modal_msg = '<div id="exportall-dialog">';
 
-  modal_msg += '<p style="text-align:center;font-size:18pt;">Export All Tunes</p>';
+  modal_msg += '<h2 class="modal-header">Export All Tunes</h2>';
 
   // Help corner button (keep same id & link)
   // Lite: Customized
   // Replace inline styles with reusable classes
-  modal_msg += '<a id="exportall_help" href="https://michaeleskin.com/abctools/userguide.html#export_all" target="_blank" title="Learn more about the audio and image exporter" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+  modal_msg += '<a id="exportall_help" href="https://michaeleskin.com/abctools/userguide.html#export_all" target="_blank" title="Learn more about the audio and image exporter" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
 
   // Tabs container (uses your existing adv-* CSS)
   modal_msg += '<div class="adv-tabs">';
@@ -37313,14 +37312,14 @@ function ExportAudioOrImage() {
 
   // Lite: Customized
   // Replace inline styles with reusable classes
-  modal_msg += '<a id="exportaudioimage_help" href="https://michaeleskin.com/abctools/userguide.html#export_audio_image" target="_blank" title="Learn more about the audio and image exporter" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+  modal_msg += '<a id="exportaudioimage_help" href="https://michaeleskin.com/abctools/userguide.html#export_audio_image" target="_blank" title="Learn more about the audio and image exporter" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
 
   modal_msg += '<h2 class="modal-header">Export Media</h2>';
 
   if (gPlayABCTuneCount > 1) {
     modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:32px;">Export Single Tune Audio</p>';
   } else {
-    modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:32px;">Export Tune Audio</p>';
+    modal_msg += '<p style="text-align:center;font-size:14pt;">Export Tune Audio</p>';
   }
 
   modal_msg += '<p style="text-align:center;font-size:20pt;">';
@@ -39288,7 +39287,8 @@ function PlayABCDialog(theABC, callback, val, metronome_state) {
       okText: "Close",
       scrollWithPage: (isMobileBrowser()),
       noX: (gPlayerShowExternalToolsIcon),
-      moveX: true
+      moveX: true,
+      layout: "legacy"
     });
 
     // Add external tools icon?
@@ -41531,7 +41531,7 @@ function SwingExplorerDialog(theOriginalABC, theProcessedABC, swing_explorer_sta
     // Lite: Customized
     // Replace inline styles with reusable classes
     modal_msg = '';
-    modal_msg += '<a id="swingexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#swing_explorer" target="_blank" title="Learn more about the Swing Explorer" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+    modal_msg += '<a id="swingexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#swing_explorer" target="_blank" title="Learn more about the Swing Explorer" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
     modal_msg += '<div id="playerholder" style="height:' + theHeight + 'px;overflow-y:auto;margin-bottom:15px;">';
 
     if (gLargePlayerControls) {
@@ -42382,7 +42382,7 @@ function ReverbExplorerDialog(theOriginalABC, theProcessedABC, reverb_explorer_s
     // Lite: Customized
     // Replace inline styles with reusable classes
     modal_msg = '';
-    modal_msg += '<a id="reverbexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#reverb_explorer" target="_blank" title="Learn more about the Reverb Explorer" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+    modal_msg += '<a id="reverbexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#reverb_explorer" target="_blank" title="Learn more about the Reverb Explorer" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
     modal_msg += '<div id="playerholder" style="height:' + theHeight + 'px;overflow-y:auto;margin-bottom:15px;">';
 
     if (gLargePlayerControls) {
@@ -43828,7 +43828,7 @@ function InstrumentExplorerDialog(theOriginalABC, theProcessedABC, instrument_ex
     // Lite: Customized
     // Replace inline styles with reusable classes    
     modal_msg = '';
-    modal_msg += '<a id="instrumentexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#midi_instrument_explorer" target="_blank" title="Learn more about the MIDI Instrument Explorer" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+    modal_msg += '<a id="instrumentexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#midi_instrument_explorer" target="_blank" title="Learn more about the MIDI Instrument Explorer" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
     modal_msg += '<div id="playerholder" style="height:' + theHeight + 'px;overflow-y:auto;margin-bottom:15px;">';
     
     if (gLargePlayerControls) {
@@ -44566,7 +44566,7 @@ function GraceExplorerDialog(theOriginalABC, theProcessedABC, grace_explorer_sta
     // Lite: Customized
     // Replace inline styles with reusable classes
     modal_msg = '';
-    modal_msg += '<a id="graceexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#grace_duration_explorer" target="_blank" title="Learn more about the Grace Duration Explorer" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+    modal_msg += '<a id="graceexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#grace_duration_explorer" target="_blank" title="Learn more about the Grace Duration Explorer" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
     modal_msg += '<div id="playerholder" style="height:' + theHeight + 'px;overflow-y:auto;margin-bottom:15px;">';
 
     if (gLargePlayerControls) {
@@ -45465,7 +45465,7 @@ function RollExplorerDialog(theOriginalABC, theProcessedABC, roll_explorer_state
     // Lite: Customized
     // Replace inline styles with reusable classes
     modal_msg = '';
-    modal_msg += '<a id="rollexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#roll_explorer" target="_blank" title="Learn more about the Roll Explorer" class="modal-header-ui modal-link-help-player dialogcornerbutton">?</a>';
+    modal_msg += '<a id="rollexplorerhelp" href="https://michaeleskin.com/abctools/userguide.html#roll_explorer" target="_blank" title="Learn more about the Roll Explorer" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
     modal_msg = '<div id="playerholder" style="height:' + theHeight + 'px;overflow-y:auto;margin-bottom:15px;">';
 
     if (gLargePlayerControls) {
@@ -46717,7 +46717,7 @@ function TuneTrainerDialog(theOriginalABC, theProcessedABC, looperState) {
     modal_msg += '</p>';
 
     
-    modal_msg += '<a id="looperhelp" href="https://michaeleskin.com/abctools/userguide.html#tune_trainer" target="_blank" style="text-decoration:none;" title="Learn more about the Tune Trainer" class="dialogcornerbutton">?</a>';
+    // modal_msg += '<a id="looperhelp" href="https://michaeleskin.com/abctools/userguide.html#tune_trainer" target="_blank" style="text-decoration:none;" title="Learn more about the Tune Trainer" class="dialogcornerbutton">?</a>';
     modal_msg += '<p id="looperstatus"></p>';
     modal_msg += '<div id="looperstatusbar"></div>';
     modal_msg += '<div id="looperstatusbaroverlay"></div>';
@@ -46760,7 +46760,8 @@ function TuneTrainerDialog(theOriginalABC, theProcessedABC, looperState) {
       okText: "Close",
       scrollWithPage: (isMobileBrowser()),
       noX: (gPlayerShowExternalToolsIcon),
-      moveX: true
+      moveX: true,
+      layout: "legacy"
     });
 
     // Add external tools icon?
@@ -47079,7 +47080,8 @@ function SetPlayerTempo(e) {
     top: theTop,
     width: 400,
     scrollWithPage: (AllowDialogsToScroll()),
-    autoFocus: true
+    autoFocus: true,
+    layout: "legacy"
   }).then(function(args) {
 
     if (!args.canceled) {
@@ -49224,7 +49226,7 @@ function ConfigureMusicXMLImport() {
 
   modal_msg += '<a href="https://michaeleskin.com/abctools/userguide.html#musicxml" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
   modal_msg += '<h2 class="modal-header">MusicXML/MIDI Import Settings&nbsp;&nbsp;</h2>';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Bars-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_bpl" type="text" pattern="\d+" title="Default: 3"/></div>\n';
+  modal_msg += '<div style="margin:10px 0;"><label style="font-size:12pt;">Bars-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_bpl" type="text" pattern="\d+" title="Default: 3"/></div>\n';
   modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Characters-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_cpl" type="text" pattern="\d+" title="Default: 0 - ignore"/></div>\n';
   modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Measure numbers:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_mnum" type="text" pattern="\d+" title="-1: No measure numbers, 1..n: Number every n-th measure, 0: Number every system"/></div>\n';
   modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Include measure numbers at end of staves:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_addstavenum" type="checkbox"/></div>\n';
@@ -53004,8 +53006,6 @@ function AdvancedSettings() {
     '<h2 class="modal-header modal-header-settings">' +
     'Advanced Settings&nbsp;&nbsp;' +
     '</h2>'
-  }, {
-    html: '<p style="text-align:center;font-size:12pt;line-height:12px;"><strong>Only change these values if you know what you are doing!</strong></p>'
   }];
 
   // --- Tabs scaffold (panels empty; we'll move rows in after render) ---
@@ -53018,7 +53018,7 @@ function AdvancedSettings() {
           '<button type="button" class="adv-tab-btn" data-tab="adv_tab_export">Export</button>' +
           '<button type="button" class="adv-tab-btn" data-tab="adv_tab_system">System</button>' +
         '</div>' +
-        '<div class="adv-tab-panels" style="height:405px; overflow-y:auto;">' +
+        '<div class="adv-tab-panels">' +
           '<div id="adv_tab_general" class="adv-tab-panel"><div id="adv_tab_general_fields"></div></div>' +
           '<div id="adv_tab_player" class="adv-tab-panel"><div id="adv_tab_player_fields"></div></div>' +
           '<div id="adv_tab_export" class="adv-tab-panel"><div id="adv_tab_export_fields"></div></div>' +
@@ -53102,7 +53102,8 @@ function AdvancedSettings() {
     top: 42,
     width: 790,
     scrollWithPage: (AllowDialogsToScroll()),
-    autoFocus: false
+    autoFocus: false,
+    layout: "legacy"
   });
 
   // After DayPilot builds DOM, move the modal_flat_form_item rows into tab panels
@@ -57866,7 +57867,8 @@ function showWelcomeScreen() {
   DayPilot.Modal.alert(modal_msg, {
     theme: "modal_flat",
     top: isMobileBrowser()? 25 : 50,
-    scrollWithPage: (AllowDialogsToScroll())
+    scrollWithPage: (AllowDialogsToScroll()),
+    layout: "compact"
   });
 
 }
@@ -66807,9 +66809,9 @@ function buildAbcjsEditorHtml(seed, contentId){
     .dp-modal .dp-modal-main { width: 700px !important; max-width: 700px !important; }
 
     .abcjs_custom_css-theme { ,system-ui,-apple-system,Segoe UI,Roboto,sans-serif; font-size: 13px; }
-    .abcjs_custom_css-title { text-align:center; font-size: 24px; margin: 6px 0 24px; }
+    .abcjs_custom_css-title { text-align:center; font-size: 24px; margin: 24px 0 24px; }
 
-    .abcjs_custom_css-scroll { max-height: 760px; overflow: auto; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
+    .abcjs_custom_css-scroll { border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
     .abcjs_custom_css-head { font-size: 16px; font-weight: 600; color: #111827; text-align:center; }
 
     .abcjs_custom_css-grid-body { padding: 8px; }
@@ -66835,7 +66837,7 @@ function buildAbcjsEditorHtml(seed, contentId){
   </style>
   <header>
     <a href="https://michaeleskin.com/abctools/userguide.html#advanced_customcssgenerator" title="View documentation in new tab" target="_blank" class="modal-header-ui modal-link-help dialogcornerbutton" aria-label="View documentation in new tab">?</a>
-    <h2 class="abcjs_custom_css-title">abcjs Custom CSS Generator</h2>
+    <h2 class="abcjs_custom_css-title modal-header">abcjs Custom CSS Generator</h2>
   </header>
   <div class="abcjs_custom_css-theme" id="${contentId}">
     <div class="abcjs_custom_css-scroll" id="${contentId}-scroll">
@@ -67179,7 +67181,7 @@ function buildEditorHtml(seed, contentId){
 
     .abc-theme { , system-ui,-apple-system,Segoe UI,Roboto,sans-serif; font-size: 13px; }
     .abc-wrap  { width: 740px; margin: 0px -10px; position:relative; }
-    .abc-title { text-align:center; font-size: 24px; margin: 6px 0 24px; }
+    .abc-title { text-align:center; font-size: 24px; margin: 24px 0 24px; }
 
     .abc-grid {display:grid; grid-template-columns: 170px 64px 120px 1fr 1fr; column-gap:10px; align-items:center; }
     .abc-grid-head { margin-bottom: 8px; }
@@ -67222,7 +67224,7 @@ function buildEditorHtml(seed, contentId){
 
   <header>
     <a href="https://michaeleskin.com/abctools/userguide.html#customthemeeditor" title="View documentation in new tab" target="_blank" class="modal-header-ui modal-link-help dialogcornerbutton" aria-label="View documentation in new tab">?</a>
-    <h2 class="abc-title">ABC Syntax Highlighting Theme Editor</h2>
+    <h2 class="abc-title modal-header modal-header-settings">ABC Syntax Highlighting Theme Editor</h2>
   </header>
 
   <div class="abc-theme abc-wrap" id="${contentId}">

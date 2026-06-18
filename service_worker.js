@@ -30,12 +30,12 @@
 //
 //
 // ABC Tools Lite:
-// Last updated on 2026-06-16
+// Last updated on 2026-06-18
 
 const cacheName = 'abctoolscache-3261';
 
 const CACHE_PREFIX = 'abctools';
-const CACHE_VERSION = 'lite-3261-2';
+const CACHE_VERSION = 'lite-3261-3';
 const CACHE_NAME_LITE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 
 const contentToCache = [
@@ -63,7 +63,8 @@ const contentToCache = [
 	'qrcode.js',
 	'lz-string.min.js',
     'pako.min.js',
-	'daypilot-modal.min-3.10.1.js',
+	'dialog-lite.css',
+	'dialog-lite.js',
 	'lame.min.js',
 	'unmute.min.js',
 	'tab-injectors-min.js',

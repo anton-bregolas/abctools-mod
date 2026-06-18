@@ -2321,7 +2321,7 @@
     };
 
     var form = [
-      { html: '<p class="chord_matcher_dialog_title" style="margin-left:15px;">Add Tune Backup Chords&nbsp;&nbsp;<span style="font-size:24pt;" title="View documentation in new tab"><a href="https://michaeleskin.com/abctools/userguide.html#add_tune_backup_chords" target="_blank" style="text-decoration:none;position:absolute;left:20px;top:20px" class="dialogcornerbutton">?</a></span></p>' },
+      { html: '<h2 class="chord_matcher_dialog_title modal-header" style="margin-left:15px;">Add Tune Backup Chords&nbsp;&nbsp;<span style="font-size:24pt;" title="View documentation in new tab"></h2><a href="https://michaeleskin.com/abctools/userguide.html#add_tune_backup_chords" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>' },
       { html: '<p class="chord_matcher_dialog_intro">Adds chords by matching each measure against chorded traditional Irish tune settings with a compatible rhythm, meter, key, and mode from The Session.</p>' },
       { name: "Tunes to process:", id: "scope", type: "select", options: [
         { name: "Current tune", id: "current" },

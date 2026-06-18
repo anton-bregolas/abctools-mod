@@ -1390,12 +1390,12 @@ function SmartDrawExport(){
 	
 	theSortableDiv += '</div>';
 
-	modal_msg = '<p style="text-align:center;font-size:18pt;font-family:helvetica;margin-left:15px;">SmartDraw Set List Builder&nbsp;&nbsp;<span style="font-size:24pt;" title="View documentation in new tab"><a href="https://michaeleskin.com/abctools/userguide.html#smartdraw_export" target="_blank" style="text-decoration:none;position:absolute;left:20px;top:20px">?</a></span></p>';
+	modal_msg = '<h2 class="modal-header modal-header-settings">SmartDraw Set List Builder&nbsp;&nbsp;<span style="font-size:24pt;" title="View documentation in new tab"><a href="https://michaeleskin.com/abctools/userguide.html#smartdraw_export" target="_blank" style="text-decoration:none;position:absolute;left:20px;top:20px">?</a></span></p>';
 
 	modal_msg += '<p style="margin-top:18px;font-size:12pt;">Drag and drop the tune names to change the order of the tunes in the set list.</p>';
 	modal_msg += '<p style="margin-top:18px;font-size:12pt;">Add or delete set name markers using the buttons below.</p>';
 	modal_msg += theSortableDiv;
-	modal_msg += '<p style="text-align:center;margin-top:24px;"><input id="smartdraw_add_set_name" class="advancedcontrols btn btn-injectcontrols-headers" onclick="AddSmartDrawSetName();" type="button" value="Add Set Name" title="Adds a set name element to the list"><input id="smartdraw_delete_set_name" class="advancedcontrols btn btn-injectcontrols-headers" onclick="DeleteSmartDrawSetName();" type="button" value="Delete Set Name" title="Deletes a selected set name element from the list"><input id="smartdraw_export" class="advancedcontrols btn btn-smartdraw-export" onclick="ExportSmartDrawSetList();" type="button" value="Export SmartDraw Set List" title="Exports the set list as a SmartDraw diagram"></p>';
+	modal_msg += '<p style="margin-top:24px;" class="btn-container btn-container-center"><input id="smartdraw_add_set_name" class="advancedcontrols btn btn-injectcontrols-headers" onclick="AddSmartDrawSetName();" type="button" value="Add Set Name" title="Adds a set name element to the list"><input id="smartdraw_delete_set_name" class="advancedcontrols btn btn-injectcontrols-headers" onclick="DeleteSmartDrawSetName();" type="button" value="Delete Set Name" title="Deletes a selected set name element from the list"><input id="smartdraw_export" class="advancedcontrols btn btn-smartdraw-export" onclick="ExportSmartDrawSetList();" type="button" value="Export SmartDraw Set List" title="Exports the set list as a SmartDraw diagram"></p>';
 	modal_msg += '<p class="smartdraw_export_all_text">';
 	modal_msg += 'Tune export format: <select id="smartdraw_format_select" title="Select the SmartDraw export format and tune shape flow direction">';
 	modal_msg += '<option value="0">Notation ↓</option>';

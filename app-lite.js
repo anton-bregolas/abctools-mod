@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////
 
 // Custom global variables / constants
-var gLiteVersionNumber = 'lite-3261-2';
+var gLiteVersionNumber = 'lite-3261-3';
 
 var ABC_TOOLS_BASE_URL =
   window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
@@ -617,6 +617,7 @@ function liteOpenToolsLatestScreen() {
     theme: "modal_flat",
     top: 25,
     width: 720,
-    scrollWithPage: (AllowDialogsToScroll())
+    scrollWithPage: (AllowDialogsToScroll()),
+    layout: "compact"
   });
 }
