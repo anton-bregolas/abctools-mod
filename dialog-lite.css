@@ -7,11 +7,11 @@ dialog.dp-lite-dialog {
   box-shadow: 0 0 15px -2px rgba(0, 0, 0, 0.75);
   background: var(--abctools-bgcolor-primary, #fff);
   color: var(--abctools-textcolor-primary, #000);
-  max-height: 100vh;
+  max-height: 100dvh;
   max-width: 860px;
   box-sizing: border-box;
   overflow: hidden;
-  font-family: var(--abctools-font-fallback-ui, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+  font-family: var(--abctools-font-fallback-ui, 'Fira Sans', Helvetica, Arial, sans-serif);
 }
   
 dialog.dp-lite-dialog::backdrop {

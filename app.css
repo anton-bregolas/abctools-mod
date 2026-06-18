@@ -3178,13 +3178,15 @@ margin-top:-7px;
 	line-height: 2;
 	margin-top:10px;
 	display:flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .configure_font_settings_form_text_wide>input{
 	width: 200px;
 	margin-top: 0;
-	position:absolute;
-	left:360px;
+	/* position:absolute;
+	left:360px; */
 }
 
 .configure_ui_options_form_text{
@@ -3870,7 +3872,7 @@ display:flex;
 }
 
 .configure_setuppdftunebook_form_text>input{
-width: 40px;
+width: 50px;
 margin-top:-9px;
 margin-left:12px;
 }
@@ -3882,7 +3884,7 @@ display:flex;
 }
 
 .configure_setuppdftunebook_form_text_play>input{
-width: 40px;
+width: 50px;
 margin-top:-9px;
 margin-left:12px;
 }
@@ -3895,7 +3897,7 @@ display:flex;
 }
 
 .configure_setuppdftunebook_form_text2>input{
-width: 40px;
+width: 50px;
 margin-top:-9px;
 margin-left:12px;
 }
@@ -3907,7 +3909,7 @@ display:flex;
 }
 
 .configure_setuppdftunebook_form_text3>input{
-width: 40px;
+width: 50px;
 margin-top:-9px;
 margin-left:12px;
 }
@@ -3916,26 +3918,30 @@ margin-left:12px;
 line-height: 0.5;
 margin-top:28px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_setuppdftunebook_form_text_wide>input{
 width: 450px;
 margin-top:-9px;
-position:absolute;
-left:200px;
+/* position:absolute;
+left:200px; */
 }
 
 .configure_setuppdftunebook_form_text_wide2{
 line-height: 0.5;
 margin-top:16px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_setuppdftunebook_form_text_wide2>input{
 width: 450px;
 margin-top:-9px;
-position:absolute;
-left:200px;
+/* position:absolute;
+left:200px; */
 }
 
 .configure_pdf_pagefit_scaling_preset_select{
@@ -4537,26 +4543,30 @@ margin-left:12px;
 line-height: 0.5;
 margin-top:22px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text_wide2{
 line-height: 0.5;
-margin-top:28px;
+margin-top:18px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide2>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text2{
@@ -4639,26 +4649,30 @@ margin-left:12px;
 line-height: 1;
 margin-top:22px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide_simple>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text_wide2_simple{
 line-height: 1;
 margin-top:24px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide2_simple>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text2_simple{
@@ -4741,26 +4755,30 @@ margin-left:12px;
 line-height: 1;
 margin-top:16px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide_gallery>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text_wide2_gallery{
 line-height: 1;
 margin-top:22px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide2_gallery>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text2_gallery{
@@ -4843,26 +4861,30 @@ margin-left:12px;
 line-height: 1;
 margin-top:16px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide_lightbox>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text_wide2_lightbox{
 line-height: 1;
 margin-top:22px;
 display:flex;
+align-items: center;
+justify-content: space-between;
 }
 
 .configure_website_form_text_wide2_lightbox>input{
 width: 530px;
 margin-top:-9px;
-position:absolute;
-left:170px;
+/* position:absolute;
+left:170px; */
 }
 
 .configure_website_form_text2_lightbox{
@@ -4940,14 +4962,16 @@ display:flex;
 	line-height: 0.69;
 	margin-top:16px;
 	display:flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 .inject_gchord_templates_form_text>input{
-	position:absolute;
-	left:265px;
 	width: 285px;
-	margin-top:-9px;
+	/* margin-top:-9px; */
 	padding:4px;
+	/* position:absolute;
+	left:265px; */
 }
 
 .configure_nativepdftunebook_midi_program_select{
@@ -4982,7 +5006,7 @@ display:flex;
 }
 
 .configure_nativepdftunebook_form_text>input{
-width: 40px;
+width: 50px;
 margin-top:-9px;
 margin-left:12px;
 }

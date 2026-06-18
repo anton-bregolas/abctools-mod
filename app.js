@@ -19008,6 +19008,8 @@ function AddFromSearch(e, callback) {
     theHeight = window.innerHeight - 705;
   }
 
+  if (theHeight < 100) theHeight = 100;
+
   // Lite: Customized
   // Replace inline styles with reusable classes
   var modal_msg =
@@ -50306,7 +50308,7 @@ function ConfigureFonts() {
     type: "text",
     cssClass: "configure_font_settings_form_text_wide"
   }, {
-    name: "Guitar chord font (Default: Fira Sans Semibold 12):",
+    name: "Guitar chord font (Fira Sans Semibold 12):",
     id: "configure_gchordfont",
     type: "text",
     cssClass: "configure_font_settings_form_text_wide"

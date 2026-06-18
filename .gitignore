@@ -1,5 +1,6 @@
 .DS_Store
 .vscode
+AGENTS.md
 biome.json
 CNAME
 git.diff
