@@ -26,7 +26,11 @@ window.DayPilot = window.DayPilot || {};
       .replace(/'/g, "&#039;");
   }
 
+  var closingInProgress = false;
+
   function closeDialog(result) {
+    if (closingInProgress) return;
+    closingInProgress = true;
     if (dialogStack.length > 0) {
       var currentDialogToClose = currentDialog;
       var currentResolveToResolve = currentResolve;
@@ -59,13 +63,11 @@ window.DayPilot = window.DayPilot || {};
       currentType = null;
       document.body.classList.remove("dp-dialog-open");
     }
+    closingInProgress = false;
   }
 
-  function handleKeyDown(e) {
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeDialog(null);
-    }
+  function onDialogClose() {
+    closeDialog(null);
   }
 
   function buildFormHTML(formDef, data, theme) {
@@ -258,7 +260,7 @@ window.DayPilot = window.DayPilot || {};
 
     document.body.appendChild(dialog);
 
-    dialog.addEventListener("keydown", handleKeyDown);
+    dialog.addEventListener("close", onDialogClose);
 
     var okBtn = dialog.querySelector(".dp-lite-ok");
     var cancelBtn = dialog.querySelector(".dp-lite-cancel");
