@@ -66,7 +66,8 @@ window.DayPilot = window.DayPilot || {};
     closingInProgress = false;
   }
 
-  function onDialogClose() {
+  function onDialogClose(e) {
+    if (e && e.target && e.target !== currentDialog) return;
     closeDialog(null);
   }
 
