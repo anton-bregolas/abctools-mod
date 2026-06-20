@@ -10,10 +10,10 @@ window.DayPilot = window.DayPilot || {};
 (function () {
   "use strict";
 
-  var currentDialog = null;
-  var currentResolve = null;
-  var currentType = null;
-  var dialogStack = [];
+  let currentDialog = null;
+  let currentResolve = null;
+  let currentType = null;
+  const dialogStack = [];
 
   function escapeHtml(str) {
     if (str == null) return "";
@@ -26,16 +26,16 @@ window.DayPilot = window.DayPilot || {};
       .replace(/'/g, "&#039;");
   }
 
-  var closingInProgress = false;
+  let closingInProgress = false;
 
   function closeDialog(result) {
     if (closingInProgress) return;
     closingInProgress = true;
     if (dialogStack.length > 0) {
-      var currentDialogToClose = currentDialog;
-      var currentResolveToResolve = currentResolve;
+      const currentDialogToClose = currentDialog;
+      const currentResolveToResolve = currentResolve;
 
-      var prev = dialogStack.pop();
+      const prev = dialogStack.pop();
       currentDialog = prev.dialog;
       currentResolve = prev.resolve;
       currentType = prev.type;
@@ -46,12 +46,12 @@ window.DayPilot = window.DayPilot || {};
       }
 
       if (currentResolveToResolve) {
-        var canceled = result === null;
+        const canceled = result === null;
         currentResolveToResolve({ canceled: canceled, result: canceled ? null : result });
       }
     } else {
       if (currentResolve) {
-        var canceled = result === null;
+        const canceled = result === null;
         currentResolve({ canceled: canceled, result: canceled ? null : result });
         currentResolve = null;
       }
@@ -71,19 +71,19 @@ window.DayPilot = window.DayPilot || {};
   }
 
   function buildFormHTML(formDef, data, theme) {
-    var html = "";
-    for (var i = 0; i < formDef.length; i++) {
-      var field = formDef[i];
+    let html = "";
+    for (let i = 0; i < formDef.length; i++) {
+      const field = formDef[i];
       if (field.html) {
         html += field.html;
       } else {
-        var id = field.id || "field_" + i;
-        var value = (data && data[field.id] !== undefined) ? data[field.id] : "";
-        var cssClass = field.cssClass || "";
-        var label = field.name || "";
+        const id = field.id || "field_" + i;
+        const value = (data && data[field.id] !== undefined) ? data[field.id] : "";
+        const cssClass = field.cssClass || "";
+        const label = field.name || "";
 
         if (field.type === "checkbox") {
-          var checked = value ? " checked" : "";
+          const checked = value ? " checked" : "";
           html += '<div class="' + theme + '_form_item ' + cssClass + '">';
           html += '<label class="' + theme + '_form_item_label">';
           html += '<input type="checkbox" id="' + escapeHtml(id) + '" name="' + escapeHtml(id) + '"' + checked + ' />';
@@ -93,18 +93,18 @@ window.DayPilot = window.DayPilot || {};
           html += '<div class="' + theme + '_form_item ' + cssClass + '">';
           html += '<label class="' + theme + '_form_item_label" for="' + escapeHtml(id) + '">' + label + '</label>';
           html += '<select id="' + escapeHtml(id) + '" name="' + escapeHtml(id) + '">';
-          var opts = field.options || [];
-          for (var j = 0; j < opts.length; j++) {
-            var sel = (opts[j].id === value || opts[j].name === value) ? ' selected' : '';
+          const opts = field.options || [];
+          for (let j = 0; j < opts.length; j++) {
+            const sel = (opts[j].id === value || opts[j].name === value) ? ' selected' : '';
             html += '<option value="' + escapeHtml(opts[j].id) + '"' + sel + '>' + escapeHtml(opts[j].name || opts[j].id) + '</option>';
           }
           html += '</select></div>';
         } else if (field.type === "radio") {
           html += '<div class="' + theme + '_form_item ' + cssClass + '">';
           html += '<div class="' + theme + '_form_item_label">' + label + '</div>';
-          var opts2 = field.options || [];
-          for (var k = 0; k < opts2.length; k++) {
-            var chk = (opts2[k].id === value || opts2[k].name === value) ? ' checked' : '';
+          const opts2 = field.options || [];
+          for (let k = 0; k < opts2.length; k++) {
+            const chk = (opts2[k].id === value || opts2[k].name === value) ? ' checked' : '';
             html += '<label><input type="radio" name="' + escapeHtml(id) + '" value="' + escapeHtml(opts2[k].id) + '"' + chk + ' /> ';
             html += escapeHtml(opts2[k].name || opts2[k].id) + '</label> ';
           }
@@ -126,11 +126,11 @@ window.DayPilot = window.DayPilot || {};
   }
 
   function collectFormData(formDef) {
-    var result = {};
-    for (var i = 0; i < formDef.length; i++) {
-      var field = formDef[i];
+    const result = {};
+    for (let i = 0; i < formDef.length; i++) {
+      const field = formDef[i];
       if (!field.id || field.html) continue;
-      var el = currentDialog && document.getElementById(field.id);
+      const el = currentDialog && document.getElementById(field.id);
       if (!el) continue;
       if (field.type === "checkbox") {
         result[field.id] = el.checked;
@@ -142,14 +142,14 @@ window.DayPilot = window.DayPilot || {};
   }
 
   function buildXButton(isCornerX) {
-    var btn = document.createElement("button");
+    const btn = document.createElement("button");
     btn.className = `modal_flat_x btn-lite modal-header-ui ${isCornerX? ' corner-x' : ''}`;
     btn.setAttribute("aria-label", "Close dialog");
 
-    var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("aria-hidden", "true");
 
-    var use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
     use.setAttribute("href", "#lite-icon-x");
 
     svg.appendChild(use);
@@ -162,11 +162,11 @@ window.DayPilot = window.DayPilot || {};
   function showDialog(type, message, extra, options) {
 
     options = options || {};
-    var isStacked = (dialogStack.length > 0);
-    var theme = options.theme || "modal_flat";
-    var width = options.width || 600;
+    const isStacked = (dialogStack.length > 0);
+    const theme = options.theme || "modal_flat";
+    const width = options.width || 600;
 
-    var dialog = document.createElement("dialog");
+    const dialog = document.createElement("dialog");
     dialog.className = "dp-lite-dialog " + theme + "_main dp-modal";
     if (isStacked) dialog.classList.add("dp-lite-top");
     if (options.layout === "compact") dialog.classList.add("dp-lite-dialog-compact");
@@ -175,7 +175,7 @@ window.DayPilot = window.DayPilot || {};
     currentDialog = dialog;
     currentType = type;
 
-    var bodyContent = "";
+    let bodyContent = "";
     if (type === "prompt") {
       bodyContent = '<div class="' + theme + '_content">' + message + '</div>';
       bodyContent += '<div class="' + theme + '_input">';
@@ -187,23 +187,23 @@ window.DayPilot = window.DayPilot || {};
       bodyContent = '<div class="' + theme + '_content">' + message + '</div>';
     }
 
-    var footerButtons = "";
+    let footerButtons = "";
     if (type === "prompt" || type === "confirm") {
-      var okText = options.okText || "OK";
-      var cancelText = options.cancelText !== undefined ? options.cancelText : "Cancel";
+      const okText = options.okText || "OK";
+      const cancelText = options.cancelText !== undefined ? options.cancelText : "Cancel";
       footerButtons = '<button class="dp-lite-ok dp-modal-button-ok ' + theme + '_ok">' + escapeHtml(okText) + '</button>';
       if (cancelText !== null) {
         footerButtons += '<button class="dp-lite-cancel ' + theme + '_cancel">' + escapeHtml(cancelText) + '</button>';
       }
     } else if (type === "form") {
-      var fOkText = options.okText || "OK";
-      var fCancelText = options.cancelText !== undefined ? options.cancelText : "Cancel";
+      const fOkText = options.okText || "OK";
+      const fCancelText = options.cancelText !== undefined ? options.cancelText : "Cancel";
       footerButtons = '<button class="dp-lite-ok dp-modal-button-ok ' + theme + '_ok">' + escapeHtml(fOkText) + '</button>';
       if (fCancelText !== null) {
         footerButtons += '<button class="dp-lite-cancel ' + theme + '_cancel">' + escapeHtml(fCancelText) + '</button>';
       }
     } else {
-      var aOkText = options.okText || "OK";
+      const aOkText = options.okText || "OK";
       footerButtons = '<button class="dp-lite-ok dp-modal-button-ok ' + theme + '_ok">' + escapeHtml(aOkText) + '</button>';
     }
 
@@ -217,16 +217,16 @@ window.DayPilot = window.DayPilot || {};
           '<div class="dp-lite-footer ' + theme + '_buttons dp-modal-buttons">' + footerButtons + '</div>' +
         '</div>';
 
-      var bodyEl = dialog.querySelector(".dp-lite-body");
+      const bodyEl = dialog.querySelector(".dp-lite-body");
 
       if (!options.noX) {
-        var xBtn = buildXButton(options.moveX);
+        const xBtn = buildXButton(options.moveX);
         bodyEl.prepend(xBtn);
       }
 
-      var modalUi = dialog.querySelectorAll(".dp-lite-body .modal-header-ui");
-      for (var n = 0; n < modalUi.length; n++) {
-        var el = modalUi[n];
+      const modalUi = dialog.querySelectorAll(".dp-lite-body .modal-header-ui");
+      for (let n = 0; n < modalUi.length; n++) {
+        const el = modalUi[n];
         el.remove();
         bodyEl.prepend(el);
       }
@@ -242,17 +242,17 @@ window.DayPilot = window.DayPilot || {};
         '<div class="dp-lite-footer ' + theme + '_buttons dp-modal-buttons">' + footerButtons + '</div>';
 
       if (!options.noX) {
-        var xBtn = buildXButton(options.moveX);
+        const xBtn = buildXButton(options.moveX);
         dialog.querySelector(".dp-lite-header").prepend(xBtn);
       }
 
-      var headerEl = dialog.querySelector(".dp-lite-header");
-      var modalH = dialog.querySelector(".dp-lite-body h2.modal-header");
+      const headerEl = dialog.querySelector(".dp-lite-header");
+      const modalH = dialog.querySelector(".dp-lite-body h2.modal-header");
       if (modalH) { modalH.remove(); headerEl.appendChild(modalH); }
 
-      var modalUi = dialog.querySelectorAll(".dp-lite-body .modal-header-ui");
-      for (var n = 0; n < modalUi.length; n++) {
-        var el = modalUi[n];
+      const modalUi = dialog.querySelectorAll(".dp-lite-body .modal-header-ui");
+      for (let n = 0; n < modalUi.length; n++) {
+        const el = modalUi[n];
         el.remove();
         headerEl.insertBefore(el, headerEl.firstChild);
       }
@@ -262,13 +262,13 @@ window.DayPilot = window.DayPilot || {};
 
     dialog.addEventListener("close", onDialogClose);
 
-    var okBtn = dialog.querySelector(".dp-lite-ok");
-    var cancelBtn = dialog.querySelector(".dp-lite-cancel");
+    const okBtn = dialog.querySelector(".dp-lite-ok");
+    const cancelBtn = dialog.querySelector(".dp-lite-cancel");
 
     if (okBtn) {
       okBtn.onclick = function () {
         if (type === "prompt") {
-          var input = dialog.querySelector(".dp-lite-input");
+          const input = dialog.querySelector(".dp-lite-input");
           closeDialog(input ? input.value : "");
         } else if (type === "confirm") {
           closeDialog(true);
@@ -287,7 +287,7 @@ window.DayPilot = window.DayPilot || {};
     }
 
     if (type === "prompt") {
-      var input = dialog.querySelector(".dp-lite-input");
+      const input = dialog.querySelector(".dp-lite-input");
       if (input) {
         input.addEventListener("keydown", function (e) {
           if (e.key === "Enter") {
@@ -298,7 +298,7 @@ window.DayPilot = window.DayPilot || {};
       }
     }
 
-    var doAutoFocus = options.autoFocus !== false;
+    const doAutoFocus = options.autoFocus !== false;
     setTimeout(function () {
       if (!doAutoFocus) {
         if (document.activeElement && dialog.contains(document.activeElement)) {
@@ -307,7 +307,7 @@ window.DayPilot = window.DayPilot || {};
         return;
       }
       if (type === "prompt") {
-        var inp = dialog.querySelector(".dp-lite-input");
+        const inp = dialog.querySelector(".dp-lite-input");
         if (inp) { inp.focus(); inp.select(); return; }
       }
       if (okBtn) okBtn.focus();
