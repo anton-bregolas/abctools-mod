@@ -38297,14 +38297,16 @@ function findLargestRectangle(containerWidth, containerHeight, targetAspectRatio
 //
 // Shift click goes to the first tune
 //
+// Lite: Customized
+// Loop to last tune when first item is shown
 function PlayPrevious(e) {
 
-  if (gPlayABCTuneIndex > 0) {
+  if (gPlayABCTuneCount > 1) {
 
     if (e.shiftKey) {
       gPlayABCTuneIndex = 0;
     } else {
-      gPlayABCTuneIndex--;
+      gPlayABCTuneIndex = (gPlayABCTuneIndex <= 0) ? (gPlayABCTuneCount - 1) : (gPlayABCTuneIndex - 1);
     }
 
     // Try to find the current tune
@@ -38330,14 +38332,16 @@ function PlayPrevious(e) {
 //
 // Shift click goes to the last tune
 //
+// Lite: Customized
+// Loop to first tune when last item is shown
 function PlayNext(e) {
 
-  if (gPlayABCTuneIndex < (gPlayABCTuneCount - 1)) {
+  if (gPlayABCTuneCount > 1) {
 
     if (e.shiftKey) {
       gPlayABCTuneIndex = gPlayABCTuneCount - 1;
     } else {
-      gPlayABCTuneIndex++;
+      gPlayABCTuneIndex = (gPlayABCTuneIndex >= (gPlayABCTuneCount - 1)) ? 0 : (gPlayABCTuneIndex + 1);
     }
 
     // Try to find the current tune
@@ -39308,28 +39312,35 @@ function PlayABCDialog(theABC, callback, val, metronome_state) {
     }
 
     // Style previous and next tune buttons depending on tune count state
+    //
+    // Lite: Customized
+    // Buttons always enabled when looping wraps around
     if (gPlayABCTuneCount > 1) {
 
       var elem = document.getElementById("abcplayer_previousbutton");
 
-      if (gPlayABCTuneIndex > 0) {
-        elem.disabled = false;
-        elem.style.opacity = 1.0;
-      } else {
-        elem.disabled = true;
-        elem.style.opacity = 0.25;
-      }
+      // if (gPlayABCTuneIndex > 0) {
+      //   elem.disabled = false;
+      //   elem.style.opacity = 1.0;
+      // } else {
+      //   elem.disabled = true;
+      //   elem.style.opacity = 0.25;
+      // }
+      elem.disabled = false;
+      elem.style.opacity = 1.0;
 
 
       elem = document.getElementById("abcplayer_nextbutton")
 
-      if (gPlayABCTuneIndex < (gPlayABCTuneCount - 1)) {
-        elem.disabled = false;
-        elem.style.opacity = 1.0;
-      } else {
-        elem.disabled = true;
-        elem.style.opacity = 0.25;
-      }
+      // if (gPlayABCTuneIndex < (gPlayABCTuneCount - 1)) {
+      //   elem.disabled = false;
+      //   elem.style.opacity = 1.0;
+      // } else {
+      //   elem.disabled = true;
+      //   elem.style.opacity = 0.25;
+      // }
+      elem.disabled = false;
+      elem.style.opacity = 1.0;
 
       document.getElementById("playertunelist").value = gPlayABCTuneIndex;
 
