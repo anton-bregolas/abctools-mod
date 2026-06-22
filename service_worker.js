@@ -30,12 +30,12 @@
 //
 //
 // ABC Tools Lite:
-// Last updated on 2026-06-21
+// Last updated on 2026-06-22
 
 const cacheName = 'abctoolscache-3261';
 
 const CACHE_PREFIX = 'abctools';
-const CACHE_VERSION = 'lite-3261-8';
+const CACHE_VERSION = 'lite-3261-9';
 const CACHE_NAME_LITE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 
 const contentToCache = [

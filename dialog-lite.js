@@ -27,6 +27,12 @@ window.DayPilot = window.DayPilot || {};
   }
 
   let closingInProgress = false;
+  let isKeyboard = false;
+  let pendingFocusId = null;
+
+  document.addEventListener("keydown", function () { isKeyboard = true; }, true);
+  document.addEventListener("mousedown", function () { isKeyboard = false; }, true);
+  document.addEventListener("touchstart", function () { isKeyboard = false; }, true);
 
   function closeDialog(result) {
     if (closingInProgress) return;
@@ -49,7 +55,18 @@ window.DayPilot = window.DayPilot || {};
         const canceled = result === null;
         currentResolveToResolve({ canceled: canceled, result: canceled ? null : result });
       }
+
+      const focused = prev.focusedElement;
+      if (focused && document.body.contains(focused)) {
+        focused.focus();
+      } else if (currentDialog) {
+        const xBtn = currentDialog.querySelector(".modal_flat_x");
+        if (xBtn) xBtn.focus();
+      }
     } else {
+      if (currentDialog && currentDialog.contains(document.activeElement)) {
+        pendingFocusId = document.activeElement.id || null;
+      }
       if (currentResolve) {
         const canceled = result === null;
         currentResolve({ canceled: canceled, result: canceled ? null : result });
@@ -163,6 +180,7 @@ window.DayPilot = window.DayPilot || {};
   function showDialog(type, message, extra, options) {
 
     options = options || {};
+    const inputWasKeyboard = isKeyboard;
     const isStacked = (dialogStack.length > 0);
     const theme = options.theme || "modal_flat";
     const width = options.width || 600;
@@ -299,23 +317,59 @@ window.DayPilot = window.DayPilot || {};
       }
     }
 
-    const doAutoFocus = options.autoFocus !== false;
-    setTimeout(function () {
-      if (!doAutoFocus) {
-        if (document.activeElement && dialog.contains(document.activeElement)) {
-          document.activeElement.blur();
-        }
-        return;
-      }
-      if (type === "prompt") {
-        const inp = dialog.querySelector(".dp-lite-input");
-        if (inp) { inp.focus(); inp.select(); return; }
-      }
-      if (okBtn) okBtn.focus();
-    }, 0);
-
     dialog.showModal();
     document.body.classList.add("dp-dialog-open");
+
+    // Restore focus from a refresh flow (closeDialog saved pendingFocusId)
+    let focusRestored = false;
+    if (pendingFocusId) {
+      const target = dialog.querySelector("#" + pendingFocusId);
+      if (target && !target.disabled) {
+        target.focus();
+        focusRestored = true;
+      }
+    }
+
+    const playBtn = dialog.querySelector(".abcjs-midi-start");
+    if (!focusRestored) {
+      if (playBtn) {
+        playBtn.focus();
+      } else if (type === "prompt") {
+        const inp = dialog.querySelector(".dp-lite-input");
+        if (inp) { inp.focus(); inp.select(); }
+      } else if (type === "confirm") {
+        if (okBtn) okBtn.focus();
+      } else if (type === "form") {
+        const hasAutofocus = dialog.querySelector("[autofocus]");
+        if (!hasAutofocus) {
+          const xBtn = dialog.querySelector(".modal_flat_x");
+          if (xBtn) { xBtn.focus(); }
+        }
+      } else if (inputWasKeyboard) {
+        const xBtn = dialog.querySelector(".modal_flat_x");
+        if (xBtn) { xBtn.focus(); } else if (okBtn) okBtn.focus();
+      } else if (okBtn) {
+        okBtn.focus();
+      }
+    }
+
+    // Play/Train: abcjs creates .abcjs-midi-start asynchronously after audio loads
+    if (!playBtn && dialog.querySelector("#playback-audio")) {
+      const observer = new MutationObserver(function () {
+        if (pendingFocusId) {
+          const target = dialog.querySelector("#" + pendingFocusId);
+          pendingFocusId = null;
+          if (target && !target.disabled) { target.focus(); observer.disconnect(); return; }
+        }
+        const btn = dialog.querySelector(".abcjs-midi-start");
+        if (btn) {
+          btn.focus();
+          observer.disconnect();
+        }
+      });
+      observer.observe(dialog, { childList: true, subtree: true });
+      setTimeout(function () { observer.disconnect(); }, 15000);
+    }
   }
 
   function pushStack() {
@@ -323,7 +377,8 @@ window.DayPilot = window.DayPilot || {};
       dialogStack.push({
         dialog: currentDialog,
         resolve: currentResolve,
-        type: currentType
+        type: currentType,
+        focusedElement: document.activeElement
       });
     }
   }
