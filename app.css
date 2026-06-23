@@ -5365,7 +5365,7 @@ cursor: pointer;
 
 /* Configure Settings: fixed-height tab content area */
 .configure-settings-tab-panels{
-  height: 350px;           /* adjust if you want taller/shorter */
+  height: 340px;           /* adjust if you want taller/shorter */
   overflow-y: auto;
   box-sizing: border-box;
 }

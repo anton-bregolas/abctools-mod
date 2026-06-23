@@ -53115,8 +53115,7 @@ function AdvancedSettings() {
     top: 42,
     width: 790,
     scrollWithPage: (AllowDialogsToScroll()),
-    autoFocus: false,
-    layout: "legacy"
+    autoFocus: false
   });
 
   // After DayPilot builds DOM, move the modal_flat_form_item rows into tab panels

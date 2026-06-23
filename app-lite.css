@@ -216,6 +216,10 @@ body {																											/* vanilla abc tools settings */
   position: relative;
 }
 
+.ContextMenu {
+  position: absolute;
+}
+
 @supports (position-anchor: --test) {
 
   #context-menu-anchor {
@@ -424,7 +428,7 @@ div.modal_flat_form_item_label {
   color: dimgray;
   position: absolute;
   left: 30px;
-  bottom: 12px;
+  bottom: -60px;
   margin: 0;
   cursor: pointer;
 }
@@ -570,7 +574,9 @@ a:focus-visible,
 }
 
 #advanced_settings_tabs_root .adv-tab-panels {
-  height: 350px;
+  height: 340px;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .adv-tab-links-container {
