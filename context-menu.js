@@ -59,6 +59,36 @@ function emit(el, type, data = {}) {
   el.dispatchEvent(event);
 }
 
+// Lite: Customized
+// Sentinel comparison test to detect false positives for anchor positioning
+// The current issue: some browsers pass anchor support check but silently fail
+// position-anchor resolution if anchor does not share the same parent/grandparent
+function testAnchorSupport() {
+
+  const testAnchor = document.createElement('span');
+  testAnchor.style.cssText =
+    'anchor-name: --test-dist; position:absolute; top:10px; left:10px; width:1px; height:1px';
+  document.getElementById('morecommands').appendChild(testAnchor);
+
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute; visibility:hidden; pointer-events:none';
+  document.body.appendChild(sentinel);
+
+  const testTarget = document.createElement('div');
+  testTarget.style.cssText =
+    'position:absolute; visibility:hidden; pointer-events:none; position-anchor: --test-dist; position-area: bottom left';
+  document.body.appendChild(testTarget);
+
+  const sRect = sentinel.getBoundingClientRect();
+  const tRect = testTarget.getBoundingClientRect();
+
+  testAnchor.remove();
+  sentinel.remove();
+  testTarget.remove();
+
+  return tRect.top !== sRect.top || tRect.left !== sRect.left;
+}
+
 class ContextMenu {
   constructor(
     selector,
@@ -188,6 +218,11 @@ class ContextMenu {
     // Add root element to the <body>
     document.body.appendChild(this.menu);
 
+    if ('anchorName' in document.documentElement.style &&
+      this.supportsDistantAnchor === undefined) {
+      this.supportsDistantAnchor = testAnchorSupport();
+    }
+
     emit(this.menu, 'created');
   }
 
@@ -201,8 +236,10 @@ class ContextMenu {
     // Open first so the browser can calculate the menu size
     this.menu.classList.add('is-open');
 
+    // Detect native anchor positioning support
     const isAnchorPositioningSupported =
-      CSS.supports('position-anchor: --test');
+      'anchorName' in document.documentElement.style &&
+      this.supportsDistantAnchor;
 
     if (!isAnchorPositioningSupported) {
 
@@ -212,9 +249,18 @@ class ContextMenu {
       // does not feel jammed against the side of the screen.
       const rightMargin = isMobileBrowser() ? 16 : margin;
 
-      // Start at the click/tap position
-      let left = e.pageX;
-      let top = e.pageY;
+      let left, top;
+
+      if (e.pointerType === '') {
+        // Keyboard activation: position relative to the trigger button
+        const btnRect = hamburgerMenuBtn.getBoundingClientRect();
+        left = btnRect.left + window.pageXOffset;
+        top = btnRect.bottom + window.pageYOffset;
+      } else {
+        // Mouse/touch: position at click coordinates
+        left = e.pageX;
+        top = e.pageY;
+}
 
       // Measure after opening
       const menuRect = this.menu.getBoundingClientRect();
