@@ -280,6 +280,10 @@ var gInjectEditDisabled = false;
 var gDisableEditFromPlayLink = false;
 
 // Lite: Customized (New setting: false by default)
+// Enable true mobile layout
+var gTrueMobileLayout = false;
+
+// Lite: Customized (New setting: false by default)
 // Allow auto-scaling of maximized notation
 var gAutoScaleNotation = false;
 
@@ -47596,6 +47600,13 @@ function GetInitialConfigurationSettings() {
   }
 
   // Lite: Customized
+  gTrueMobileLayout = false;
+  val = localStorage.abcLiteTrueMobileLayout;
+  if (val) {
+    gTrueMobileLayout = (val == "true");
+  }
+
+  // Lite: Customized
   gAutoScaleNotation = false;
   val = localStorage.abcLiteAutoScaleNotation;
   if (val) {
@@ -48824,6 +48835,15 @@ function SaveConfigurationSettings() {
     localStorage.InjectTab_PushGlyph = gInjectTab_PushGlyph;
     localStorage.InjectTab_DrawGlyph = gInjectTab_DrawGlyph;
     localStorage.InjectTab_UseBarForDraw = gInjectTab_UseBarForDraw;
+
+    // Enable true mobile layout
+    localStorage.abcLiteTrueMobileLayout = gTrueMobileLayout;
+
+    if (gTrueMobileLayout) {
+      liteEnableTrueMobileLayout();
+    } else {
+      liteResetCurrentLayout();
+    }
 
     // Allow auto-scaling of maximized notation
     localStorage.abcLiteAutoScaleNotation = gAutoScaleNotation;
@@ -53060,10 +53080,10 @@ function AdvancedSettings() {
     { name: "Tune Trainer add extra measure count:", id: "configure_looper_add_measure_count", type: "text", cssClass: "advanced_settings2_form_text" }
   ]);
 
-  // Lite: Customized (show only if auto-scaling enabled & current mode does not force scaling)
-  if (gAutoScaleNotation && !gAlwaysTwoColumns) {
+  // Lite: Customized (show only if current mode does not force scaling)
+  if (!gAlwaysTwoColumns) {
     form = form.concat([
-      { name: "Full screen tune display width scaling (percentage, default is 50):", id: "configure_fullscreen_scaling", type: "number", cssClass: "advanced_settings2_form_text lite-custom-setting" }
+      { name: "Fixed percentage width value of maximized notation (default is 50):", id: "configure_fullscreen_scaling", type: "number", cssClass: "advanced_settings2_form_text lite-custom-setting" }
     ]);
   }
 
@@ -53139,9 +53159,12 @@ function AdvancedSettings() {
         MoveModalFieldRowByName(modalRoot, "configure_jumptotune_autoscroll", "adv_tab_general_fields");
         MoveModalFieldRowByName(modalRoot, "configure_BWWUseCustomInstrument", "adv_tab_general_fields");
         MoveModalFieldRowByName(modalRoot, "configure_ForceUpdateTuneDBOnStartup", "adv_tab_general_fields");
-        MoveModalFieldRowByName(modalRoot, "configure_fullscreen_scaling", "adv_tab_general_fields");
 
         // Player
+        // Lite: Customized (show only if current mode does not force scaling)
+        if (!gAlwaysTwoColumns) {
+          MoveModalFieldRowByName(modalRoot, "configure_fullscreen_scaling", "adv_tab_player_fields");
+        }
         MoveModalFieldRowByName(modalRoot, "configure_autoscrollplayer", "adv_tab_player_fields");
         MoveModalFieldRowByName(modalRoot, "configure_autoscrollsmooth", "adv_tab_player_fields");
         MoveModalFieldRowByName(modalRoot, "configure_autoscrolltarget", "adv_tab_player_fields");
@@ -53151,10 +53174,6 @@ function AdvancedSettings() {
         MoveModalFieldRowByName(modalRoot, "configure_player_status_on_left", "adv_tab_player_fields");
         MoveModalFieldRowByName(modalRoot, "configure_trainer_touch_controls", "adv_tab_player_fields");
         MoveModalFieldRowByName(modalRoot, "configure_looper_add_measure_count", "adv_tab_player_fields");
-        // Lite: Customized (show only if auto-scaling enabled & current mode does not force scaling)
-        if (gAutoScaleNotation && !gAlwaysTwoColumns) {
-          MoveModalFieldRowByName(modalRoot, "configure_fullscreen_scaling", "adv_tab_player_fields");
-        }
         MoveModalFieldRowByName(modalRoot, "configure_reverb", "adv_tab_player_fields");
 
         // Export
@@ -54082,6 +54101,7 @@ function ConfigureToolSettings() {
     configure_show_tab_names: gShowTabNames,
     configure_use_custom_gm_sounds: gUseCustomGMSounds,
     configure_open_links_in_trainer: gOpenLinksInTrainer,
+    configure_true_mobile_layout: gTrueMobileLayout, // Lite: Customized (true mobile layout)
     configure_auto_scale_notation: gAutoScaleNotation, // Lite: Customized (new setting: off by default)
     configure_auto_swing_hornpipes: gAutoSwingHornpipes,
     configure_auto_swing_factor: gAutoSwingFactor,
@@ -54124,8 +54144,8 @@ function ConfigureToolSettings() {
       html:
         '<div id="configure_settings_tabs_root" style="padding-top:0px" class="adv-tabs">' +
           '<div class="adv-tab-bar">' +
-            '<button type="button" class="adv-tab-btn" data-tab="tab_editor">Editor</button>' +
-            '<button type="button" class="adv-tab-btn" data-tab="tab_tabs">Tabs &amp; Layout</button>' +
+            '<button type="button" class="adv-tab-btn" data-tab="tab_editor">Layout &amp; Editor</button>' +
+            '<button type="button" class="adv-tab-btn" data-tab="tab_tabs">Tablature</button>' +
             '<button type="button" class="adv-tab-btn" data-tab="tab_playback">Playback</button>' +
             '<button type="button" class="adv-tab-btn" data-tab="tab_midi">MIDI Input</button>' +
             '<button type="button" class="adv-tab-btn" data-tab="tab_update">Update</button>' +
@@ -54147,8 +54167,8 @@ function ConfigureToolSettings() {
       html:
         '<div id="configure_settings_tabs_root" style="padding-top:0px" class="adv-tabs">' +
           '<div class="adv-tab-bar">' +
-            '<button type="button" class="adv-tab-btn" data-tab="tab_editor">Editor</button>' +
-            '<button type="button" class="adv-tab-btn" data-tab="tab_tabs">Tabs &amp; Layout</button>' +
+            '<button type="button" class="adv-tab-btn" data-tab="tab_editor">Layout &amp; Editor</button>' +
+            '<button type="button" class="adv-tab-btn" data-tab="tab_tabs">Tablature</button>' +
             '<button type="button" class="adv-tab-btn" data-tab="tab_playback">Playback</button>' +
             '<button type="button" class="adv-tab-btn" data-tab="tab_update">Update</button>' +
           '</div>' +
@@ -54163,16 +54183,37 @@ function ConfigureToolSettings() {
 
   }
 
-  // =============== TAB: Editor ===============
+  // =============== TAB: Editor -> Layout & Editor ===============
   form.push({ html: '<div id="tab_editor" class="adv-tab-panel">' });
+
+  // Lite: Customized
+  // Configure true mobile layout setting
+  // Do not show in forced layout modes
+  if (!gAlwaysTwoColumns) {
+    form.push({
+      name: "          Enable True Mobile layout (responsive mode with larger buttons & fullscreen menus)",
+      id: "configure_true_mobile_layout",
+      type: "checkbox",
+      cssClass: "configure_settings_form_text_checkbox lite-custom-setting"
+    });
+  }
 
   // Lite: Customized
   // Allow using two column display mode for all mobile devices
   // if (gIsIPad) {
   if (!isPureDesktopBrowser()) {
     form.push({
-      name: "    Use fixed two-column view (formerly iPad Side-by-Side, best suits tablets)",
+      name: "    Enable fixed two-column layout (formerly iPad Side-by-Side, best suits tablets)",
       id: "configure_always_two_columns",
+      type: "checkbox",
+      cssClass: "configure_settings_form_text_checkbox lite-custom-setting"
+    });
+  }
+
+  if (!gAlwaysTwoColumns) { // Lite: Customized (new setting, off by default, don't show in modes with auto-scaling)
+    form.push({
+      name: "          Percentage scaling of maximized notation (set value in Advanced Settings > Player)",
+      id: "configure_auto_scale_notation",
       type: "checkbox",
       cssClass: "configure_settings_form_text_checkbox lite-custom-setting"
     });
@@ -54232,17 +54273,8 @@ function ConfigureToolSettings() {
 
   form.push({ html: '</div>' }); // end tab_editor
 
-  // =============== TAB: Tabs & Layout ===============
+  // =============== TAB: Tabs & Layout -> Tablature ===============
   form.push({ html: '<div id="tab_tabs" class="adv-tab-panel">' });
-
-  if (!gAlwaysTwoColumns) { // Lite: Customized (new setting, off by default, don't show in modes with auto-scaling)
-    form.push({
-      name: "          Allow auto-scaling of maximized notation (adjust value in Advanced Settings > Player)",
-      id: "configure_auto_scale_notation",
-      type: "checkbox",
-      cssClass: "configure_settings_form_text_checkbox lite-custom-setting"
-    });
-  }
 
   form.push({
     name: "          Show instrument tablature button bar below ABC editor",
@@ -54502,6 +54534,12 @@ function ConfigureToolSettings() {
       if (!isPureDesktopBrowser()) {
         // Two column display?
         gAlwaysTwoColumns = args.result.configure_always_two_columns;
+      }
+
+      // Lite: Customized
+      // Enable true mobile layout?
+      if (!gAlwaysTwoColumns) {
+        gTrueMobileLayout = args.result.configure_true_mobile_layout;
       }
 
       // Lite: Customized
@@ -54934,16 +54972,19 @@ function MoveConfigureSettingsFieldsToTabs() {
     return false;
   }
 
-  // ---- Editor tab ----
+  // ---- Editor tab -> Editor & Layout tab ----
+  // Lite: Customized (true mobile layout setting, off by default, don't show in forced layout modes)
+  if (!gAlwaysTwoColumns) moveByName("configure_true_mobile_layout", "tab_editor_fields");
+  // Lite: Customized (always two columns view setting, off by default, don't show on desktop)
   if (!isPureDesktopBrowser()) moveByName("configure_always_two_columns", "tab_editor_fields");  // Lite: Customized (allow for all mobile browsers)
+  // Lite: Customized (new setting, off by default, don't show in modes with auto-scaling)
+  if (!gAlwaysTwoColumns) moveByName("configure_auto_scale_notation", "tab_editor_fields");
   moveByName("configure_editor_fontsize", "tab_editor_fields"); // Lite: Customized (allow for all browsers)
   moveByName("configure_syntax_highlighting", "tab_editor_fields");
   moveByName("configure_syntax_highlighting_dark", "tab_editor_fields");
   if (isPureDesktopBrowser()) moveByName("configure_save_exit_snapshot", "tab_editor_fields");
 
-  // ---- Tabs & Layout tab ----
-  // Lite: Customized (new setting, off by default, don't show in modes with auto-scaling)
-  if (!gAlwaysTwoColumns) moveByName("configure_auto_scale_notation", "tab_tabs_fields");
+  // ---- Tabs & Layout tab -> Tablature tab ----
   moveByName("configure_show_tab_buttons", "tab_tabs_fields");
   moveByName("configure_comhaltas", "tab_tabs_fields");
   moveByName("configure_show_cgda", "tab_tabs_fields");
@@ -62190,21 +62231,12 @@ function SetupContextMenu(showUpdateItem) {
           }
         }, {}];
 
-        if (isMac()) {
-          items.push({
-            name: 'Align Bars (One Tune) (⌘+\\)',
-            fn: function(target) {
-              AlignMeasures(false);
-            }
-          });
-        } else {
-          items.push({
-            name: 'Align Bars (One Tune) (Ctrl+\\)',
-            fn: function(target) {
-              AlignMeasures(false);
-            }
-          });
-        }
+        items.push({
+          name: 'Align Bars (One Tune)' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+\\)`),
+          fn: function(target) {
+            AlignMeasures(false);
+          }
+        });
 
         items = items.concat(
           [{
@@ -62280,41 +62312,22 @@ function SetupContextMenu(showUpdateItem) {
         }
 
         var theTuneSetItem = {
-          name: 'Create Tune Set (Ctrl+/)',
+          name: 'Create Tune Set' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+/)`),
           fn: function(target) {
             BuildTuneSet();
           }
         };
-
-        if (isMac()) {
-          theTuneSetItem = {
-            name: 'Create Tune Set (⌘+/)',
-            fn: function(target) {
-              BuildTuneSet();
-            }
-          }
-        }
 
         items.unshift(theTuneSetItem);
 
         items.unshift({});
 
         var theGoToItem = {
-          name: 'Jump to Tune (Ctrl+J)',
+          name: 'Jump to Tune' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+J)`),
           fn: function(target) {
             JumpToTune();
           }
         };
-
-        if (isMac()) {
-
-          theGoToItem = {
-            name: 'Jump to Tune (⌘+J)',
-            fn: function(target) {
-              JumpToTune();
-            }
-          };
-        }
 
         items.unshift(theGoToItem);
 
@@ -62322,21 +62335,11 @@ function SetupContextMenu(showUpdateItem) {
 
         // Adapt the search and replace key string based on the platform
         var theFindItem = {
-          name: 'Find and Replace (Ctrl+F)',
+          name: 'Find and Replace' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+F)`),
           fn: function(target) {
             FindAndReplace();
           }
         };
-
-        if (isMac()) {
-
-          theFindItem = {
-            name: 'Find and Replace (⌘+F)',
-            fn: function(target) {
-              FindAndReplace();
-            }
-          };
-        }
 
         items.unshift(theFindItem);
 
@@ -62500,21 +62503,12 @@ function SetupContextMenu(showUpdateItem) {
           }
         }, {}, ];
 
-        if (isMac()) {
-          items.push({
-            name: 'Align Bars (One Tune) (⌘+\\)',
-            fn: function(target) {
-              AlignMeasures(false);
-            }
-          });
-        } else {
-          items.push({
-            name: 'Align Bars (One Tune) (Ctrl+\\)',
-            fn: function(target) {
-              AlignMeasures(false);
-            }
-          });
-        }
+        items.push({
+          name: 'Align Bars (One Tune)' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+\\)`),
+          fn: function(target) {
+            AlignMeasures(false);
+          }
+        });
 
         items = items.concat(
           [{
@@ -62585,63 +62579,35 @@ function SetupContextMenu(showUpdateItem) {
         }
 
         var theTuneSetItem = {
-          name: 'Create Tune Set (Ctrl+/)',
+          name: 'Create Tune Set' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+/)`),
           fn: function(target) {
             BuildTuneSet();
           }
         };
-
-        if (isMac()) {
-          theTuneSetItem = {
-            name: 'Create Tune Set (⌘+/)',
-            fn: function(target) {
-              BuildTuneSet();
-            }
-          }
-        }
 
         items.unshift(theTuneSetItem);
 
         items.unshift({});
 
         var theGoToItem = {
-          name: 'Jump to Tune (Ctrl+J)',
+          name: 'Jump to Tune' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+J)`),
           fn: function(target) {
             JumpToTune();
           }
         };
-
-        if (isMac()) {
-
-          theGoToItem = {
-            name: 'Jump to Tune (⌘+J)',
-            fn: function(target) {
-              JumpToTune();
-            }
-          };
-        }
 
         items.unshift(theGoToItem);
 
         items.unshift({});
 
         // Adapt the search and replace key string based on the platform
+        
         var theFindItem = {
-          name: 'Find and Replace (Ctrl+F)',
+          name: 'Find and Replace' + (isTrueMobileLayout()? "" : ` (${isMac()? '⌘' : 'Ctrl'}+F)`),
           fn: function(target) {
             FindAndReplace();
           }
         };
-
-        if (isMac()) {
-
-          theFindItem = {
-            name: 'Find and Replace (⌘+F)',
-            fn: function(target) {
-              FindAndReplace();
-            }
-          };
-        }
 
         items.unshift(theFindItem);
 
@@ -63178,6 +63144,7 @@ async function DoStartup() {
   gIncludePageLinks = true;
   gDoForcePDFFilename = false;
   gForcePDFFilename = "";
+  gTrueMobileLayout = false;
   gAutoScaleNotation = false;
   gFullScreenScaling = 50;
   gIsDirty = false;
@@ -63363,6 +63330,20 @@ async function DoStartup() {
     // Force large controls for two column mode
     if (gAlwaysTwoColumns) {
       gLargePlayerControls = true;
+    }
+
+    // Apply true mobile layout
+    if (!gAlwaysTwoColumns) {
+
+      val = localStorage.abcLiteTrueMobileLayout;
+
+      if (val) {
+        gTrueMobileLayout = (val == "true");
+      } else {
+        gTrueMobileLayout = false;
+      }
+
+      if (gTrueMobileLayout) liteEnableTrueMobileLayout();
     }
 
     // Force Android?

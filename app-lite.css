@@ -877,6 +877,55 @@ ul.notation-placeholder-text {
   padding: 0 1rem;
 } */
 
+/* True Mobile Layout Styles */
+
+body[data-layout="mobile-true"] {                           /* Default */
+  --abctools-font-size-header-xl-24: 2rem;                  /* 24pt */
+  --abctools-font-size-header-l-20: 1.667rem;               /* 20pt */
+  --abctools-font-size-header-m-18: 1.5rem;                 /* 18pt */
+  --abctools-font-size-header-s: 1.125rem;                  /* 18px */
+	--abctools-font-size-label-l-14: 1.5rem;    					  /* 14pt */
+	--abctools-font-size-code-13: 1.083rem;								    /* 13pt */
+	--abctools-font-size-label-m-12: 1rem;    					      /* 12pt */
+	--abctools-font-size-label-s-11: 0.917rem;							  /* 11pt */
+  --abctools-font-size-contextmenu: 1.5rem;                 /* 11pt */
+  --abctools-font-size-select: 0.917rem;                    /* 11pt */
+	--abctools-font-size-label-xs-10: 0.833rem;						    /* 10pt */
+	--abctools-ui-float-btn-height: 3.5rem;									  /* 48px */
+	--abctools-ui-float-btn-padding: 0.25rem;									/* 4px */
+	--abctools-ui-float-btn-filter: drop-shadow(1px 1px 7px white);
+  --abctools-ui-modal-btn-font-size: 2rem;                  /* 2rem */
+  --abctools-ui-modal-btn-width: 2.2rem;                    /* 2.2rem */
+}
+
+[data-layout="mobile-true"] .abcplayer_zoom_out,
+[data-layout="mobile-true"] .abcplayer_zoom_in {
+  display: none;
+}
+
+[data-layout="mobile-true"] .ContextMenu.is-open {
+  display: flex;
+}
+
+[data-layout="mobile-true"] .ContextMenu {
+  width: 100%;
+  max-width: none;
+  flex-flow: column;
+  left: 0 !important;
+  top: 0 !important;
+}
+
+[data-layout="mobile-true"] .ContextMenu .ContextMenu-item {
+  text-align: center;
+  padding: 1rem;
+}
+
+[data-layout="mobile-true"] .dp-lite-dialog {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
+}
+
 /* Always Two Columns Mode (Formerly iPad Two-Column) */
 
 [data-mode="always-two-columns"] #noscroller,

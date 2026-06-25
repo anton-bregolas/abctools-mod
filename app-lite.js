@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////
 
 // Custom global variables / constants
-var gLiteVersionNumber = 'lite-3261-11';
+var gLiteVersionNumber = 'lite-3261-12';
 
 var ABC_TOOLS_BASE_URL =
   window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
@@ -43,6 +43,24 @@ function liteEnableCompactMode() {
 
 function liteResetCurrentMode() {
   document.body.removeAttribute("data-mode");
+}
+
+// Add true mobile layout data
+
+function liteEnableTrueMobileLayout() {
+  document.body.dataset.layout = "mobile-true";
+}
+
+// Reset current layout data
+
+function liteResetCurrentLayout() {
+  document.body.removeAttribute("data-layout");
+}
+
+// Check if true mobile layout has been applied
+
+function isTrueMobileLayout() {
+  return document.body.dataset.layout === "mobile-true";
 }
 
 ////////////////////////////////////////////
