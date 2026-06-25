@@ -48836,13 +48836,16 @@ function SaveConfigurationSettings() {
     localStorage.InjectTab_DrawGlyph = gInjectTab_DrawGlyph;
     localStorage.InjectTab_UseBarForDraw = gInjectTab_UseBarForDraw;
 
-    // Enable true mobile layout
-    localStorage.abcLiteTrueMobileLayout = gTrueMobileLayout;
+    // Configure true mobile layout
 
-    if (gTrueMobileLayout) {
-      liteEnableTrueMobileLayout();
-    } else {
-      liteResetCurrentLayout();
+    if (!gAlwaysTwoColumns) {
+      localStorage.abcLiteTrueMobileLayout = gTrueMobileLayout;
+
+      if (gTrueMobileLayout) {
+        liteEnableTrueMobileLayout();
+      } else {
+        liteResetCurrentLayout();
+      }
     }
 
     // Allow auto-scaling of maximized notation
