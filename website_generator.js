@@ -4458,6 +4458,25 @@ function generateWebsiteLightbox(){
 //
 function generateWebsite(){
 
+    totalTunes = CountTunes();
+
+    var theTitles = GetTunebookIndexTitles();
+    var nTitles = theTitles.length;
+
+    if (nTitles == 0) {
+
+        var thePrompt = "No tunes to export!";
+
+        // Center the string in the prompt
+        thePrompt = makeCenteredPromptString(thePrompt);
+
+        DayPilot.Modal.alertmini(thePrompt, {
+        theme: "modal_flat",
+        });
+
+        return;
+    }
+
     if (!gAllowWebExport){
         return;
     }

@@ -1,5 +1,6 @@
 ///////////////////////////////////////////////////////////////////////
-// ABC Tools Lite Dialog Modals: <dialog> shim for DayPilot.Modal
+// ABC Tools Lite Dialog Modals
+// <dialog> shim for the legacy DayPilot.Modal library
 // https://github.com/anton-bregolas/abctools-lite
 // MIT License
 // (c) Anton Zille 2026
@@ -78,7 +79,8 @@ window.DayPilot = window.DayPilot || {};
         currentDialog = null;
       }
       currentType = null;
-      document.body.classList.remove("dp-dialog-open");
+
+      document.body.removeAttribute("data-dialog");
     }
     closingInProgress = false;
   }
@@ -186,7 +188,7 @@ window.DayPilot = window.DayPilot || {};
     const width = options.width || 600;
 
     const dialog = document.createElement("dialog");
-    dialog.className = "dp-lite-dialog " + theme + "_main dp-modal";
+    dialog.className = `dp-lite-dialog dp-lite-${type + ' ' + theme}_main dp-modal`;
     if (isStacked) dialog.classList.add("dp-lite-top");
     if (options.layout === "compact") dialog.classList.add("dp-lite-dialog-compact");
     if (options.layout === "legacy") dialog.classList.add("dp-lite-dialog-legacy");
@@ -318,7 +320,8 @@ window.DayPilot = window.DayPilot || {};
     }
 
     dialog.showModal();
-    document.body.classList.add("dp-dialog-open");
+
+    document.body.dataset.dialog = "open";
 
     // Restore focus from a refresh flow (closeDialog saved pendingFocusId)
     let focusRestored = false;
@@ -389,6 +392,14 @@ window.DayPilot = window.DayPilot || {};
         pushStack();
         currentResolve = resolve;
         showDialog("alert", message, null, options);
+      });
+    },
+
+    alertmini: function (message, options) {
+      return new Promise(function (resolve) {
+        pushStack();
+        currentResolve = resolve;
+        showDialog("alertmini", message, null, options);
       });
     },
 

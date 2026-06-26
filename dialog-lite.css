@@ -101,6 +101,6 @@ dialog.dp-lite-dialog.dp-lite-top::backdrop {
   background: none;
 }
 
-body.dp-dialog-open {
+body[data-dialog="open"] {
   overflow: hidden;
 }

@@ -4247,12 +4247,13 @@ function SortDialog() {
 
   if (nTitles == 0) {
 
-    var thePrompt = "No tunes to sort.";
+    var thePrompt = "No tunes to sort";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(thePrompt, {
+    DayPilot.Modal.alertmini(thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -4686,7 +4687,7 @@ function RestoreSnapshot(e, bRestoreAutoSnapshot, bIsAddDialogButton) {
 
       thePrompt = "Replace the contents of the ABC editor with the Auto-Snapshot?";
 
-      theErrorPrompt = "No saved Auto-Snapshot available to restore.";
+      theErrorPrompt = "No saved Auto-Snapshot available to restore";
 
     } else {
 
@@ -4753,7 +4754,7 @@ function RestoreSnapshot(e, bRestoreAutoSnapshot, bIsAddDialogButton) {
 
       thePrompt = "Replace the contents of the ABC editor with Snapshot #" + postfix + "?";
 
-      theErrorPrompt = "No saved Snapshot #" + postfix + " available to restore.";
+      theErrorPrompt = "No saved Snapshot #" + postfix + " available to restore";
 
     }
 
@@ -4895,7 +4896,9 @@ function RestoreSnapshot(e, bRestoreAutoSnapshot, bIsAddDialogButton) {
       // Keep track of actions
       sendGoogleAnalytics("action", "RestoreSnapshot_Fail_1");
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-size:18px;">' + theErrorPrompt + '</p>', {
+      // DayPilot.Modal.alert(
+      DayPilot.Modal.alertmini(
+        '<p style="text-align:center;font-size:18px;">' + theErrorPrompt + '</p>', {
         theme: "modal_flat",
         top: 200,
         scrollWithPage: (AllowDialogsToScroll())
@@ -18120,7 +18123,9 @@ function searchForTunes() {
 
       var prompt = makeCenteredPromptString("Gavin Heneghan tune database still loading...")
 
-      DayPilot.Modal.alert(prompt, {
+      // DayPilot.Modal.alert(
+      DayPilot.Modal.alertmini(
+        prompt, {
         theme: "modal_flat",
         top: 200
       });
@@ -18133,7 +18138,9 @@ function searchForTunes() {
 
       var prompt = makeCenteredPromptString("thesession.org tune database still loading...")
 
-      DayPilot.Modal.alert(prompt, {
+      // DayPilot.Modal.alert(
+      DayPilot.Modal.alertmini(
+        prompt, {
         theme: "modal_flat",
         top: 200
       });
@@ -18155,7 +18162,9 @@ function searchForTunes() {
 
     var prompt = makeCenteredPromptString("No Text Entered in the Search Field")
 
-    DayPilot.Modal.alert(prompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      prompt, {
       theme: "modal_flat",
       top: 200
     });
@@ -19304,12 +19313,14 @@ function ChangeTuneOrderMobile() {
 
   if (nTitles == 0) {
 
-    var thePrompt = "No tunes to reorder.";
+    var thePrompt = "No tunes to reorder";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: false
@@ -19478,12 +19489,14 @@ function ChangeTuneOrder() {
 
   if (nTitles == 0) {
 
-    var thePrompt = "No tunes to reorder.";
+    var thePrompt = "No tunes to reorder";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: false
@@ -19749,12 +19762,14 @@ function CullTunes() {
 
   if (nTitles == 0) {
 
-    var thePrompt = "No tunes to delete.";
+    var thePrompt = "No tunes to delete";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: false
@@ -20222,9 +20237,11 @@ function BuildTuneSetOpen(bOpenInNewTabInEditor) {
 
   if (nTunesInSet === 0) {
 
-    var thePrompt = "No tunes selected for the set.";
+    var thePrompt = "No tunes selected for the set";
     thePrompt = makeCenteredPromptString(thePrompt);
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -20379,9 +20396,11 @@ function BuildTuneSetAppend() {
 
   if (nTunesInSet === 0) {
 
-    var thePrompt = "No tunes selected for the set.";
+    var thePrompt = "No tunes selected for the set";
     thePrompt = makeCenteredPromptString(thePrompt);
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -20575,12 +20594,14 @@ function BuildTuneSet() {
 
   if (nTitles == 0) {
 
-    var thePrompt = "No tunes to create a set from.";
+    var thePrompt = "No tunes to create a set from";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -23339,12 +23360,14 @@ function RoundTripMusicXML() {
   // Any tunes to reformat?
   if (CountTunes() == 0) {
 
-    var thePrompt = "No ABC tunes to reformat.";
+    var thePrompt = "No ABC tunes to reformat";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -27275,12 +27298,14 @@ function inject_one_metronome(tuneABC, showWarnings) {
     if (showWarnings) {
 
       // Nope, exit
-      var thePrompt = "No meter found in the ABC.";
+      var thePrompt = "No meter found in the ABC";
 
       // Center the string in the prompt
       thePrompt = makeCenteredPromptString(thePrompt);
 
-      DayPilot.Modal.alert(thePrompt, {
+      // DayPilot.Modal.alert(
+      DayPilot.Modal.alertmini(
+        thePrompt, {
         theme: "modal_flat",
         top: 200,
         scrollWithPage: (AllowDialogsToScroll())
@@ -27321,7 +27346,9 @@ function inject_one_metronome(tuneABC, showWarnings) {
       thePrompt = makeCenteredPromptString(thePrompt);
 
       // Nope, exit
-      DayPilot.Modal.alert(thePrompt, {
+      // DayPilot.Modal.alert(
+      DayPilot.Modal.alertmini(
+        thePrompt, {
         theme: "modal_flat",
         top: 200,
         scrollWithPage: (AllowDialogsToScroll())
@@ -27556,13 +27583,15 @@ function CopyABC() {
   }
   else{
 
-    var thePrompt = "No tunes to copy."
+    var thePrompt = "No tunes to copy"
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
     // Nope, exit
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -31170,9 +31199,11 @@ function IncipitsBuilderDialog() {
       var nTunes = CountTunes();
 
       if (nTunes == 0) {
-        var thePrompt = makeCenteredPromptString("No tunes for incipits building.");
+        var thePrompt = makeCenteredPromptString("No tunes for incipits building");
 
-        DayPilot.Modal.alert(thePrompt, {
+        // DayPilot.Modal.alert(
+        DayPilot.Modal.alertmini(
+          thePrompt, {
           theme: "modal_flat",
           top: 200,
           scrollWithPage: (AllowDialogsToScroll())
@@ -31392,12 +31423,14 @@ function AddTuneTitleNumbers() {
   // Should never get here, but just to be safe...
   if (nTunes == 0) {
 
-    var thePrompt = "No tunes to add tune title numbers.";
+    var thePrompt = "No tunes to add tune title numbers";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -31483,7 +31516,7 @@ function RemoveTuneTitleNumbers(bDoRedraw) {
     // Should never get here, but just to be safe...
     if (nTunes == 0) {
 
-      var thePrompt = "No tunes with title numbers to remove.";
+      var thePrompt = "No tunes with title numbers to remove";
 
       // Center the string in the prompt
       thePrompt = makeCenteredPromptString(thePrompt);
@@ -35416,12 +35449,14 @@ function BatchMusicXMLRoundTrip() {
   // Any tunes to reformat?
   if (nTunes == 0) {
 
-    var thePrompt = "No ABC tunes to reformat.";
+    var thePrompt = "No ABC tunes to reformat";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())
@@ -52289,7 +52324,9 @@ function processCustomInstruments(suppressStatus /* boolean */) {
         if (totalFiles == 0){
           var thePrompt = "No Custom Instruments Loaded";
           thePrompt = makeCenteredPromptString(thePrompt);
-          DayPilot.Modal.alert(thePrompt, {
+          // DayPilot.Modal.alert(
+          DayPilot.Modal.alertmini(
+            thePrompt, {
             theme: "modal_flat",
             top: 300,
             scrollWithPage: (AllowDialogsToScroll())
@@ -59870,12 +59907,14 @@ function JumpToTune() {
 
   if (nTitles == 0) {
 
-    var thePrompt = "No tunes in the editor.";
+    var thePrompt = "No tunes in the editor";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: false
@@ -60693,7 +60732,9 @@ function FindAndReplace() {
 
     var prompt = makeCenteredPromptString("No Text in the ABC Editor to Find/Replace")
 
-    DayPilot.Modal.alert(prompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      prompt, {
       theme: "modal_flat",
       top: 200
     });
@@ -61084,7 +61125,9 @@ function SplitLongTextAndTags() {
 
     var prompt = makeCenteredPromptString("No Text in the ABC Editor to Split")
 
-    DayPilot.Modal.alert(prompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      prompt, {
       theme: "modal_flat",
       top: 200
     });
@@ -61393,7 +61436,9 @@ function NormalizeDiacriticals() {
 
     var prompt = makeCenteredPromptString("No Text in the ABC Editor to Normalize")
 
-    DayPilot.Modal.alert(prompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      prompt, {
       theme: "modal_flat",
       top: 200
     });
@@ -61624,7 +61669,9 @@ function NormalizeTitles() {
 
     var prompt = makeCenteredPromptString("No Text in the ABC Editor to Normalize")
 
-    DayPilot.Modal.alert(prompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      prompt, {
       theme: "modal_flat",
       top: 200
     });
@@ -61743,7 +61790,9 @@ function SplitVoices() {
 
     var prompt = makeCenteredPromptString("No Tune in the ABC Editor to Split")
 
-    DayPilot.Modal.alert(prompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      prompt, {
       theme: "modal_flat",
       top: 200
     });
@@ -61924,12 +61973,14 @@ function NormalizeVoiceKeySignatures(){
 
   if (tuneCount == 0) {
 
-    var thePrompt = "No tunes to normalize.";
+    var thePrompt = "No tunes to normalize";
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
 
-    DayPilot.Modal.alert(thePrompt, {
+    // DayPilot.Modal.alert(
+    DayPilot.Modal.alertmini(
+      thePrompt, {
       theme: "modal_flat",
       top: 200,
       scrollWithPage: (AllowDialogsToScroll())

@@ -1260,7 +1260,7 @@ margin-right: 0;
 	display: inline-block;
 }
 
-#resetsettings{
+.btn-resetsettings {
 width:auto;
 margin-right: 0;
 margin-left:20px;

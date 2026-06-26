@@ -920,7 +920,8 @@ body[data-layout="mobile-true"] {                           /* Default */
   padding: 1rem;
 }
 
-[data-layout="mobile-true"] .dp-lite-dialog {
+[data-layout="mobile-true"] .dp-lite-alert,
+[data-layout="mobile-true"] .dp-lite-form {
   width: 100% !important;
   height: 100% !important;
   max-width: none;

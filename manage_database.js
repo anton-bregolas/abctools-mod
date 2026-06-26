@@ -218,16 +218,16 @@ function ResetSettingsDialog(){
 				'title="View documentation in new tab" ' +
 				'class="modal-header-ui modal-link-help dialogcornerbutton">?</a>' +
 				'<h2 class="modal-header">' +
-				'Reset All Tool Settings, Clear Databases, Force Update&nbsp;&nbsp;' +
+				'Reset All Tool Settings, Clear DB, Force Update&nbsp;&nbsp;' +
 				'</h2>'},
-		  {html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Checking <strong>Reset all settings to default</strong> will restore the tool settings to the original first-run state.</p>'},
-		  {html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Checking <strong>Clear all databases</strong> will clear and delete the instrument notes, reverb settings, tune search collections, and custom instrument databases. New databases will be created after the tool is restarted.'},
-		  {html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Checking <strong>Force tool update after restart</strong> will force the version of the tool stored in your browser to be updated to the latest version after the tool is restarted.'},
-		  {html: '<p style="margin-top:24px;margin-bottom:8px;font-size:12pt;line-height:18pt;font-family:helvetica">If you enable any of these options, the tool will be restarted after the operation is complete.</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:12px;">Checking <strong>Reset all settings to default</strong> will restore the tool settings to the original first-run state.</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:12px;">Checking <strong>Clear all databases</strong> will clear and delete the instrument notes, reverb settings, tune search collections, and custom instrument databases. New databases will be created after the tool is restarted.'},
+		  {html: '<p style="margin-top:24px;margin-bottom:12px;">Checking <strong>Force tool update after restart</strong> will force the version of the tool stored in your browser to be updated to the latest version after the tool is restarted.'},
+		  {html: '<p style="margin-top:24px;margin-bottom:8px;">If you enable any of these options, the tool will be restarted after the operation is complete.</p>'},
 		  {name: "          Reset all tool settings to default", id: "resetsettings", type:"checkbox", cssClass:"configure_resetsettings_text"},
 		  {name: "          Clear all databases", id: "deletedatabases", type:"checkbox", cssClass:"configure_resetsettings_text"},
 		  {name: "          Force tool update after restart", id: "forceupdate", type:"checkbox", cssClass:"configure_resetsettings_text"},
-		  {html: '<p style="margin-top:24px;margin-bottom:8px;font-size:12pt;line-height:18pt;font-family:helvetica">&nbsp;</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:8px;">&nbsp;</p>'},
 		];
 	}
 	else{
@@ -243,11 +243,11 @@ function ResetSettingsDialog(){
 				'<h2 class="modal-header">' +
 				'Reset All Tool Settings&nbsp;&nbsp;' +
 				'</h2>'},
-		  {html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Checking <strong>Reset all settings to default</strong> will restore the tool settings to the original first-run state.</p>'},
-		  {html: '<p style="margin-top:24px;margin-bottom:8px;font-size:12pt;line-height:18pt;font-family:helvetica">If you enable this option, the tool will be restarted after the operatation is complete.</p>'},
-		  {html: '<p style="margin-top:24px;margin-bottom:8px;font-size:12pt;line-height:18pt;font-family:helvetica">When online, you also have the option to clear and delete the instrument notes, reverb settings, and tune search collections databases.</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:12px;">Checking <strong>Reset all settings to default</strong> will restore the tool settings to the original first-run state.</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:8px;">If you enable this option, the tool will be restarted after the operatation is complete.</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:8px;">When online, you also have the option to clear and delete the instrument notes, reverb settings, and tune search collections databases.</p>'},
 		  {name: "          Reset all tool settings to default", id: "resetsettings", type:"checkbox", cssClass:"configure_resetsettings_text"},
-		  {html: '<p style="margin-top:24px;margin-bottom:8px;font-size:12pt;line-height:18pt;font-family:helvetica">&nbsp;</p>'},
+		  {html: '<p style="margin-top:24px;margin-bottom:8px;">&nbsp;</p>'},
 		];
 
 	}
@@ -1183,7 +1183,7 @@ function ManageSamplesDialog(showActionButtons){
 		'</h2>';
 	}
 	
-	modal_msg += '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">The table below shows all the instrument notes you have played in the past that are stored in the instrument notes database along with the number of notes saved.</p>';
+	modal_msg += '<p style="margin-top:18px;margin-bottom:12px;">The table below shows all the instrument notes you have played in the past that are stored in the instrument notes database along with the number of notes saved.</p>';
 
 	var maxHeight = window.innerHeight - 550;
 
@@ -1193,11 +1193,11 @@ function ManageSamplesDialog(showActionButtons){
 
 	if (showActionButtons){
 
-		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Click "Load All" to load and save the full set of notes for an instrument to the instrument notes database to make all notes for that instrument available offline.</p>';
+		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;">Click "Load All" to load and save the full set of notes for an instrument to the instrument notes database to make all notes for that instrument available offline.</p>';
 
-		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Click "Delete" to delete all notes for an instrument from the instrument notes database.</p>';
+		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;">Click "Delete" to delete all notes for an instrument from the instrument notes database.</p>';
 
-		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">Click "Load All Notes for All Instruments" to load and save the full set of notes for all the instruments to the notes database to make all notes for all the instruments available offline.</p>';
+		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;">Click "Load All Notes for All Instruments" to load and save the full set of notes for all the instruments to the notes database to make all notes for all the instruments available offline.</p>';
 
 		modal_msg += '<div style="margin-top:24px;height:'+maxHeight+'px;overflow:auto">'	
 
@@ -1213,7 +1213,7 @@ function ManageSamplesDialog(showActionButtons){
 
 		maxHeight = window.innerHeight - 365;
 		
-		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica">When online, you may also load the full set of notes for one or all the instruments or delete an instrument from the database.</p>';
+		modal_msg += '<p style="margin-top:18px;margin-bottom:12px;">When online, you may also load the full set of notes for one or all the instruments or delete an instrument from the database.</p>';
 
 		modal_msg += '<div style="margin-top:24px;height:'+maxHeight+'px;overflow:auto">'	
 
@@ -1434,7 +1434,7 @@ function ManageReverbDialog(){
 		'Manage Reverb Settings Database&nbsp;&nbsp;' +
 		'</h2>';
 
-	modal_msg+='<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica;text-align:center">Save any reverb setting for offline use by clicking the buttons below:</p>',
+	modal_msg+='<p style="margin-top:24px;margin-bottom:12px;text-align:center">Save any reverb setting for offline use by clicking the buttons below:</p>',
 	modal_msg+='<p style="margin-top:24px;text-align:center">';
 	modal_msg+='<input id="managereverb" class="btn btn-managereverb managereverb" onclick="SaveReverbSetting(0)" type="button" value="Room" title="Load and save Room reverb">'
 	modal_msg+='<input id="managereverb" class="btn btn-managereverb managereverb" onclick="SaveReverbSetting(1)" type="button" value="Room 1" title="Load and save Room 1 reverb">'
@@ -1577,7 +1577,7 @@ function ManageSearchCollectionsDialog(){
 		'Manage Tune Search Engine Libraries&nbsp;&nbsp;' +
 		'</h2>';
 
-	modal_msg+='<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;font-family:helvetica;text-align:center">Save a tune search library for offline use by clicking the buttons below:</p>',
+	modal_msg+='<p style="margin-top:24px;margin-bottom:12px;text-align:center">Save a tune search library for offline use by clicking the buttons below:</p>',
 	modal_msg+='<p style="margin-top:24px;text-align:center">';
 	modal_msg+='<input id="managereverb" class="btn btn-managereverb managereverb" onclick="LoadSearchCollection(0)" type="button" value="Gavin Heneghan (20,000+ Tunes)" title="Load and save the Gavin Heneghan tune search library">'
 	modal_msg+='<input id="managereverb" class="btn btn-managereverb managereverb" onclick="LoadSearchCollection(1)" type="button" value="The Session (54,000+ Tunes)" title="Load and save the The Session tune search libary">'
