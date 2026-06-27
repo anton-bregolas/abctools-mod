@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////
 
 // Custom global variables / constants
-var gLiteVersionNumber = 'lite-3261-14';
+var gLiteVersionNumber = 'lite-3261-15';
 
 var ABC_TOOLS_BASE_URL =
   window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
@@ -241,7 +241,7 @@ function liteOpenInABCEncoder(abcText){
     }
     else{
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL is too long to open in the Pure Ocarinas tool.</p>', {
+      DayPilot.Modal.alertmin('<p class="modal-alert-msg">Share URL is too long to open in the external tool</p>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())

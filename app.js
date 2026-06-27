@@ -2564,14 +2564,17 @@ function ShowTransposeWarningDialog(errorList) {
   // Keep track of dialogs
   sendGoogleAnalytics("dialog", "ShowTransposeWarningDialog");
 
-  var modal_msg = '<p style="text-align:center;font-size:18pt;">Some Tunes Were Not Tranposed</p>';
+  //var modal_msg = '<p style="text-align:center;font-size:18pt;">Some Tunes Were Not Tranposed</p>';
+  var modal_msg = '<p class="modal-title">Some Tunes Were Not Tranposed</p>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During the operation some tunes were not able to be transposed:</p>';
+  //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During the operation some tunes were not able to be transposed:</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:36px;">During the operation some tunes were not able to be transposed:</p>';
 
   var nBadTunes = errorList.length;
 
   for (var i = 0; i < nBadTunes; ++i) {
-    modal_msg += '<p style="font-size:12pt;line-height:12pt;">'
+    //modal_msg += '<p style="font-size:12pt;line-height:12pt;">'
+    modal_msg += '<p class="modal-text modal-text-tight">'
     modal_msg += errorList[i];
     modal_msg += '</p>'
   }
@@ -2899,11 +2902,14 @@ function TransposeToKeyDialog() {
 		'Transpose to Key&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:12px;font-size:12pt;line-height:18pt;">This will transpose the current tune or all the tunes to the specified root key.</p>'
+    //html: '<p style="margin-top:36px;margin-bottom:12px;font-size:12pt;line-height:18pt;">This will transpose the current tune or all the tunes to the specified root key.</p>'
+    html: '<p class="modal-text" style="margin-top:36px;margin-bottom:12px;">This will transpose the current tune or all the tunes to the specified root key.</p>'
   }, {
-    html: '<p style="margin-bottom:12px;font-size:12pt;line-height:18pt;">Any modes specified in the tune keys will be preserved.</p>'
+    //html: '<p style="margin-bottom:12px;font-size:12pt;line-height:18pt;">Any modes specified in the tune keys will be preserved.</p>'
+    html: '<p class="modal-text" style="margin-bottom:12px;">Any modes specified in the tune keys will be preserved.</p>'
   }, {
-    html: '<p style="margin-top:12px;margin-bottom:42px;font-size:12pt;line-height:18pt;"><strong>If the Transpose to Key results are too high or too low:</strong><br/>Click in a single tune or select across one or more tunes in the ABC editor then <strong>Alt-click</strong> the lower toolbar <strong>Transpose Up</strong> or <strong>Transpose Down</strong> buttons to transpose the tune(s) down or up an octave.</p>'
+    //html: '<p style="margin-top:12px;margin-bottom:42px;font-size:12pt;line-height:18pt;"><strong>If the Transpose to Key results are too high or too low:</strong><br/>Click in a single tune or select across one or more tunes in the ABC editor then <strong>Alt-click</strong> the lower toolbar <strong>Transpose Up</strong> or <strong>Transpose Down</strong> buttons to transpose the tune(s) down or up an octave.</p>'
+    html: '<p class="modal-text" style="margin-top:12px;margin-bottom:42px;"><strong>If the Transpose to Key results are too high or too low:</strong><br/>Click in a single tune or select across one or more tunes in the ABC editor then <strong>Alt-click</strong> the lower toolbar <strong>Transpose Up</strong> or <strong>Transpose Down</strong> buttons to transpose the tune(s) down or up an octave.</p>'
   }, {
     name: "Root key:",
     id: "transposekey",
@@ -2916,9 +2922,9 @@ function TransposeToKeyDialog() {
     type: "checkbox",
     cssClass: "configure_transposetokey_text"
   }, {
-    html: '<p style="font-size:12pt;">&nbsp;</p>'
+    //html: '<p style="font-size:12pt;">&nbsp;</p>'
+    html: '<p class="modal-text">&nbsp;</p>'
   }, ];
-
   const modal = DayPilot.Modal.form(form, theData, {
     theme: "modal_flat_wide",
     top: 100,
@@ -3261,7 +3267,8 @@ function DoTransposeToKey(targetKey, transposeAll) {
       // Force a full render if transposing all
       RenderAsync(redrawAll, redrawIndex, function() {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Transpose to Key Complete!</p>';
+        //var modal_msg = '<p style="text-align:center;font-size:14pt;">Transpose to Key Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Transpose to Key Complete!</p>';
 
         // Force a raw mode visual refresh
         gRawLastIndex = -1;
@@ -4339,7 +4346,8 @@ function SortDialog() {
       '</h2>'
     },
     {
-      html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;font-family:var(--abctools-font-fallback-ui)">This will sort the tunes based on the ABC tag you select.<br/><br/>You may also renumber all the X: tags or shuffle all the tunes.</p>'
+      //html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;font-family:var(--abctools-font-fallback-ui)">This will sort the tunes based on the ABC tag you select.<br/><br/>You may also renumber all the X: tags or shuffle all the tunes.</p>'
+      html: '<p class="modal-text" style="margin-top:36px;margin-bottom:36px;">This will sort the tunes based on the ABC tag you select.<br/><br/>You may also renumber all the X: tags or shuffle all the tunes.</p>'
     },
     {
       name: "Operation:",
@@ -4349,10 +4357,10 @@ function SortDialog() {
       cssClass: "configure_sort_settings_select"
     },
     {
-      html: '<p style="font-size:12pt;">&nbsp;</p>'
+      //html: '<p style="font-size:12pt;">&nbsp;</p>'
+      html: '<p class="modal-text">&nbsp;</p>'
     },
   ];
-
   const modalPromise = DayPilot.Modal.form(form, theData, {
     theme: "modal_flat",
     top: 175,
@@ -6980,7 +6988,8 @@ function GetAllTuneHyperlinks(theLinks) {
 
           if (gAddTunebookPlaybackHyperlinks) {
 
-            DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL for entire tunebook is too long to add to the tunes.</p>', {
+            //DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL for entire tunebook is too long to add to the tunes.</p>', {
+            DayPilot.Modal.alert('<p class="modal-alert-msg">Share URL for entire tunebook is too long to add to the tunes.</p>', {
               theme: "modal_flat",
               top: 230,
               scrollWithPage: (AllowDialogsToScroll())
@@ -11729,10 +11738,14 @@ function ShowAcrobatHyperlinkLengthWarning() {
   // Lite: Customized
   // Replace inline styles with reusable classes
   var modal_msg = '<h2 class="modal-header">Adobe Acrobat Hyperlink Length Warning</h2>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">Adobe Acrobat limits the length of clicked hyperlinks to 2076 characters.</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;">Some very complex tune Share URLs used in tunebooks generated with this tool may exceed this limit.</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;">If you are using Adobe Acrobat as your PDF reader, and you are seeing this message after clicking a complex tune link, try instead simply dragging the PDF of the tunebook to your browser to read it.</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;">The PDF readers built into most modern browsers do not have this hyperlink length limitation and will properly open the tune hyperlink when clicked.</p>'
+  //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">Adobe Acrobat limits the length of clicked hyperlinks to 2076 characters.</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:36px;">Adobe Acrobat limits the length of clicked hyperlinks to 2076 characters.</p>';
+  //modal_msg += '<p style="font-size:12pt;line-height:18pt;">Some very complex tune Share URLs used in tunebooks generated with this tool may exceed this limit.</p>';
+  modal_msg += '<p class="modal-text">Some very complex tune Share URLs used in tunebooks generated with this tool may exceed this limit.</p>';
+  //modal_msg += '<p style="font-size:12pt;line-height:18pt;">If you are using Adobe Acrobat as your PDF reader, and you are seeing this message after clicking a complex tune link, try instead simply dragging the PDF of the tunebook to your browser to read it.</p>';
+  modal_msg += '<p class="modal-text">If you are using Adobe Acrobat as your PDF reader, and you are seeing this message after clicking a complex tune link, try instead simply dragging the PDF of the tunebook to your browser to read it.</p>';
+  //modal_msg += '<p style="font-size:12pt;line-height:18pt;">The PDF readers built into most modern browsers do not have this hyperlink length limitation and will properly open the tune hyperlink when clicked.</p>'
+  modal_msg += '<p class="modal-text">The PDF readers built into most modern browsers do not have this hyperlink length limitation and will properly open the tune hyperlink when clicked.</p>'
 
   DayPilot.Modal.alert(modal_msg, {
     theme: "modal_flat",
@@ -11750,8 +11763,10 @@ function ShowHyperlinkBadDecodeAlert() {
   // Keep track of dialogs
   sendGoogleAnalytics("dialog", "ShowHyperlinkBadDecodeAlert");
 
-  var modal_msg = '<p style="text-align:center;font-size:18pt;">Problem Decoding Tune Share URL</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">An unrecoverable error occured when decoding this tune ShareURL.</p>';
+  //var modal_msg = '<p style="text-align:center;font-size:18pt;">Problem Decoding Tune Share URL</p>';
+  var modal_msg = '<p class="modal-title">Problem Decoding Tune Share URL</p>';
+  //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">An unrecoverable error occured when decoding this tune ShareURL.</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:36px;text-align:center;">An unrecoverable error occured when decoding this tune ShareURL.</p>';
 
   DayPilot.Modal.alert(modal_msg, {
     theme: "modal_flat",
@@ -11770,24 +11785,32 @@ function ShowAcrobatURLSizeWarningDialog() {
   // Keep track of dialogs
   sendGoogleAnalytics("dialog", "ShowAcrobatURLSizeWarningDialog");
 
-  var modal_msg = '<p style="text-align:center;font-size:18pt;">Adobe Acrobat Maximum URL Length Warning</p>';
+  //var modal_msg = '<p style="text-align:center;font-size:18pt;">Adobe Acrobat Maximum URL Length Warning</p>';
+  var modal_msg = '<p class="modal-title">Adobe Acrobat Maximum URL Length Warning</p>';
 
   // Different messaging if hyperlinks are the entire tunebook
   if (gAddTunebookPlaybackHyperlinks) {
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During PDF export play hyperlink embedding, the entire tunebook play hyperlink length of ' + gAcrobatURLLimitExceeded[0].urllength + ' characters exceeded the Adobe Acrobat maximum URL length of 2076 characters.</p>';
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;">These play links will work with the built-in PDF reader on most web browsers and online PDF readers, many non-Adobe desktop and mobile PDF readers, but will not open correctly if the tune title is clicked when the PDF is viewed using Adobe Acrobat:</p>';
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:24px">If Adobe Acrobat is your target PDF reader, your best option is to use the per-tune %hyperlink directive in these tunes with a shortened play Share URL to the entire tunebook manually generated using the Sharing dialog.</p>';
+    //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During PDF export play hyperlink embedding, the entire tunebook play hyperlink length of ' + gAcrobatURLLimitExceeded[0].urllength + ' characters exceeded the Adobe Acrobat maximum URL length of 2076 characters.</p>';
+    modal_msg += '<p class="modal-text" style="margin-top:36px;">During PDF export play hyperlink embedding, the entire tunebook play hyperlink length of ' + gAcrobatURLLimitExceeded[0].urllength + ' characters exceeded the Adobe Acrobat maximum URL length of 2076 characters.</p>';
+    //modal_msg += '<p style="font-size:12pt;line-height:18pt;">These play links will work with the built-in PDF reader on most web browsers and online PDF readers, many non-Adobe desktop and mobile PDF readers, but will not open correctly if the tune title is clicked when the PDF is viewed using Adobe Acrobat:</p>';
+    modal_msg += '<p class="modal-text">These play links will work with the built-in PDF reader on most web browsers and online PDF readers, many non-Adobe desktop and mobile PDF readers, but will not open correctly if the tune title is clicked when the PDF is viewed using Adobe Acrobat:</p>';
+    //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:24px">If Adobe Acrobat is your target PDF reader, your best option is to use the per-tune %hyperlink directive in these tunes with a shortened play Share URL to the entire tunebook manually generated using the Sharing dialog.</p>';
+    modal_msg += '<p class="modal-text" style="margin-top:24px">If Adobe Acrobat is your target PDF reader, your best option is to use the per-tune %hyperlink directive in these tunes with a shortened play Share URL to the entire tunebook manually generated using the Sharing dialog.</p>';
   } else {
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During PDF export play hyperlink embedding, some very long and complex tunes had play hyperlinks that exceeded the Adobe Acrobat maximum URL length of 2076 characters.</p>';
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;">These play links will work with the built-in PDF reader on most web browsers and online PDF readers, many non-Adobe desktop and mobile PDF readers, but will not open correctly if the tune title is clicked when the PDF is viewed using Adobe Acrobat:</p>';
+    //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During PDF export play hyperlink embedding, some very long and complex tunes had play hyperlinks that exceeded the Adobe Acrobat maximum URL length of 2076 characters.</p>';
+    modal_msg += '<p class="modal-text" style="margin-top:36px;">During PDF export play hyperlink embedding, some very long and complex tunes had play hyperlinks that exceeded the Adobe Acrobat maximum URL length of 2076 characters.</p>';
+    //modal_msg += '<p style="font-size:12pt;line-height:18pt;">These play links will work with the built-in PDF reader on most web browsers and online PDF readers, many non-Adobe desktop and mobile PDF readers, but will not open correctly if the tune title is clicked when the PDF is viewed using Adobe Acrobat:</p>';
+    modal_msg += '<p class="modal-text">These play links will work with the built-in PDF reader on most web browsers and online PDF readers, many non-Adobe desktop and mobile PDF readers, but will not open correctly if the tune title is clicked when the PDF is viewed using Adobe Acrobat:</p>';
 
     var nBadTunes = gAcrobatURLLimitExceeded.length;
     for (var i = 0; i < nBadTunes; ++i) {
-      modal_msg += '<p style="font-size:12pt;line-height:10pt;">"' + gAcrobatURLLimitExceeded[i].name + '"&nbsp;-&nbsp;URL length: ' + gAcrobatURLLimitExceeded[i].urllength + '</p>';
+      //modal_msg += '<p style="font-size:12pt;line-height:10pt;">"' + gAcrobatURLLimitExceeded[i].name + '"&nbsp;-&nbsp;URL length: ' + gAcrobatURLLimitExceeded[i].urllength + '</p>';
+      modal_msg += '<p class="modal-text modal-text-tight">"' + gAcrobatURLLimitExceeded[i].name + '"&nbsp;-&nbsp;URL length: ' + gAcrobatURLLimitExceeded[i].urllength + '</p>';
     }
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:24px">If Adobe Acrobat is your target PDF reader, your best option is to use the per-tune %hyperlink directive in these tunes with a shortened play Share URL manually generated using the Sharing dialog.</p>';
+    //modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:24px">If Adobe Acrobat is your target PDF reader, your best option is to use the per-tune %hyperlink directive in these tunes with a shortened play Share URL manually generated using the Sharing dialog.</p>';
+    modal_msg += '<p class="modal-text" style="margin-top:24px">If Adobe Acrobat is your target PDF reader, your best option is to use the per-tune %hyperlink directive in these tunes with a shortened play Share URL manually generated using the Sharing dialog.</p>';
   }
 
 
@@ -14691,13 +14714,17 @@ function RenderTheNotes(tune, instrument, renderAll, tuneNumber) {
   // Replace inline styles with reusable classes
     var modal_msg = '<h2 class="modal-header">Tune Rendering Issue</h2>';
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">During rendering, the following tune caused the tool to crash:</p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">During rendering, the following tune caused the tool to crash:</p>';
+    modal_msg += '<p style="margin-top:36px;text-align:center;" class="modal-text">During rendering, the following tune caused the tool to crash:</p>';
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;"><strong>' + gLastRenderedTuneName + '</strong></p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;"><strong>' + gLastRenderedTuneName + '</strong></p>';
+    modal_msg += '<p style="margin-top:20px;text-align:center;" class="modal-text"><strong>' + gLastRenderedTuneName + '</strong></p>';
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">Try isolating this one tune to determine the issue.</p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">Try isolating this one tune to determine the issue.</p>';
+    modal_msg += '<p style="margin-top:20px;text-align:center;" class="modal-text">Try isolating this one tune to determine the issue.</p>';
 
-    modal_msg += '<p style="font-size:3pt;line-height:3pt;text-align:center;">&nbsp;</p>';
+    // modal_msg += '<p style="font-size:3pt;line-height:3pt;text-align:center;">&nbsp;</p>';
+    modal_msg += '<div class="modal-spacer-3pt" style="text-align:center;"></div>';
 
     DayPilot.Modal.alert(modal_msg, {
       theme: "modal_flat",
@@ -17250,9 +17277,11 @@ function PDFTunebookBuilder() {
       '<h2 class="modal-header">Inject All PDF Tunebook Features&nbsp;&nbsp;</h2>' +
       '<a href="https://michaeleskin.com/abctools/userguide.html#inject_pdf_tunebook_features" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>'
   }, {
-    html: '<p style="margin-top:12px;margin-bottom:12px;font-size:12pt;line-height:14pt;">Clicking "Inject" will inject PDF tunebook feature commands at the top of your ABC.</p>'
+    // html: '<p style="margin-top:12px;margin-bottom:12px;font-size:12pt;line-height:14pt;">Clicking "Inject" will inject PDF tunebook feature commands at the top of your ABC.</p>'
+    html: '<p style="margin-top:12px;margin-bottom:12px;" class="modal-text modal-text-tight">Clicking "Inject" will inject PDF tunebook feature commands at the top of your ABC.</p>'
   }, {
-    html: '<p style="margin-top:12px;margin-bottom:12px;font-size:12pt;line-height:14pt;">Leave any text fields blank for features you don\'t want in your PDF tunebook.</p>'
+    // html: '<p style="margin-top:12px;margin-bottom:12px;font-size:12pt;line-height:14pt;">Leave any text fields blank for features you don\'t want in your PDF tunebook.</p>'
+    html: '<p style="margin-top:12px;margin-bottom:12px;" class="modal-text modal-text-tight">Leave any text fields blank for features you don\'t want in your PDF tunebook.</p>'
   }, {
     name: "PDF quality:",
     id: "pdfquality",
@@ -17349,7 +17378,8 @@ function PDFTunebookBuilder() {
     type: "checkbox",
     cssClass: "configure_setuppdftunebook_form_text"
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:16px;font-size:12pt;line-height:10pt;">To override the default Share URL QR Code, enter your own URL below:</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:16px;font-size:12pt;line-height:10pt;">To override the default Share URL QR Code, enter your own URL below:</p>'
+    html: '<p style="margin-top:18px;margin-bottom:16px;" class="modal-text modal-text-tight">To override the default Share URL QR Code, enter your own URL below:</p>'
   }, {
     name: "Custom URL:",
     id: "qrcode_link",
@@ -17742,9 +17772,11 @@ function PDFTunebookBuilderPlayOnly() {
       '<h2 class="modal-header">Inject Only PDF Tunebook Play Features&nbsp;&nbsp;</h2>' +
       '<a href="https://michaeleskin.com/abctools/userguide.html#inject_pdf_tunebook_features_play" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>'
   }, {
-    html: '<p style="margin-top:12px;margin-bottom:12px;font-size:12pt;line-height:20pt;">Clicking "Inject" will inject PDF playback enabling commands at the top of your ABC.</p>'
+    // html: '<p style="margin-top:12px;margin-bottom:12px;font-size:12pt;line-height:20pt;">Clicking "Inject" will inject PDF playback enabling commands at the top of your ABC.</p>'
+    html: '<p style="margin-top:12px;margin-bottom:12px;" class="modal-text modal-text-spaced">Clicking "Inject" will inject PDF playback enabling commands at the top of your ABC.</p>'
   }, {
-    html: '<p style="margin-top:12px;margin-bottom:24px;font-size:12pt;line-height:20pt;">With these injected commands in place, in an exported PDF file, clicking the title of the tunes will open them in the Player in a new browser tab.</p>'
+    // html: '<p style="margin-top:12px;margin-bottom:24px;font-size:12pt;line-height:20pt;">With these injected commands in place, in an exported PDF file, clicking the title of the tunes will open them in the Player in a new browser tab.</p>'
+    html: '<p style="margin-top:12px;margin-bottom:24px;" class="modal-text modal-text-spaced">With these injected commands in place, in an exported PDF file, clicking the title of the tunes will open them in the Player in a new browser tab.</p>'
   }, {
     name: "Soundfont for playback links:",
     id: "sound_font",
@@ -18620,7 +18652,8 @@ function addSearchResults() {
     }
   } else {
 
-    var modal_msg = '<p style="text-align:center;font-size:14pt;">Nothing to Add!</p>';
+    // var modal_msg = '<p style="text-align:center;font-size:14pt;">Nothing to Add!</p>';
+    var modal_msg = '<p class="modal-alert-msg">Nothing to Add!</p>';
 
     DayPilot.Modal.alert(modal_msg, {
       theme: "modal_flat",
@@ -19033,15 +19066,19 @@ function AddFromSearch(e, callback) {
 		'Tune Search Engine&nbsp;&nbsp;' +
 		'</h2>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:20px;margin-bottom:12px;" class="switchtunedatabase">Tune Collection to Search: <select id="databaseselect" onchange="SwitchTuneDatabase();" title="Select your tune search database"><option value="0">Gavin Heneghan\'s Collection (20,000+ Tune Settings)</option><option value="1">The Session Collection (54,000+ Tune Settings)</option></select></p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:20px;margin-bottom:12px;" class="switchtunedatabase">Tune Collection to Search: <select id="databaseselect" onchange="SwitchTuneDatabase();" title="Select your tune search database"><option value="0">Gavin Heneghan\'s Collection (20,000+ Tune Settings)</option><option value="1">The Session Collection (54,000+ Tune Settings)</option></select></p>';
+  modal_msg += '<p style="margin-top:20px;margin-bottom:12px;" class="switchtunedatabase modal-text modal-text-spaced">Tune Collection to Search: <select id="databaseselect" onchange="SwitchTuneDatabase();" title="Select your tune search database"><option value="0">Gavin Heneghan\'s Collection (20,000+ Tune Settings)</option><option value="1">The Session Collection (54,000+ Tune Settings)</option></select></p>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;margin-bottom:18px;">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;margin-bottom:18px;">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
+  // modal_msg += '<p style="margin-top:0px;margin-bottom:18px;" class="modal-text modal-text-spaced">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
+modal_msg += '<p style="margin-top:0px;margin-bottom:18px;" class="modal-text modal-text-spaced">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
 
   modal_msg += '<p class="tunesearchoptions">Only return first variation found?&nbsp;<input id="only_first_variation" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" checked/>&nbsp;&nbsp;&nbsp;Match start of title?&nbsp;<input id="match_title_start" type="checkbox" style="margin-top:-5px;margin-bottom:0px;"/>&nbsp;&nbsp;&nbsp;Only return tunes with chords?&nbsp;<input id="chords_only" type="checkbox" style="margin-top:-5px;margin-bottom:0px;"/></p>';
 
   modal_msg += '<p class="tunesearchoptionsmax">Tune style:<select id="tunesearchstyle" onchange="SetTuneSearchStyle();" title="Tune style to search" style="margin-top:-7px;width:130px"><option value="">All Tunes</option> <option value="jig">Jigs</option> <option value="reel">Reels</option> <option value="slip jig">Slip Jigs</option> <option value="hornpipe">Hornpipes</option> <option value="polka">Polkas</option> <option value="slide">Slides</option> <option value="waltz">Waltzes</option> <option value="barndance">Barndances</option> <option value="strathspey">Strathspeys</option> <option value="three-two">Three-Twos</option> <option value="mazurka">Mazurkas</option> <option value="march">Marches</option></select>&nbsp;&nbsp;&nbsp;&nbsp;Key:<select id="tunesearchkey" onchange="SetTuneSearchKey();" title="Filter by Key/Mode" style="margin-top:-7px;width:130px;"><option value="">All Keys</option> <option value="Cmajor">C Major</option> <option value="Cdorian">C Dorian</option> <option value="Dmajor">D Major</option> <option value="Dmixolydian">D Mixolydian</option> <option value="Dminor">D Minor</option> <option value="Ddorian">D Dorian</option> <option value="Emajor">E Major</option> <option value="Emixolydian">E Mixolydian</option> <option value="Eminor">E Minor</option> <option value="Edorian">E Dorian</option> <option value="Fmajor">F Major</option> <option value="Fdorian">F Dorian</option> <option value="Gmajor">G Major</option> <option value="Gmixolydian">G Mixolydian</option> <option value="Gminor">G Minor</option> <option value="Gdorian">G Dorian</option> <option value="Amajor">A Major</option> <option value="Amixolydian">A Mixolydian</option> <option value="Aminor">A Minor</option> <option value="Adorian">A Dorian</option> <option value="Bminor">B Minor</option> <option value="Bmixolydian">B Mixolydian</option> <option value="Bdorian">B Dorian</option> </select>&nbsp;&nbsp;&nbsp;&nbsp;Maximum number of results:<select id="maxtunesearchresults" onchange="SetTuneSearchMaxResults();" title="Maximum number of results" style="margin-top:-7px;"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select></p>';
 
-  modal_msg += '<p style="margin-top:10px;font-size:12pt;"> <input class="btn btn-start-search start-search" id="start-search" onclick="searchForTunes();" type="button" value="Search" title="Start search"><span id="status">&nbsp;&nbsp;&nbsp;Waiting for tune collection to load...</span></p>';
+  // modal_msg += '<p style="margin-top:10px;font-size:12pt;"> <input class="btn btn-start-search start-search" id="start-search" onclick="searchForTunes();" type="button" value="Search" title="Start search"><span id="status">&nbsp;&nbsp;&nbsp;Waiting for tune collection to load...</span></p>';
+  modal_msg += '<p style="margin-top:10px;" class="modal-text"> <input class="btn btn-start-search start-search" id="start-search" onclick="searchForTunes();" type="button" value="Search" title="Start search"><span id="status">&nbsp;&nbsp;&nbsp;Waiting for tune collection to load...</span></p>';
 
   modal_msg += '<div style="margin-bottom: 18px;">';
 
@@ -19532,7 +19569,8 @@ function ChangeTuneOrder() {
       'Change the Order of the Tunes&nbsp;&nbsp;' +
       '</h2>'
     }, {
-      html: '<p style="margin-top:18px;font-size:12pt;">Drag and drop the tune names to change the order of the tunes in the tunebook:</p>'
+      // html: '<p style="margin-top:18px;font-size:12pt;">Drag and drop the tune names to change the order of the tunes in the tunebook:</p>'
+      html: '<p style="margin-top:18px;" class="modal-text">Drag and drop the tune names to change the order of the tunes in the tunebook:</p>'
     }, {
       html: theSortableDiv
     }
@@ -20278,7 +20316,8 @@ function BuildTuneSetOpen(bOpenInNewTabInEditor) {
 
   // Check that the tunes all have the same number of voices
   if (!allTunesHaveSameVoiceCount(tunesForVoiceCheck)){
-      DayPilot.Modal.alert('<div style="text-align:center;"><p style="font-size:14pt;">Unable to Create Tune Set</p><p style="font-size:12pt;margin-top:36px;">The tunes have different number of voices.</p><p style="font-size:12pt;line-height:24px;">To fix, edit the tunes as required to make them have<br/>the same number of voices, then try again.</p></div>', {
+      // DayPilot.Modal.alert('<div style="text-align:center;"><p style="font-size:14pt;">Unable to Create Tune Set</p><p style="font-size:12pt;margin-top:36px;">The tunes have different number of voices.</p><p style="font-size:12pt;line-height:24px;">To fix, edit the tunes as required to make them have<br/>the same number of voices, then try again.</p></div>', {
+      DayPilot.Modal.alert('<div style="text-align:center;"><p class="modal-alert-msg">Unable to Create Tune Set</p><p style="margin-top:36px;" class="modal-text">The tunes have different number of voices.</p><p style="line-height:24px;" class="modal-text">To fix, edit the tunes as required to make them have<br/>the same number of voices, then try again.</p></div>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())
@@ -20322,7 +20361,8 @@ function BuildTuneSetOpen(bOpenInNewTabInEditor) {
 
     if (theURL.length >= 8100) {
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">The Share URL for the tune set is too long to open in a new tab.</p>', {
+      // DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">The Share URL for the tune set is too long to open in a new tab.</p>', {
+      DayPilot.Modal.alert('<p class="modal-alert-msg">The Share URL for the tune set is too long to open in a new tab.</p>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())
@@ -20437,7 +20477,8 @@ function BuildTuneSetAppend() {
 
   // Check that the tunes all have the same number of voices
   if (!allTunesHaveSameVoiceCount(tunesForVoiceCheck)){
-      DayPilot.Modal.alert('<div style="text-align:center;"><p style="font-size:14pt;">Unable to Create Tune Set</p><p style="font-size:12pt;margin-top:36px;">The tunes have different number of voices.</p><p style="font-size:12pt;line-height:24px;">To fix, edit the tunes as required to make them have<br/>the same number of voices, then try again.</p></div>', {
+      // DayPilot.Modal.alert('<div style="text-align:center;"><p style="font-size:14pt;">Unable to Create Tune Set</p><p style="font-size:12pt;margin-top:36px;">The tunes have different number of voices.</p><p style="font-size:12pt;line-height:24px;">To fix, edit the tunes as required to make them have<br/>the same number of voices, then try again.</p></div>', {
+      DayPilot.Modal.alert('<div style="text-align:center;"><p class="modal-alert-msg">Unable to Create Tune Set</p><p style="margin-top:36px;" class="modal-text">The tunes have different number of voices.</p><p style="line-height:24px;" class="modal-text">To fix, edit the tunes as required to make them have<br/>the same number of voices, then try again.</p></div>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())
@@ -20619,7 +20660,8 @@ function BuildTuneSet() {
   // MAE 14 Jul 2024 - Make the div fill the screen
   var theHeight = window.innerHeight - 670;
 
-  var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;font-size:12pt;"> <span id="tuneset-search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14pt;color:#888;display:none;" title="Clear filter and show all tunes"> ❌ </span> </div>';
+  // var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;font-size:12pt;"> <span id="tuneset-search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14pt;color:#888;display:none;" title="Clear filter and show all tunes"> ❌ </span> </div>';
+var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;"> <span id="tuneset-search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;display:none;" title="Clear filter and show all tunes"> ❌ </span> </div>';
 
   var theTuneSetDiv = theSearchBar +
     '<div id="tuneset-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:12px;margin-bottom:18px;">';
@@ -20643,7 +20685,8 @@ function BuildTuneSet() {
       'Create Tune Set&nbsp;&nbsp;' +
       '</h2>'
     }, {
-      html: '<p style="margin-top:8px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Select the tunes you want in a tune set, then choose one of the three actions below:</p>'
+      // html: '<p style="margin-top:8px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Select the tunes you want in a tune set, then choose one of the three actions below:</p>'
+      html: '<p style="margin-top:8px;margin-bottom:12px;" class="modal-text">Select the tunes you want in a tune set, then choose one of the three actions below:</p>'
     }, {
       html: '<p style="text-align:center;margin-top:14px;"><input id="tuneset_select_all" class="advancedcontrols btn btn-injectcontrols-headers" onclick="BuildTuneSetSelectAll();" type="button" value="Select All" title="Selects all the tunes for set creation"><input id="tuneset_clear_selection" class="advancedcontrols btn btn-injectcontrols-headers" onclick="BuildTuneSetClearSelection();" type="button" value="Clear Selection" title="Unselects all the tunes for set creation"></p>'
     }, {
@@ -21005,7 +21048,8 @@ function AddABC() {
   modal_msg += '<input id="addpdfplayonlytemplate" class="advancedcontrols btn btn-injectcontrols-headers" onclick="AddPDFPlayOnlyTemplate();" type="button" value="Example PDF Only Play Features Template" title="Inject an example template with only minimal playback-related instrument and volume commands at the top of your tunebook ABC">';
   modal_msg += '<input id="addpdfannotationstemplate" class="advancedcontrols btn btn-injectcontrols-headers" onclick="AddPDFAnnotationsTemplate();" type="button" value="Example PDF All Features Template" title="Inject an example template that contains the most common PDF tunebook export feature annotations">';
   modal_msg += '</div>';
-  modal_msg += '<p style="font-size:2pt;">&nbsp;</p>';
+  // modal_msg += '<p style="font-size:2pt;">&nbsp;</p>';
+  modal_msg += '<div class="modal-spacer-3pt"></div>';
   modal_msg += '</div></div>';
 
   modal_msg += '<p style="text-align:center;margin-top:40px;">';
@@ -23155,7 +23199,8 @@ function GenerateQRCode(e) {
 
     if (theURL.length > maxURLLength) {
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-size:14pt;">Share URL is too long to generate a QR Code</p>', {
+      // DayPilot.Modal.alert('<p style="text-align:center;font-size:14pt;">Share URL is too long to generate a QR Code</p>', {
+      DayPilot.Modal.alert('<p class="modal-alert-msg">Share URL is too long to generate a QR Code</p>', {
         theme: "modal_flat",
         top: 200,
         scrollWithPage: (AllowDialogsToScroll())
@@ -23310,22 +23355,24 @@ function GenerateQRCode(e) {
 
       var theImageHTML = theQRCodeImage.outerHTML.replace("display: block;", "");
 
-      var theOutputHTML = `<div style="font-family:'Fira Sans','Droid Sans',Helvetica,Arial,sans-serif;text-align:center;padding:24px;margin-top:0px;margin-bottom:0px;">`;
+      var theOutputHTML = '<!DOCTYPE html><html>';
+      theOutputHTML += `<head><style>.qr-text { font-size: 1.25rem; } .qr-text-l { font-size: 1.333rem; }</style><link rel="stylesheet" href="apply-user-settings.css"></head>`;
+      theOutputHTML += '<body style="display: flex; flex-flow: column; align-items: center; text-align:center; padding:24px; margin-top:0px; margin-bottom:0px;"><div style="width: 548px;">';
       theOutputHTML += theImageHTML;
-      theOutputHTML += '<p style="font-size:15pt;margin-top:18px;margin-bottom:0px;">' + theTitles + '</p>';
-      theOutputHTML += '<p style="font-size:16pt;margin-top:32px;margin-bottom:0px;"><strong>Get Your QR Code</strong></p>';
-      theOutputHTML += '<p style="font-size:16pt;margin-top:32px;margin-bottom:0px;"><a href="' + theImageSource + '" download="' + theImageName + '.png" style="text-decoration:none;color:darkblue">Click here to download&nbsp;' + theImageName + '.png&nbsp;to your system.</a></p>';
-      theOutputHTML += '<p style="font-size:16pt;margin-top:32px;margin-bottom:0px;"><strong>Use Your QR Code</strong></p>';
-      theOutputHTML += '<p style="font-size:15pt;margin-top:30px;margin-bottom:0px;">Share QR Codes on social media or email them to friends like any other photo.</p>';
-      theOutputHTML += '<p style="font-size:15pt;margin-top:24px;margin-bottom:0px;">Scanning the code with the Camera app on any iOS or Android phone will load the</p>';
-      theOutputHTML += '<p style="font-size:15pt;margin-top:6px;margin-bottom:0px;">ABC Transcription Tool with your tune set into the browser on the device.</p>';
-      theOutputHTML += '</div>';
+      theOutputHTML += '<p style="margin-top:18px;margin-bottom:0px;" class="qr-text-l">' + theTitles + '</p>';
+      theOutputHTML += '<p style="margin-top:32px;margin-bottom:0px;" class="qr-text-l"><strong>Get Your QR Code</strong></p>';
+      theOutputHTML += '<p style="margin-top:32px;margin-bottom:0px;" class="qr-text-l"><a href="' + theImageSource + '" download="' + theImageName + '.png" style="text-decoration:none;">Click here to download&nbsp;' + theImageName + '.png&nbsp;to your system.</a></p>';
+      theOutputHTML += '<p style="margin-top:32px;margin-bottom:0px;" class="qr-text-l"><strong>Use Your QR Code</strong></p>';
+      theOutputHTML += '<p style="margin-top:30px;margin-bottom:0px;" class="qr-text">Share QR Codes on social media or email them to friends like any other photo.</p>';
+      theOutputHTML += '<p style="margin-top:24px;margin-bottom:0px;" class="qr-text">Scanning the code with the Camera app on any iOS or Android phone will load ABC Transcription Tools Lite with your tune set into the browser on the device.</p>';
+      theOutputHTML += '</div></body>';
+      theOutputHTML += '</html>';
 
       w.document.write(theOutputHTML);
 
       setTimeout(function() {
 
-        w.document.title = "ABC Tools Tune Sharing QR Code";
+        w.document.title = "ABC Tools Lite: Share via QR Code";
 
       }, 100);
 
@@ -24039,9 +24086,11 @@ function InjectRepeatsAndClickTrackAll() {
 		'Inject Repeats and Two-Bar Silence and/or Click Intros&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will inject repeats into each tune in the ABC area by  appending the entire ABC for each tune to itself multiple times.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will inject repeats into each tune in the ABC area by  appending the entire ABC for each tune to itself multiple times.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:24px;" class="modal-text">This will inject repeats into each tune in the ABC area by  appending the entire ABC for each tune to itself multiple times.</p>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">You may also optionally inject two bars of silence and/or a click intro before each tune.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">You may also optionally inject two bars of silence and/or a click intro before each tune.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:24px;" class="modal-text">You may also optionally inject two bars of silence and/or a click intro before each tune.</p>'
   }, {
     name: "How many times through each tune:",
     id: "configure_repeats",
@@ -24054,19 +24103,26 @@ function InjectRepeatsAndClickTrackAll() {
     options: before_tune_actions,
     cssClass: "configure_mp3_before_tune_select"
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>To append two-bars of silence and/or a click intro before each tune:</strong></p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>To append two-bars of silence and/or a click intro before each tune:</strong></p>'
+    html: '<p style="margin-top:16px;" class="modal-text"><strong>To append two-bars of silence and/or a click intro before each tune:</strong></p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">1) Set <strong>How many times through each tune:</strong> to 1</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">1) Set <strong>How many times through each tune:</strong> to 1</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">1) Set <strong>How many times through each tune:</strong> to 1</p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">2) Select your option for silence and/or click intro from the <strong>Before each tune:</strong> dropdown.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">2) Select your option for silence and/or click intro from the <strong>Before each tune:</strong> dropdown.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">2) Select your option for silence and/or click intro from the <strong>Before each tune:</strong> dropdown.</p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">3) Click <strong>OK</strong>.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">3) Click <strong>OK</strong>.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">3) Click <strong>OK</strong>.</p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>For best results when repeating tunes:<strong></p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>For best results when repeating tunes:<strong></p>'
+    html: '<p style="margin-top:16px;" class="modal-text"><strong>For best results when repeating tunes:<strong></p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">For clean repeats, your tunes must not have extraneous pickup or trailing notes and must have proper and complete timing.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">For clean repeats, your tunes must not have extraneous pickup or trailing notes and must have proper and complete timing.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">For clean repeats, your tunes must not have extraneous pickup or trailing notes and must have proper and complete timing.</p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">If there is a repeat at the end of the first part of a tune, either standalone or in a first ending, there must be a matching |: bar at the start of the tune for the tune repeats to work properly.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">If there is a repeat at the end of the first part of a tune, either standalone or in a first ending, there must be a matching |: bar at the start of the tune for the tune repeats to work properly.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">If there is a repeat at the end of the first part of a tune, either standalone or in a first ending, there must be a matching |: bar at the start of the tune for the tune repeats to work properly.</p>'
   }, ];
 
   const modal = DayPilot.Modal.form(form, theData, {
@@ -24404,13 +24460,17 @@ function InjectSectionHeader() {
 		'Inject PDF Tunebook Section Header&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;font-size:12pt;line-height:18pt;">This will inject a PDF section header placeholder tune into the ABC.</p>'
+    // html: '<p style="margin-top:36px;font-size:12pt;line-height:18pt;">This will inject a PDF section header placeholder tune into the ABC.</p>'
+    html: '<p style="margin-top:36px;" class="modal-text">This will inject a PDF section header placeholder tune into the ABC.</p>'
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;">The section header will be displayed on its own line in the PDF Table of Contents and Index.</p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;">The section header will be displayed on its own line in the PDF Table of Contents and Index.</p>'
+    html: '<p class="modal-text">The section header will be displayed on its own line in the PDF Table of Contents and Index.</p>'
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;">Clicking on the section header in the PDF Table of Contents or Index will jump to the section.</p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;">Clicking on the section header in the PDF Table of Contents or Index will jump to the section.</p>'
+    html: '<p class="modal-text">Clicking on the section header in the PDF Table of Contents or Index will jump to the section.</p>'
   }, {
-    html: '<p style="margin-bottom:36px;font-size:12pt;line-height:18pt;">The * at the start of the injected tune title marks the tune as a PDF section header.</p>'
+    // html: '<p style="margin-bottom:36px;font-size:12pt;line-height:18pt;">The * at the start of the injected tune title marks the tune as a PDF section header.</p>'
+    html: '<p style="margin-bottom:36px;" class="modal-text">The * at the start of the injected tune title marks the tune as a PDF section header.</p>'
   }, {
     name: "Section name to inject",
     id: "configure_sectionheader",
@@ -24701,7 +24761,8 @@ function InjectHeaderString() {
 		'Inject ABC Header Text&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:36px;font-size:12pt;line-height:18pt;text-align:center">Clicking "Inject" will inject the text into the header of your ABC tune(s).</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:36px;font-size:12pt;line-height:18pt;text-align:center">Clicking "Inject" will inject the text into the header of your ABC tune(s).</p>'
+    html: '<p style="margin-top:24px;margin-bottom:36px;text-align:center" class="modal-text">Clicking "Inject" will inject the text into the header of your ABC tune(s).</p>'
   }, {
     name: "Header inject location:",
     id: "injectlocation",
@@ -24709,7 +24770,8 @@ function InjectHeaderString() {
     options: inject_location_list,
     cssClass: "configure_injectheaderstring_select"
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;">Header text to inject:</p><textarea id="headers_to_inject" style="font-size:13pt;line-height:16pt;width:578px;height:340px;padding:6px" placeholder="Enter header text to inject here" spellcheck="false" autocorrect="off" autocapitalize="none" oninput="idleHeaderInject()" onkeydown="keydownHeaderInject(event)"></textarea>'
+    // html: '<p style="font-size:12pt;line-height:18pt;">Header text to inject:</p><textarea id="headers_to_inject" style="font-size:13pt;line-height:16pt;width:578px;height:340px;padding:6px" placeholder="Enter header text to inject here" spellcheck="false" autocorrect="off" autocapitalize="none" oninput="idleHeaderInject()" onkeydown="keydownHeaderInject(event)"></textarea>'
+html: '<p class="modal-text">Header text to inject:</p><textarea id="headers_to_inject" style="font-size:13pt;line-height:16pt;width:578px;height:340px;padding:6px" placeholder="Enter header text to inject here" spellcheck="false" autocorrect="off" autocapitalize="none" oninput="idleHeaderInject()" onkeydown="keydownHeaderInject(event)"></textarea>'
   }, {
     name: "          Inject all tunes",
     id: "injectalltunes",
@@ -25017,11 +25079,14 @@ function InjectCustomStringedInstrumentTab() {
 		'Inject Stringed Instrument Tab Annotation&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:20px;margin-bottom:20px;font-size:12pt;line-height:18pt;">This will inject an %abcjs_rendering_params annotation into the ABC tune(s) to generate custom stringed instrument tablature. </p>'
+    // html: '<p style="margin-top:20px;margin-bottom:20px;font-size:12pt;line-height:18pt;">This will inject an %abcjs_rendering_params annotation into the ABC tune(s) to generate custom stringed instrument tablature. </p>'
+    html: '<p style="margin-top:20px;margin-bottom:20px;" class="modal-text">This will inject an %abcjs_rendering_params annotation into the ABC tune(s) to generate custom stringed instrument tablature. </p>'
   }, {
-    html: '<p style="margin-top:20px;margin-bottom:20px;font-size:12pt;line-height:18pt;">Strings are numbered from low to high and use ABC pitch names.</p>'
+    // html: '<p style="margin-top:20px;margin-bottom:20px;font-size:12pt;line-height:18pt;">Strings are numbered from low to high and use ABC pitch names.</p>'
+    html: '<p style="margin-top:20px;margin-bottom:20px;" class="modal-text">Strings are numbered from low to high and use ABC pitch names.</p>'
   }, {
-    html: '<p style="margin-top:20px;margin-bottom:24px;font-size:12pt;line-height:18pt;">Each string must have a different pitch and be higher than the previous one.</p>'
+    // html: '<p style="margin-top:20px;margin-bottom:24px;font-size:12pt;line-height:18pt;">Each string must have a different pitch and be higher than the previous one.</p>'
+    html: '<p style="margin-top:20px;margin-bottom:24px;" class="modal-text">Each string must have a different pitch and be higher than the previous one.</p>'
   }, {
     name: "Label:",
     id: "custom_string_label",
@@ -25442,7 +25507,8 @@ function InjectFontSettings() {
 		'Inject Font Settings&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;text-align:center">Click "Inject" to inject the checked fonts below from your Font Settings into the tunes.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;text-align:center">Click "Inject" to inject the checked fonts below from your Font Settings into the tunes.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:24px;text-align:center" class="modal-text">Click "Inject" to inject the checked fonts below from your Font Settings into the tunes.</p>'
   }, {
     name: "Title font: " + gRenderingFonts.titlefont,
     id: "configure_titlefont",
@@ -25524,7 +25590,8 @@ function InjectFontSettings() {
     type: "checkbox",
     cssClass: "configure_injectfontstring_form_text"
   }, {
-    html: '<p style="margin-top:0px;font-size:12pt;line-height:18pt;text-align:center">&nbsp;</p>'
+    // html: '<p style="margin-top:0px;font-size:12pt;line-height:18pt;text-align:center">&nbsp;</p>'
+    html: '<p style="margin-top:0px;text-align:center" class="modal-text">&nbsp;</p>'
   }, {
     name: "Inject all tunes ",
     id: "configure_injectall",
@@ -25865,7 +25932,8 @@ function NotationSpacingInject() {
     // Force a redraw
     RenderAsync(true, null, function() {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Spacing Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Spacing Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Spacing Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -25937,7 +26005,8 @@ function NotationSpacingInject() {
     // Force a redraw of the tune
     RenderAsync(false, theSelectedTuneIndex, function() {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Spacing Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Spacing Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Spacing Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -26174,9 +26243,11 @@ function NotationSpacingExplorer() {
 
   // Existing row: options + actions
   modal_msg += '<p class="configure_layout_text" style="text-align:center;margin:0px;margin-top:20px">';
-  modal_msg +=   '<span style="font-size:12pt;">Add %%noexpandtowidest:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="layout_inject_noexpand" type="checkbox" onchange="testSpacingChange();"/>';
+  // modal_msg +=   '<span style="font-size:12pt;">Add %%noexpandtowidest:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="layout_inject_noexpand" type="checkbox" onchange="testSpacingChange();"/>';
+  modal_msg +=   '<span class="modal-label">Add %%noexpandtowidest:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="layout_inject_noexpand" type="checkbox" onchange="testSpacingChange();"/>';
   modal_msg +=   '<input id="notationspacingexplorertest" style="margin-right:36px;" class="notationspacingexplorerinject button btn btn-notationspacingexplorertest" type="button" value="Test Values" title="Tests the spacing changes ABC">';
-  modal_msg +=   '<span style="font-size:12pt;">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="layout_inject_all" type="checkbox"/>';
+  // modal_msg +=   '<span style="font-size:12pt;">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="layout_inject_all" type="checkbox"/>';
+  modal_msg +=   '<span class="modal-label">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="layout_inject_all" type="checkbox"/>';
   modal_msg +=   '<input id="notationspacingexplorerinject" class="notationspacingexplorerinject button btn btn-notationspacingexplorerinject" type="button" style="margin-right:0px;" value="Inject Spacing into the ABC" title="Injects the spacing values into the ABC">';
   modal_msg += '</p>';
 
@@ -26819,7 +26890,8 @@ function InjectAllMIDIParams() {
 		'Inject MIDI Soundfont, Melody, Bass, and Chords&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject a %soundfont directive into the ABC:</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject a %soundfont directive into the ABC:</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">This will inject a %soundfont directive into the ABC:</p>'
   }, {
     name: "            Inject MIDI Soundfont",
     id: "configure_inject_soundfont",
@@ -26832,7 +26904,8 @@ function InjectAllMIDIParams() {
     options: sound_fonts_list,
     cssClass: "configure_soundfont_select"
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject a %%MIDI program directive into the ABC:</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject a %%MIDI program directive into the ABC:</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">This will inject a %%MIDI program directive into the ABC:</p>'
   }, {
     name: "            Inject MIDI Melody program",
     id: "configure_inject_melody_program",
@@ -26845,7 +26918,8 @@ function InjectAllMIDIParams() {
     options: midi_program_list,
     cssClass: "configure_midi_program_select"
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject %%MIDI bassprog and %%MIDI bassvol directives into the ABC:</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject %%MIDI bassprog and %%MIDI bassvol directives into the ABC:</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">This will inject %%MIDI bassprog and %%MIDI bassvol directives into the ABC:</p>'
   }, {
     name: "            Inject MIDI Bass program and volumes",
     id: "configure_inject_bass_program",
@@ -26863,7 +26937,8 @@ function InjectAllMIDIParams() {
     type: "text",
     cssClass: "configure_midi_program_form_number_input"
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject %%MIDI chordprog and %%MIDI chordvol directives into the ABC:</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:18pt;">This will inject %%MIDI chordprog and %%MIDI chordvol directives into the ABC:</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">This will inject %%MIDI chordprog and %%MIDI chordvol directives into the ABC:</p>'
   }, {
     name: "            Inject MIDI Chord program and volumes",
     id: "configure_inject_chord_program",
@@ -26881,7 +26956,8 @@ function InjectAllMIDIParams() {
     type: "text",
     cssClass: "configure_midi_program_form_number_input"
   }, {
-    html: '<p style="font-size:14pt;line-height:19pt;margin-bottom:24px;text-align:center;"><a href="https://michaeleskin.com/abctools/general_midi_extended_v10.pdf" target="_blank">General MIDI Instrument Program Numbers</a></p>'
+    // html: '<p style="font-size:14pt;line-height:19pt;margin-bottom:24px;text-align:center;"><a href="https://michaeleskin.com/abctools/general_midi_extended_v10.pdf" target="_blank">General MIDI Instrument Program Numbers</a></p>'
+    html: '<p style="margin-bottom:24px;text-align:center;" class="modal-text-l"><a href="https://michaeleskin.com/abctools/general_midi_extended_v10.pdf" target="_blank">General MIDI Instrument Program Numbers</a></p>'
   }, {
     name: "            Inject all tunes",
     id: "configure_inject_all",
@@ -27396,7 +27472,8 @@ function InjectMetronome() {
 		'Inject Metronome&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This injects a metronome into the ABC using %%MIDI drum and %%MIDI drumon directives.</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This injects a metronome into the ABC using %%MIDI drum and %%MIDI drumon directives.</p>'
+    html: '<p style="margin-top:36px;margin-bottom:36px;" class="modal-text">This injects a metronome into the ABC using %%MIDI drum and %%MIDI drumon directives.</p>'
   }, {
     name: "            Inject metronome into all tunes",
     id: "configure_inject_all",
@@ -27765,9 +27842,12 @@ function ShortenURL(e) {
         // Copy the shortened
         CopyToClipboard(data.data.tiny_url);
 
-        var modal_msg = '<p style="text-align:center;font-size:16pt;">Shortened URL Copied to the Clipboard</p>';
-        modal_msg += '<p style="text-align:center;font-size:14pt;line-height:19pt;">Short URL:</p>';
-        modal_msg += '<p style="text-align:center;font-size:14pt;line-height:19pt;"><a href="' + data.data.tiny_url + '" target="_blank">' + data.data.tiny_url + '</a></p>';
+        // var modal_msg = '<p style="text-align:center;font-size:16pt;">Shortened URL Copied to the Clipboard</p>';
+        var modal_msg = '<p class="modal-alert-msg">Shortened URL Copied to the Clipboard</p>';
+        // modal_msg += '<p style="text-align:center;font-size:14pt;line-height:19pt;">Short URL:</p>';
+        modal_msg += '<p class="modal-alert-msg">Short URL:</p>';
+        // modal_msg += '<p style="text-align:center;font-size:14pt;line-height:19pt;"><a href="' + data.data.tiny_url + '" target="_blank">' + data.data.tiny_url + '</a></p>';
+        modal_msg += '<p class="modal-alert-msg"><a href="' + data.data.tiny_url + '" target="_blank">' + data.data.tiny_url + '</a></p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -29176,10 +29256,14 @@ async function processShareLink() {
 
       if (warnRecorder) {
 
-        var modal_msg = '<p style="text-align:center;font-size:16pt;line-height:24pt;">Recorder tablature is not available in Safari or on iOS</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:14pt;margin-top:32px;">Recorder tablature is supported on desktop Chrome and Firefox</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:14pt;margin-top:24px;">Whistle tablature will be used instead on Safari and iOS</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:14pt;margin-top:12px;">&nbsp;</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:16pt;line-height:24pt;">Recorder tablature is not available in Safari or on iOS</p>';
+        var modal_msg = '<p class="modal-title">Recorder tablature is not available in Safari or on iOS</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:14pt;margin-top:32px;">Recorder tablature is supported on desktop Chrome and Firefox</p>';
+        modal_msg += '<p style="margin-top:32px;" class="modal-text-l">Recorder tablature is supported on desktop Chrome and Firefox</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:14pt;margin-top:24px;">Whistle tablature will be used instead on Safari and iOS</p>';
+        modal_msg += '<p style="margin-top:24px;" class="modal-text-l">Whistle tablature will be used instead on Safari and iOS</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:14pt;margin-top:12px;">&nbsp;</p>';
+        modal_msg += '<p style="margin-top:12px;" class="modal-text-l">&nbsp;</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -30754,15 +30838,20 @@ function InjectBagpipeSounds() {
 		'Inject Bagpipe Sounds' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">Clicking "Inject" will change the melody sound to the selected bagpipe instrument and optionally inject drones as a second voice of the tune(s).</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">Clicking "Inject" will change the melody sound to the selected bagpipe instrument and optionally inject drones as a second voice of the tune(s).</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">Clicking "Inject" will change the melody sound to the selected bagpipe instrument and optionally inject drones as a second voice of the tune(s).</p>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">Bagpipe tunes imported from a BWW files assume the drones are consonant with the note A in the ABC notation for all styles of injected bagpipes.</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">Bagpipe tunes imported from a BWW files assume the drones are consonant with the note A in the ABC notation for all styles of injected bagpipes.</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">Bagpipe tunes imported from a BWW files assume the drones are consonant with the note A in the ABC notation for all styles of injected bagpipes.</p>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">For all other tunes, the Great Highland Bagpipe, Border Pipes, and Smallpipes drones are consonant with the note A in the ABC notation and the Säckpipa, and Uilleann Pipes drones are consonant with the note D in the ABC notation.</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">For all other tunes, the Great Highland Bagpipe, Border Pipes, and Smallpipes drones are consonant with the note A in the ABC notation and the Säckpipa, and Uilleann Pipes drones are consonant with the note D in the ABC notation.</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">For all other tunes, the Great Highland Bagpipe, Border Pipes, and Smallpipes drones are consonant with the note A in the ABC notation and the Säckpipa, and Uilleann Pipes drones are consonant with the note D in the ABC notation.</p>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">In these cases, you may need to transpose your tunes before using this feature to sound best with the drones, for example transposing a D Mixolydian tune to A Mixolydian or the inverse.</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">In these cases, you may need to transpose your tunes before using this feature to sound best with the drones, for example transposing a D Mixolydian tune to A Mixolydian or the inverse.</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">In these cases, you may need to transpose your tunes before using this feature to sound best with the drones, for example transposing a D Mixolydian tune to A Mixolydian or the inverse.</p>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">Tunes previously injected with drones will be skipped.</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:18px;font-size:12pt;line-height:16pt;">Tunes previously injected with drones will be skipped.</p>'
+    html: '<p style="margin-top:18px;margin-bottom:18px;" class="modal-text">Tunes previously injected with drones will be skipped.</p>'
   }, {
     name: "Bagpipe style to inject:",
     id: "dronestyle",
@@ -30775,7 +30864,8 @@ function InjectBagpipeSounds() {
     type: "checkbox",
     cssClass: "configure_injectdrones_form_text"
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:12pt;">Note: Smallpipes and Säckpipa always fold played notes into the chanter range.</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:12px;font-size:12pt;line-height:12pt;">Note: Smallpipes and Säckpipa always fold played notes into the chanter range.</p>'
+    html: '<p style="margin-top:18px;margin-bottom:12px;" class="modal-text modal-text-tight">Note: Smallpipes and Säckpipa always fold played notes into the chanter range.</p>'
   }, {
     name: "          Inject drones",
     id: "injectdronevoice",
@@ -30867,7 +30957,8 @@ function InjectBagpipeSounds() {
             // Force a raw mode visual refresh
             gRawLastIndex = -1;
 
-            var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+            // var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+            var modal_msg = '<p class="modal-alert-msg">Inject Bagpipe Sounds Complete!</p>';
 
             DayPilot.Modal.alert(modal_msg, {
               theme: "modal_flat",
@@ -30900,7 +30991,8 @@ function InjectBagpipeSounds() {
 
         } else {
 
-          var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+          // var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+          var modal_msg = '<p class="modal-alert-msg">Inject Bagpipe Sounds Complete!</p>';
 
           DayPilot.Modal.alert(modal_msg, {
             theme: "modal_flat",
@@ -30952,7 +31044,8 @@ function InjectBagpipeSounds() {
             // Force a raw mode visual refresh
             gRawLastIndex = -1;
 
-            var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+            // var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+            var modal_msg = '<p class="modal-alert-msg">Inject Bagpipe Sounds Complete!</p>';
 
             DayPilot.Modal.alert(modal_msg, {
               theme: "modal_flat",
@@ -30995,7 +31088,8 @@ function InjectBagpipeSounds() {
 
         } else {
 
-          var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+          // var modal_msg = '<p style="text-align:center;font-size:14pt;">Inject Bagpipe Sounds Complete!</p>';
+          var modal_msg = '<p class="modal-alert-msg">Inject Bagpipe Sounds Complete!</p>';
 
           DayPilot.Modal.alert(modal_msg, {
             theme: "modal_flat",
@@ -31107,11 +31201,14 @@ function IncipitsBuilderDialog() {
 		'Notes Incipits Builder&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;">Clicking "Build" will extensively reformat the ABC, so you may want to grab a Snapshot or save the ABC before using this feature.</p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;">Clicking "Build" will extensively reformat the ABC, so you may want to grab a Snapshot or save the ABC before using this feature.</p>'
+    html: '<p class="modal-text">Clicking "Build" will extensively reformat the ABC, so you may want to grab a Snapshot or save the ABC before using this feature.</p>'
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;margin-bottom:24px;">The reformatted ABC can be exported as first-line Notes Incipits from the Export PDF dialog.</p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;margin-bottom:24px;">The reformatted ABC can be exported as first-line Notes Incipits from the Export PDF dialog.</p>'
+    html: '<p style="margin-bottom:24px;" class="modal-text">The reformatted ABC can be exported as first-line Notes Incipits from the Export PDF dialog.</p>'
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;margin-bottom:24px;"><strong>Note:</strong> When generating multi-part incipits the staff width is not used.</p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;margin-bottom:24px;"><strong>Note:</strong> When generating multi-part incipits the staff width is not used.</p>'
+    html: '<p style="margin-bottom:24px;" class="modal-text"><strong>Note:</strong> When generating multi-part incipits the staff width is not used.</p>'
   }, {
     name: "    Create multi-part incipits (Part A, Part B, etc.)",
     id: "IncipitsBuilderMultiPart",
@@ -32004,7 +32101,8 @@ function EditCustomHarmonica() {
 		'Edit Custom Harmonica Tuning Tab&nbsp;&nbsp;' +
 		'</h2>';
   modal_msg += '<div id="harmonica-custom-dialog">';
-  modal_msg += '<p style="font-size:12pt;"">Custom tuning name:<input class="harmonicacustomlabel" type="text" id="r0c1" onchange="customHarmonicaChangeHandler()"><p>\n';
+  // modal_msg += '<p style="font-size:12pt;"">Custom tuning name:<input class="harmonicacustomlabel" type="text" id="r0c1" onchange="customHarmonicaChangeHandler()"><p>\n';
+  modal_msg += '<p class="modal-text">Custom tuning name:<input class="harmonicacustomlabel" type="text" id="r0c1" onchange="customHarmonicaChangeHandler()"><p>\n';
   modal_msg += '<table style="margin-bottom:24px;text-align:center;">\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 1:</td>\n';
@@ -32041,7 +32139,7 @@ function EditCustomHarmonica() {
   modal_msg += '<td><input class="harmonicacustomnames" type="text" id="r1c12" onchange="customHarmonicaChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 2:</td>\n';
@@ -32078,7 +32176,7 @@ function EditCustomHarmonica() {
   modal_msg += '<td><input class="harmonicacustomnames" type="text" id="r2c12" onchange="customHarmonicaChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 3:</td>\n';
   modal_msg += '</tr>\n';
@@ -32114,7 +32212,7 @@ function EditCustomHarmonica() {
   modal_msg += '<td><input class="harmonicacustomnames" type="text" id="r3c12" onchange="customHarmonicaChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 4:</td>\n';
@@ -32151,7 +32249,7 @@ function EditCustomHarmonica() {
   modal_msg += '<td><input class="harmonicacustomnames" type="text" id="r4c12" onchange="customHarmonicaChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 5:</td>\n';
@@ -32395,7 +32493,8 @@ function DoInjectHarmonicaTab() {
 		'Inject Diatonic Harmonica Tablature&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject tablature for a 10-hole diatonic harmonica in the harmonica tuning and key selected below into all of the tunes in the ABC text area:</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject tablature for a 10-hole diatonic harmonica in the harmonica tuning and key selected below into all of the tunes in the ABC text area:</p>'
+    html: '<p style="margin-top:36px;margin-bottom:36px;" class="modal-text">This will inject tablature for a 10-hole diatonic harmonica in the harmonica tuning and key selected below into all of the tunes in the ABC text area:</p>'
   }, {
     name: "Harmonica tuning:",
     id: "configure_harmonica_tuning",
@@ -32430,7 +32529,8 @@ function DoInjectHarmonicaTab() {
     type: "checkbox",
     cssClass: "configure_harmonica_settings_form_text2"
   }, {
-    html: '<p style="text-align: center; font-size:4pt;">&nbsp;</p>'
+    // html: '<p style="text-align: center; font-size:4pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-4pt" style="text-align:center;"></div>'
   }, {
     html: '<p style="text-align:center;margin-top:18px;"><input id="configure_harmonica_custom" class="btn btn-subdialog configure_harmonica_custom" onclick="EditCustomHarmonica()" type="button" value="Edit Custom Harmonica Tuning Tab" title="Edit the custom harmonica tuning tab symbols for each scale note"></p>'
   }, {
@@ -32821,7 +32921,8 @@ function EditCustomTab() {
 		'Edit Custom Tablature Note Names&nbsp;&nbsp;' +
 		'</h2>';
   modal_msg += '<div id="tab-custom-dialog">';
-  modal_msg += '<p style="font-size:12pt;"">Custom tab name:<input class="customtablabel" type="text" id="r0c1" onchange="customTabChangeHandler()"><p>\n';
+  // modal_msg += '<p style="font-size:12pt;"">Custom tab name:<input class="customtablabel" type="text" id="r0c1" onchange="customTabChangeHandler()"><p>\n';
+  modal_msg += '<p class="modal-text">Custom tab name:<input class="customtablabel" type="text" id="r0c1" onchange="customTabChangeHandler()"><p>\n';
   modal_msg += '<table style="margin-bottom:24px;text-align:center;">\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 1:</td>\n';
@@ -32858,7 +32959,7 @@ function EditCustomTab() {
   modal_msg += '<td><input class="customtabnames" type="text" id="r1c12" onchange="customTabChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 2:</td>\n';
@@ -32895,7 +32996,7 @@ function EditCustomTab() {
   modal_msg += '<td><input class="customtabnames" type="text" id="r2c12" onchange="customTabChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 3:</td>\n';
   modal_msg += '</tr>\n';
@@ -32931,7 +33032,7 @@ function EditCustomTab() {
   modal_msg += '<td><input class="customtabnames" type="text" id="r3c12" onchange="customTabChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 4:</td>\n';
@@ -32968,7 +33069,7 @@ function EditCustomTab() {
   modal_msg += '<td><input class="customtabnames" type="text" id="r4c12" onchange="customTabChangeHandler()"></td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
-  modal_msg += '<td style="text-align: center; font-size:11pt;">&nbsp;</td>\n';
+  modal_msg += '<td style="text-align: center;" class="modal-spacer-11pt">&nbsp;</td>\n';
   modal_msg += '</tr>\n';
   modal_msg += '<tr>\n'
   modal_msg += '<td colspan="3" class="modal-table-row-octavelabel">Octave 5:</td>\n';
@@ -33199,9 +33300,11 @@ function DoInjectCustomTab() {
 		'Inject Custom Tablature&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject custom tablature offset by the octave and semitone values selected below into all of the tunes in the ABC text area:</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject custom tablature offset by the octave and semitone values selected below into all of the tunes in the ABC text area:</p>'
+    html: '<p style="margin-top:36px;margin-bottom:36px;" class="modal-text">This will inject custom tablature offset by the octave and semitone values selected below into all of the tunes in the ABC text area:</p>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:42px;font-size:12pt;line-height:18pt;">Currently loaded custom tab:&nbsp;&nbsp;<span id="currentCustomTab">' + gCustomTab.name + '</span></p>'
+    // html: '<p style="margin-top:24px;margin-bottom:42px;font-size:12pt;line-height:18pt;">Currently loaded custom tab:&nbsp;&nbsp;<span id="currentCustomTab">' + gCustomTab.name + '</span></p>'
+    html: '<p style="margin-top:24px;margin-bottom:42px;" class="modal-text">Currently loaded custom tab:&nbsp;&nbsp;<span id="currentCustomTab">' + gCustomTab.name + '</span></p>'
   }, {
     name: "Octave shift:",
     id: "configure_custom_tab_octave",
@@ -33215,7 +33318,8 @@ function DoInjectCustomTab() {
     options: custom_tab_keys,
     cssClass: "configure_custom_tab_select"
   }, {
-    html: '<p style="text-align: center; font-size:4pt;">&nbsp;</p>'
+    // html: '<p style="text-align: center; font-size:4pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-4pt" style="text-align:center;"></div>'
   }, {
     html: '<p style="text-align:center;margin-top:18px;"><input id="configure_custom_tab" class="btn btn-subdialog configure_custom_tab" onclick="EditCustomTab()" type="button" value="Edit Custom Tablature Note Names" title="Edit the custom tab symbols for each scale note"></p>'
   }, {
@@ -33508,13 +33612,17 @@ function DoInjectTablature_Anglo() {
     options: concertina_fingerings,
     cssClass: "configure_tab_settings_select"
   }, {
-    html: '<p style="margin-top:24px;font-size:12pt;line-height:12pt;">Fingering solutions referenced to C/G tuning:</p>'
+    // html: '<p style="margin-top:24px;font-size:12pt;line-height:12pt;">Fingering solutions referenced to C/G tuning:</p>'
+    html: '<p style="margin-top:24px;" class="modal-text modal-text-tight">Fingering solutions referenced to C/G tuning:</p>'
   }, {
-    html: '<p style="margin-top:12px;font-size:12pt;line-height:12pt;">On-Row: Favors D5 and E5 on right-side C-row.</p>'
+    // html: '<p style="margin-top:12px;font-size:12pt;line-height:12pt;">On-Row: Favors D5 and E5 on right-side C-row.</p>'
+    html: '<p style="margin-top:12px;" class="modal-text modal-text-tight">On-Row: Favors D5 and E5 on right-side C-row.</p>'
   }, {
-    html: '<p style="margin-top:12px;font-size:12pt;line-height:12pt;">Cross-Row: Favors D5 and E5 on the left-side G-row.</p>'
+    // html: '<p style="margin-top:12px;font-size:12pt;line-height:12pt;">Cross-Row: Favors D5 and E5 on the left-side G-row.</p>'
+    html: '<p style="margin-top:12px;" class="modal-text modal-text-tight">Cross-Row: Favors D5 and E5 on the left-side G-row.</p>'
   }, {
-    html: '<p style="margin-top:12px;margin-bottom:24px;font-size:12pt;line-height:12pt;">Favors C5 on the left-side G-row draw, B4 on the right-side C-row draw.</p>'
+    // html: '<p style="margin-top:12px;margin-bottom:24px;font-size:12pt;line-height:12pt;">Favors C5 on the left-side G-row draw, B4 on the right-side C-row draw.</p>'
+    html: '<p style="margin-top:12px;margin-bottom:24px;" class="modal-text modal-text-tight">Favors C5 on the left-side G-row draw, B4 on the right-side C-row draw.</p>'
   }, {
     name: "    Gary Coover style tab (single notes only, overrides button name and direction settings)",
     id: "configure_gary_coover",
@@ -33788,7 +33896,8 @@ function DoInjectTablature_Bamboo_Flute() {
       'Inject Bamboo Flute Tablature&nbsp;&nbsp;' +
       '</h2>'
     }, {
-      html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject numeric notation tablature for a bamboo flute in the key selected below into all of the tunes in the ABC text area:</p>'
+      // html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject numeric notation tablature for a bamboo flute in the key selected below into all of the tunes in the ABC text area:</p>'
+      html: '<p style="margin-top:36px;margin-bottom:36px;" class="modal-text">This will inject numeric notation tablature for a bamboo flute in the key selected below into all of the tunes in the ABC text area:</p>'
     }, {
       name: "Bamboo flute key:",
       id: "configure_bamboo_flute_key",
@@ -33949,14 +34058,17 @@ function ShowMDTabWarningDialog() {
   // Keep track of dialogs
   sendGoogleAnalytics("dialog", "ShowMDTabWarningDialog");
 
-  var modal_msg = '<div id="mdsomebadtunes"><p style="text-align:center;font-size:18pt;">Some Tunes Did Not Have Complete Tab Solutions</p>';
+  // var modal_msg = '<div id="mdsomebadtunes"><p style="text-align:center;font-size:18pt;">Some Tunes Did Not Have Complete Tab Solutions</p>';
+  var modal_msg = '<div id="mdsomebadtunes"><p class="modal-title">Some Tunes Did Not Have Complete Tab Solutions</p>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During the tablature generation the following tunes did not have complete tablature solutions and as requested were excluded from the result:</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">During the tablature generation the following tunes did not have complete tablature solutions and as requested were excluded from the result:</p>';
+  modal_msg += '<p style="margin-top:36px;" class="modal-text">During the tablature generation the following tunes did not have complete tablature solutions and as requested were excluded from the result:</p>';
 
 
   var nBadTunes = gExcludedFromMDSolution.length;
 
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;">'
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;">'
+  modal_msg += '<p class="modal-text">'
 
   for (var i = 0; i < nBadTunes - 1; ++i) {
     modal_msg += gExcludedFromMDSolution[i] + ', ';
@@ -34030,7 +34142,8 @@ function DoInjectTablature_MD() {
       'Inject Mountain Dulcimer Tablature&nbsp;&nbsp;' +
       '</h2>'
     }, {
-      html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject tablature for a DAD, DGD, or DAA-tuned Mountain Dulcimer in the style selected below into all of the tunes in the ABC text area:</p>'
+      // html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject tablature for a DAD, DGD, or DAA-tuned Mountain Dulcimer in the style selected below into all of the tunes in the ABC text area:</p>'
+      html: '<p style="margin-top:36px;margin-bottom:36px;" class="modal-text">This will inject tablature for a DAD, DGD, or DAA-tuned Mountain Dulcimer in the style selected below into all of the tunes in the ABC text area:</p>'
     }, {
       name: "Style:",
       id: "configure_dulcimer_style",
@@ -34188,7 +34301,8 @@ function DoInjectTablature_ShapeNotes() {
 		'Inject Note Names&nbsp;/&nbsp;Shape Note&nbsp;/&nbsp;Solfège' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will inject Pitch Names, ABC Note Names (Standard ABC or Comhaltas ABC), Shape Note shapes, or Solfège note names into all the tunes in the ABC text area.</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will inject Pitch Names, ABC Note Names (Standard ABC or Comhaltas ABC), Shape Note shapes, or Solfège note names into all the tunes in the ABC text area.</p>'
+    html: '<p style="margin-top:36px;margin-bottom:24px;" class="modal-text">This will inject Pitch Names, ABC Note Names (Standard ABC or Comhaltas ABC), Shape Note shapes, or Solfège note names into all the tunes in the ABC text area.</p>'
   }, {
     name: "Style to inject:",
     id: "shape_note_style",
@@ -34993,7 +35107,8 @@ function ExportAll() {
   // -------------------------------------------------------------------
   modal_msg += '    <div id="exportall-tab-audio" class="adv-tab-panel' + (initialTab === "exportall-tab-audio" ? ' active' : '') + '">';
   //modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:18px;">Export All Tunes as Audio/MIDI</p>';
-  modal_msg += '      <p style="text-align:center;font-size:18pt;">';
+  // modal_msg += '      <p style="text-align:center;font-size:18pt;">';
+  modal_msg += '      <p class="modal-title">';
   modal_msg += '        <input id="exportall_mp3button" class="exportall_mp3button btn btn-allmp3download" onclick="BatchMP3Export();" type="button" value="Export all as MP3 Audio" title="Saves the audio for all the tunes as .MP3 files">';
   modal_msg += '        <input id="exportall_midibutton" class="exportall_midibutton btn btn-allmididownload" onclick="BatchMIDIExport();" type="button" value="Export all as MIDI" title="Saves the MIDI file for all the tunes">';
   modal_msg += '      </p>';
@@ -35004,7 +35119,8 @@ function ExportAll() {
   // -------------------------------------------------------------------
   modal_msg += '    <div id="exportall-tab-image" class="adv-tab-panel' + (initialTab === "exportall-tab-image" ? ' active' : '') + '">';
   //modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:18px;">Export All Tunes as Images</p>';
-  modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  // modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  modal_msg += '      <p class="modal-label-l">';
   modal_msg += '        <input id="exportall_jpegbutton" class="exportall_jpegbutton btn btn-alljpegdownload" onclick="BatchJPEGExport();" type="button" value="Export all as JPEG" title="Saves the images for all the tunes as bitmap JPEG files">';
   modal_msg += '        <input id="exportall_pngbutton" class="exportall_pngbutton btn btn-allpngdownload" onclick="BatchPNGExport();" type="button" value="Export all as PNG" title="Saves the images for all the tunes as bitmap PNG files">';
   modal_msg += '        <input id="exportall_svgbutton" class="exportall_svgbutton btn btn-allsvgdownload" onclick="BatchSVGExport();" type="button" value="Export all as SVG" title="Saves the images for all the tunes as vector format SVG files">';
@@ -35019,7 +35135,8 @@ function ExportAll() {
   // -------------------------------------------------------------------
   modal_msg += '    <div id="exportall-tab-abcmxl" class="adv-tab-panel' + (initialTab === "exportall-tab-abcmxl" ? ' active' : '') + '">';
   //modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:18px;">Export All Tunes as ABC or MusicXML</p>';
-  modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  // modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  modal_msg += '      <p class="modal-label-l">';
   modal_msg += '        <input id="exportall_abcbutton" class="exportall_abcbutton btn btn-allabcdownload" onclick="BatchABCExport();" type="button" value="Export all Tunes as ABC" title="Saves each tune in its own ABC file">';
   modal_msg += '        <input id="exportall_musicxmlbutton" class="exportall_musicxmlbutton btn btn-allmusicxmldownload" onclick="BatchMusicXMLExport();" type="button" value="Export all Tunes as MusicXML" title="Saves each tune in its own MusicXML file">';
   modal_msg += '      </p>';
@@ -35030,7 +35147,8 @@ function ExportAll() {
   // -------------------------------------------------------------------
   modal_msg += '    <div id="exportall-tab-titles" class="adv-tab-panel' + (initialTab === "exportall-tab-titles" ? ' active' : '') + '">';
   //modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:18px;">Export All Tunes Titles</p>';
-  modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  // modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  modal_msg += '      <p class="modal-label-l">';
   modal_msg += '        <input id="export_tunetitlesbutton" class="export_tunetitlesbutton btn btn-exporttunetitles" onclick="ExportAllTuneTitles();" type="button" value="Export All Tune Titles" title="Saves a text file with all the tune titles">';
   modal_msg += '      </p>';
   modal_msg += '    </div>';
@@ -35039,14 +35157,17 @@ function ExportAll() {
   // Developer Tools tab
   // -------------------------------------------------------------------
   modal_msg += '    <div id="exportall-tab-dev" class="adv-tab-panel' + (initialTab === "exportall-tab-dev" ? ' active' : '') + '">';
-  modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  // modal_msg += '      <p style="text-align:center;font-size:14pt;">';
+  modal_msg += '      <p class="modal-label-l">';
   modal_msg += '        <input id="exportall_jsonbutton" class="exportall_jsonbutton btn btn-alljsondownload" onclick="BatchJSONExport();" type="button" value="Export all Share URLs as JSON" title="Saves the Share URLs for all the tunes as a JSON file">';
   modal_msg += '        <input id="exportall_csvbutton" class="exportall_csvbutton btn btn-allcsvdownload" onclick="BatchCSVExport();" type="button" value="Export all Share URLs as CSV" title="Saves the Share URLs for all the tunes as a CSV file">';
   modal_msg += '      </p>';
-  modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:24px;">';
+  // modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:24px;">';
+  modal_msg += '      <p style="margin-top:24px;" class="modal-label-l">';
   modal_msg += '        <input id="launchcsvextractor" class="launchcsvextractor btn btn-launchcsvextractor" onclick="LaunchCSVTagExtractor();" type="button" value="Launch the ABC Tags to CSV Extractor Utility" title="Extract all ABC tags from one or more ABC files to a CSV file">';
   modal_msg += '      </p>';
-  modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:24px;">';
+  // modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:24px;">';
+  modal_msg += '      <p style="margin-top:24px;" class="modal-label-l">';
   modal_msg += '        <input id="export_smartdrawbutton" class="export_smartdrawbutton btn btn-smartdraw" onclick="SmartDrawExport();" type="button" value="SmartDraw Set List Builder" title="Build a SmartDraw set list using drag and drop">';
   modal_msg += '      </p>';
   modal_msg += '    </div>';
@@ -35481,9 +35602,11 @@ function BatchMusicXMLRoundTrip() {
 		'Reformat Using MusicXML&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Click OK to reformat either the current tune or all the tunes in the ABC by exporting the tune(s) in MusicXML format and then re-import them using the current MusicXML import settings.</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Click OK to reformat either the current tune or all the tunes in the ABC by exporting the tune(s) in MusicXML format and then re-import them using the current MusicXML import settings.</p>'
+    html: '<p style="margin-top:36px;margin-bottom:12px;" class="modal-text">Click OK to reformat either the current tune or all the tunes in the ABC by exporting the tune(s) in MusicXML format and then re-import them using the current MusicXML import settings.</p>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">This can be useful for cleaning up notation formatting issues or changing the number of measures per stave.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">This can be useful for cleaning up notation formatting issues or changing the number of measures per stave.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:12px;" class="modal-text">This can be useful for cleaning up notation formatting issues or changing the number of measures per stave.</p>'
   }, {
     html: '<p style="text-align:center;margin-top:32px;"><input style="margin-left:0px" id="configure_musicxml_import" class="btn btn-subdialog configure_musicxml_import" onclick="ConfigureMusicXMLImport()" type="button" value="MusicXML/MIDI Import Settings" title="Configure MusicXML/MIDI import settings"></p>'
   }, {
@@ -36798,11 +36921,14 @@ function BatchMP3Export() {
 		'Export All Tunes as MP3&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will export all the tunes in the ABC area as .MP3 files with one or more repeats.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will export all the tunes in the ABC area as .MP3 files with one or more repeats.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:24px;" class="modal-text">This will export all the tunes in the ABC area as .MP3 files with one or more repeats.</p>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">You may optionally set the playback speed as a percentage of the original.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">You may optionally set the playback speed as a percentage of the original.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:24px;" class="modal-text">You may optionally set the playback speed as a percentage of the original.</p>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">You may also optionally inject two bars of silence and/or a click intro before each tune.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">You may also optionally inject two bars of silence and/or a click intro before each tune.</p>'
+    html: '<p style="margin-top:24px;margin-bottom:24px;" class="modal-text">You may also optionally inject two bars of silence and/or a click intro before each tune.</p>'
   }, {
     name: "Playback speed (percentage, default is 100):",
     id: "configure_percent_speed",
@@ -36825,15 +36951,20 @@ function BatchMP3Export() {
     options: before_tune_actions,
     cssClass: "configure_mp3_before_tune_select"
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>To append two-bars of silence and/or a click intro before each tune:</strong></p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>To append two-bars of silence and/or a click intro before each tune:</strong></p>'
+    html: '<p style="margin-top:16px;" class="modal-text"><strong>To append two-bars of silence and/or a click intro before each tune:</strong></p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">Select your option for silence and/or click intro from the <strong>Before each tune:</strong> dropdown.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">Select your option for silence and/or click intro from the <strong>Before each tune:</strong> dropdown.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">Select your option for silence and/or click intro from the <strong>Before each tune:</strong> dropdown.</p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>For best results with repeated tunes:</strong></p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;"><strong>For best results with repeated tunes:</strong></p>'
+    html: '<p style="margin-top:16px;" class="modal-text"><strong>For best results with repeated tunes:</strong></p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">For clean repeats, your tunes must not have extraneous pickup or trailing notes and must have proper and complete timing.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">For clean repeats, your tunes must not have extraneous pickup or trailing notes and must have proper and complete timing.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">For clean repeats, your tunes must not have extraneous pickup or trailing notes and must have proper and complete timing.</p>'
   }, {
-    html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">If there is a repeat at the end of the first part of a tune, either standalone or in a first ending, there must be a matching |: bar at the start of the tune for the tune repeats to work properly.</p>'
+    // html: '<p style="margin-top:16px;font-size:12pt;line-height:18pt;">If there is a repeat at the end of the first part of a tune, either standalone or in a first ending, there must be a matching |: bar at the start of the tune for the tune repeats to work properly.</p>'
+    html: '<p style="margin-top:16px;" class="modal-text">If there is a repeat at the end of the first part of a tune, either standalone or in a first ending, there must be a matching |: bar at the start of the tune for the tune repeats to work properly.</p>'
   }, ];
 
   const modal = DayPilot.Modal.form(form, theData, {
@@ -37358,28 +37489,35 @@ function ExportAudioOrImage() {
   modal_msg += '<h2 class="modal-header">Export Media</h2>';
 
   if (gPlayABCTuneCount > 1) {
-    modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:32px;">Export Single Tune Audio</p>';
+    // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:32px;">Export Single Tune Audio</p>';
+    modal_msg += '<p class="modal-label-l">Export Single Tune Audio</p>';
   } else {
-    modal_msg += '<p style="text-align:center;font-size:14pt;">Export Tune Audio</p>';
+    // modal_msg += '<p style="text-align:center;font-size:14pt;">Export Tune Audio</p>';
+    modal_msg += '<p class="modal-label-l">Export Tune Audio</p>';
   }
 
-  modal_msg += '<p style="text-align:center;font-size:20pt;">';
+  // modal_msg += '<p style="text-align:center;font-size:20pt;">';
+  modal_msg += '<p class="modal-title-l">';
   modal_msg += '<input id="abcplayer_wavbutton" class="abcplayer_wavbutton btn btn-wavedownload" onclick="DownloadWave();" type="button" value="Export as WAV File" title="Exports the audio for the current tune as a .WAV file">'
   modal_msg += '<input id="abcplayer_mp3button" class="abcplayer_mp3button btn btn-mp3download" onclick="DownloadMP3();" type="button" value="Export as MP3 File" title="Exports the audio for the current tune as a .MP3 file">'
   modal_msg += '<input id="abcplayer_midibutton" class="abcplayer_midibutton btn btn-mididownload" onclick="DownloadMIDI();" type="button" value="Export as MIDI File" title="Exports the current tune note events as a MIDI file">'
   modal_msg += '</p>';
 
-  modal_msg += '<p style="text-align:center;font-size:20pt;">';
+  // modal_msg += '<p style="text-align:center;font-size:20pt;">';
+  modal_msg += '<p class="modal-title-l">';
   modal_msg += '<input id="abcplayer_wavreverbbutton" class="abcplayer_wavreverbbutton btn btn-wavereverbdownload" onclick="DownloadWaveWithReverb();" type="button" value="Export as WAV File with Reverb" title="Exports the audio for the current tune as a .WAV file including reverb"><input id="abcplayer_mp3reverbbutton" class="abcplayer_mp3reverbbutton btn btn-mp3reverbdownload" onclick="DownloadMP3WithReverb();" type="button" value="Export as MP3 File with Reverb" title="Exports the audio for the current tune as a .MP3 file including reverb">'
   modal_msg += '</p>';
 
   if (gPlayABCTuneCount > 1) {
-    modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export Single Tune Image</p>';
+    // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export Single Tune Image</p>';
+    modal_msg += '<p style="margin-top:24px;" class="modal-label-l">Export Single Tune Image</p>';
   } else {
-    modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export Tune Image</p>';
+    // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export Tune Image</p>';
+    modal_msg += '<p style="margin-top:24px;" class="modal-label-l">Export Tune Image</p>';
   }
 
-  modal_msg += '<p style="text-align:center;font-size:20pt;"><input id="abcplayer_jpgbutton" class="abcplayer_jpgbutton btn btn-jpgdownload" onclick="DownloadJPEG();" type="button" value="Export as JPEG File" title="Exports the current tune image as a JPEG file">'
+  // modal_msg += '<p style="text-align:center;font-size:20pt;"><input id="abcplayer_jpgbutton" class="abcplayer_jpgbutton btn btn-jpgdownload" onclick="DownloadJPEG();" type="button" value="Export as JPEG File" title="Exports the current tune image as a JPEG file">'
+  modal_msg += '<p class="modal-title-l"><input id="abcplayer_jpgbutton" class="abcplayer_jpgbutton btn btn-jpgdownload" onclick="DownloadJPEG();" type="button" value="Export as JPEG File" title="Exports the current tune image as a JPEG file">'
   modal_msg += '<input id="abcplayer_pngbutton" class="abcplayer_pngbutton btn btn-pngdownload" onclick="DownloadPNG();" type="button" value="Export as PNG File" title="Exports the current tune image as a PNG file">'
   modal_msg += '<input id="abcplayer_svgbutton" class="abcplayer_svgbutton btn btn-svgdownload" onclick="DownloadSVG();" type="button" value="Export as SVG File" title="Exports the current tune image as a SVG file">'
   modal_msg += '</p>';
@@ -37390,11 +37528,15 @@ function ExportAudioOrImage() {
   if (!gIsQuickEditor) {
 
     if (gPlayABCTuneCount > 1) {
-      modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export All Tunes as PDF File</p>';
-      modal_msg += '<p style="text-align:center;font-size:20pt;"><input id="abcplayer_pdfbutton" class="abcplayer_pdfbutton btn btn-pdfdownload" onclick="PDFExportDialog();" type="button" value="Export All Tunes as PDF File" title="Exports all the tunes as a PDF file"></p>'
+      // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export All Tunes as PDF File</p>';
+      modal_msg += '<p style="margin-top:24px;" class="modal-label-l">Export All Tunes as PDF File</p>';
+      // modal_msg += '<p style="text-align:center;font-size:20pt;"><input id="abcplayer_pdfbutton" class="abcplayer_pdfbutton btn btn-pdfdownload" onclick="PDFExportDialog();" type="button" value="Export All Tunes as PDF File" title="Exports all the tunes as a PDF file"></p>'
+      modal_msg += '<p class="modal-title-l"><input id="abcplayer_pdfbutton" class="abcplayer_pdfbutton btn btn-pdfdownload" onclick="PDFExportDialog();" type="button" value="Export All Tunes as PDF File" title="Exports all the tunes as a PDF file"></p>'
     } else {
-      modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export Tune as PDF File</p>';
-      modal_msg += '<p style="text-align:center;font-size:20pt;"><input id="abcplayer_pdfbutton" class="abcplayer_pdfbutton btn btn-pdfdownload" onclick="PDFExportDialog();" type="button" value="Export Tune as PDF File" title="Exports this tune as a PDF file"></p>'
+      // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:24px;">Export Tune as PDF File</p>';
+      modal_msg += '<p style="margin-top:24px;" class="modal-label-l">Export Tune as PDF File</p>';
+      // modal_msg += '<p style="text-align:center;font-size:20pt;"><input id="abcplayer_pdfbutton" class="abcplayer_pdfbutton btn btn-pdfdownload" onclick="PDFExportDialog();" type="button" value="Export Tune as PDF File" title="Exports this tune as a PDF file"></p>'
+      modal_msg += '<p class="modal-title-l"><input id="abcplayer_pdfbutton" class="abcplayer_pdfbutton btn btn-pdfdownload" onclick="PDFExportDialog();" type="button" value="Export Tune as PDF File" title="Exports this tune as a PDF file"></p>'
 
     }
   }
@@ -37729,9 +37871,12 @@ function ToggleMetronome() {
 
         gPlayMetronome = false;
 
-        var modal_msg = '<p style="text-align:center;font-size:20pt;">Metronome Not Available for this Meter</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:20pt;">No metronome pattern is available for the meter of this tune.</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:20pt;">Only the original version can be played.</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:20pt;">Metronome Not Available for this Meter</p>';
+        var modal_msg = '<p class="modal-title-l">Metronome Not Available for this Meter</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:20pt;">No metronome pattern is available for the meter of this tune.</p>';
+        modal_msg += '<p class="modal-text-l">No metronome pattern is available for the meter of this tune.</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:20pt;">Only the original version can be played.</p>';
+        modal_msg += '<p class="modal-text-l">Only the original version can be played.</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -39267,7 +39412,8 @@ function PlayABCDialog(theABC, callback, val, metronome_state) {
     modal_msg += '</p>';
 
     // Add a little spacer to give more room for the page controls
-    modal_msg += '<p style="text-align:center;font-size:0pt;">&nbsp;</p>';
+    // modal_msg += '<p style="text-align:center;font-size:0pt;">&nbsp;</p>';
+modal_msg += '<div class="modal-spacer-3pt" style="text-align:center;"></div>';
 
     if (gPlayABCTuneCount > 1) {
 
@@ -41328,7 +41474,8 @@ function SwingExplorerInject() {
 
       RenderAsync(true, null, function() {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Swing Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Swing Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Swing Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -41357,7 +41504,8 @@ function SwingExplorerInject() {
 
     } else {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Swing Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Swing Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Swing Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -42083,7 +42231,8 @@ function ReverbExplorerInject() {
 
       RenderAsync(true, null, function() {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Reverb Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Reverb Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Reverb Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -42113,7 +42262,8 @@ function ReverbExplorerInject() {
 
     } else {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Reverb Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Reverb Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Reverb Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -43332,7 +43482,8 @@ function InstrumentExplorerInject() {
 
       RenderAsync(true, null, function() {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Instrument Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -43362,7 +43513,8 @@ function InstrumentExplorerInject() {
 
     } else {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Instrument Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -43422,7 +43574,8 @@ function InstrumentExplorerInject() {
 
       RenderAsync(true, null, function() {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Instrument Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -43452,7 +43605,8 @@ function InstrumentExplorerInject() {
 
     } else {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Instrument Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Instrument Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -43912,7 +44066,8 @@ function InstrumentExplorerDialog(theOriginalABC, theProcessedABC, instrument_ex
     modal_msg += '<p class="configure_instrumentexplorer_text">';
     modal_msg += 'Bass Volume (0-127):&nbsp;&nbsp;<input style="width:90px;" id="instrument_explorer_bass_volume" type="number" min="0" step="1" max="127" title="Bass volume, range is 0-127"  autocomplete="off"/>';
     modal_msg += 'Chord Volume (0-127):&nbsp;&nbsp;<input style="width:90px;" id="instrument_explorer_chord_volume" type="number" min="0" step="1" max="127" title="Chord volume, range is 0-127" autocomplete="off"/>';
-    modal_msg += '<span style="font-size:12pt;">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="instrumentexplorer_inject_all" type="checkbox"/>';
+    // modal_msg += '<span style="font-size:12pt;">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="instrumentexplorer_inject_all" type="checkbox"/>';
+    modal_msg += '<span class="modal-label">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="instrumentexplorer_inject_all" type="checkbox"/>';
     modal_msg += '</p>';
     modal_msg += '<p class="configure_instrumentexplorer_text">';
     modal_msg += '<input id="instrumentexplorertest" class="instrumentexplorertest button btn btn-instrumentexplorertest" onclick="InstrumentExplorerRegenerate();" type="button" value="Reload Tune with Changed Instruments and Volumes" title="Reloads the tune into the player with the selected MIDI soundfont, melody instrument, bass instrument, bass volumes, chord instrument, and chord volumes">';
@@ -44269,7 +44424,8 @@ function GraceExplorerInject() {
 
         RenderAsync(true, null, function() {
 
-          var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+          // var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+          var modal_msg = '<p class="modal-alert-msg">Grace Duration Injection Complete!</p>';
 
           DayPilot.Modal.alert(modal_msg, {
             theme: "modal_flat",
@@ -44299,7 +44455,8 @@ function GraceExplorerInject() {
 
       } else {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Grace Duration Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -44366,7 +44523,8 @@ function GraceExplorerInject() {
 
         RenderAsync(true, null, function() {
 
-          var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+          // var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+          var modal_msg = '<p class="modal-alert-msg">Grace Duration Injection Complete!</p>';
 
           DayPilot.Modal.alert(modal_msg, {
             theme: "modal_flat",
@@ -44396,7 +44554,8 @@ function GraceExplorerInject() {
 
       } else {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Grace Duration Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Grace Duration Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -44643,7 +44802,8 @@ function GraceExplorerDialog(theOriginalABC, theProcessedABC, grace_explorer_sta
     modal_msg += '<p class="configure_graceexplorer_text" style="text-align:center;margin:0px;margin-top:22px">';
 
     modal_msg += 'Grace duration in milliseconds (range is 1-150): <input style="width:90px;" id="grace_explorer_duration" type="number" min="0" step="1" max="150" title="Grace duration in milliseconds, range is 1 to 150, 0 disables the custom grace duration feature and uses original abcjs default behavior" autocomplete="off"/>';
-    modal_msg += '<span style="font-size:12pt;">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="grace_explorer_inject_all" type="checkbox"/>';
+    // modal_msg += '<span style="font-size:12pt;">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="grace_explorer_inject_all" type="checkbox"/>';
+    modal_msg += '<span class="modal-label">Inject all tunes:</span><input style="width:16px;margin-left:8px;margin-right:24px;" id="grace_explorer_inject_all" type="checkbox"/>';
     modal_msg += '</p>';
     modal_msg += '<p class="configure_graceexplorer_text" style="text-align:center;margin:0px;margin-top:22px">';
     modal_msg += '<input id="graceexplorertest" class="graceexplorertest button btn btn-graceexplorertest" onclick="GraceExplorerRegenerate();" type="button" value="Reload Tune with Changed Grace Duration" title="Reloads the tune into the player with the entered grace duration">';
@@ -44837,11 +44997,16 @@ function RollParameterIssueAlert(callback) {
   // Replace inline styles with reusable classes
   var modal_msg = '<h2 class="modal-header">Please Check the Roll Parameters</h2>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">There is an issue with the roll parameters</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">All values must be positive</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">The total of the slot sizes for each of the roll styles must be less than 3</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">The fractions must be between 0 and 1</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">The volumes must be between 0 and 2</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">There is an issue with the roll parameters</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:36px;text-align:center;">There is an issue with the roll parameters</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">All values must be positive</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:20px;text-align:center;">All values must be positive</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">The total of the slot sizes for each of the roll styles must be less than 3</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:20px;text-align:center;">The total of the slot sizes for each of the roll styles must be less than 3</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">The fractions must be between 0 and 1</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:20px;text-align:center;">The fractions must be between 0 and 1</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:20px;text-align:center;">The volumes must be between 0 and 2</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:20px;text-align:center;">The volumes must be between 0 and 2</p>';
 
   DayPilot.Modal.alert(modal_msg, {
     theme: "modal_flat",
@@ -45067,7 +45232,8 @@ function RollExplorerInject() {
 
       RenderAsync(true, null, function() {
 
-        var modal_msg = '<p style="text-align:center;font-size:14pt;">Roll Parameter Injection Complete!</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:14pt;">Roll Parameter Injection Complete!</p>';
+        var modal_msg = '<p class="modal-alert-msg">Roll Parameter Injection Complete!</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -45097,7 +45263,8 @@ function RollExplorerInject() {
 
     } else {
 
-      var modal_msg = '<p style="text-align:center;font-size:14pt;">Roll Parameter Injection Complete!</p>';
+      // var modal_msg = '<p style="text-align:center;font-size:14pt;">Roll Parameter Injection Complete!</p>';
+      var modal_msg = '<p class="modal-alert-msg">Roll Parameter Injection Complete!</p>';
 
       DayPilot.Modal.alert(modal_msg, {
         theme: "modal_flat",
@@ -45223,9 +45390,11 @@ function RollExplorerDefaultRoll2() {
 
     SaveConfigurationSettings();
 
-    var modal_msg = '<p style="text-align:center;font-size:14pt;">Quarter Note Roll Parameters Set as Tool Default</p>';
+    // var modal_msg = '<p style="text-align:center;font-size:14pt;">Quarter Note Roll Parameters Set as Tool Default</p>';
+    var modal_msg = '<p class="modal-alert-msg">Quarter Note Roll Parameters Set as Tool Default</p>';
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">You can edit the values in the Advanced Settings dialog.</p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">You can edit the values in the Advanced Settings dialog.</p>';
+    modal_msg += '<p class="modal-text" style="margin-top:36px;text-align:center;">You can edit the values in the Advanced Settings dialog.</p>';
 
     DayPilot.Modal.alert(modal_msg, {
       theme: "modal_flat",
@@ -45273,9 +45442,11 @@ function RollExplorerDefaultRoll3() {
 
     SaveConfigurationSettings();
 
-    var modal_msg = '<p style="text-align:center;font-size:14pt;">Dotted Quarter Note Roll Parameters Set as Tool Default</p>';
+    // var modal_msg = '<p style="text-align:center;font-size:14pt;">Dotted Quarter Note Roll Parameters Set as Tool Default</p>';
+    var modal_msg = '<p class="modal-alert-msg">Dotted Quarter Note Roll Parameters Set as Tool Default</p>';
 
-    modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">You can edit the values in the Advanced Settings dialog.</p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;text-align:center;">You can edit the values in the Advanced Settings dialog.</p>';
+    modal_msg += '<p class="modal-text" style="margin-top:36px;text-align:center;">You can edit the values in the Advanced Settings dialog.</p>';
 
     DayPilot.Modal.alert(modal_msg, {
       theme: "modal_flat",
@@ -45539,7 +45710,8 @@ function RollExplorerDialog(theOriginalABC, theProcessedABC, roll_explorer_state
     }
 
     // Add the roll explorer controls
-    modal_msg += '<p class="configure_rollexplorer_text" style="font-size:14pt;text-align:center;margin:0px;margin-top:15px;margin-left:224px">Quarter Note Roll Parameters<input id="reset_roll_explorer_2" class="button btn btn-reset_roll_explorer_2" onclick="RollExplorerResetRoll2();" type="button" value="Reset" title="Reset quarter note roll parameters to the current tool defaults"><input id="default_roll_explorer_2" class="button btn btn-default_roll_explorer_2" onclick="RollExplorerDefaultRoll2();" type="button" value="Set as Tool Default" title="Makes the current quarter note roll parameters the default for the tool"></p>';
+    // modal_msg += '<p class="configure_rollexplorer_text" style="font-size:14pt;text-align:center;margin:0px;margin-top:15px;margin-left:224px">Quarter Note Roll Parameters<input id="reset_roll_explorer_2" class="button btn btn-reset_roll_explorer_2" onclick="RollExplorerResetRoll2();" type="button" value="Reset" title="Reset quarter note roll parameters to the current tool defaults"><input id="default_roll_explorer_2" class="button btn btn-default_roll_explorer_2" onclick="RollExplorerDefaultRoll2();" type="button" value="Set as Tool Default" title="Makes the current quarter note roll parameters the default for the tool"></p>';
+    modal_msg += '<p class="configure_rollexplorer_text" style="text-align:center;margin:0px;margin-top:15px;margin-left:224px">Quarter Note Roll Parameters<input id="reset_roll_explorer_2" class="button btn btn-reset_roll_explorer_2" onclick="RollExplorerResetRoll2();" type="button" value="Reset" title="Reset quarter note roll parameters to the current tool defaults"><input id="default_roll_explorer_2" class="button btn btn-default_roll_explorer_2" onclick="RollExplorerDefaultRoll2();" type="button" value="Set as Tool Default" title="Makes the current quarter note roll parameters the default for the tool"></p>';
     modal_msg += '<p class="configure_rollexplorer_text" style="text-align:center;margin:0px;margin-top:8px">';
     modal_msg += 'Slot 1: <input style="width:85px;" id="roll_2_slot_1" title="Quarter note slot 1 time" autocomplete="off" type="number" min="0" step="0.05" max="2.95"/>';
     modal_msg += 'Slot 2: <input style="width:85px;" id="roll_2_slot_2" title="Quarter note slot 2 time" autocomplete="off"  type="number" min="0" step="0.05" max="2.95"/>';
@@ -45554,7 +45726,8 @@ function RollExplorerDialog(theOriginalABC, theProcessedABC, roll_explorer_state
     modal_msg += 'Volume 2: <input style="width:85px;" id="roll_2_volume_2" title="Quarter note volume 2" autocomplete="off" type="number" min="0" step="0.05" max="2"/>';
     modal_msg += 'Volume 3: <input style="width:85px;" id="roll_2_volume_3" title="Quarter note volume 3" autocomplete="off" type="number" min="0" step="0.05" max="2"/>';
     modal_msg += '</p>';
-    modal_msg += '<p class="configure_rollexplorer_text" style="font-size:14pt;text-align:center;margin:0px;margin-top:10px;margin-left:162px">Dotted Quarter Note Roll Parameters<input id="reset_roll_explorer_3" class="reset_roll_explorer_3 button btn btn-reset_roll_explorer_3" onclick="RollExplorerResetRoll3();" type="button" value="Reset" title="Reset dotted quarter note roll parameters to the current tool defaults"><input id="default_roll_explorer_3" class="button btn btn-default_roll_explorer_3" onclick="RollExplorerDefaultRoll3();" type="button" value="Set as Tool Default" title="Makes the current dotted quarter note roll parameters the default for the tool"></p>';
+    // modal_msg += '<p class="configure_rollexplorer_text" style="font-size:14pt;text-align:center;margin:0px;margin-top:10px;margin-left:162px">Dotted Quarter Note Roll Parameters<input id="reset_roll_explorer_3" class="reset_roll_explorer_3 button btn btn-reset_roll_explorer_3" onclick="RollExplorerResetRoll3();" type="button" value="Reset" title="Reset dotted quarter note roll parameters to the current tool defaults"><input id="default_roll_explorer_3" class="button btn btn-default_roll_explorer_3" onclick="RollExplorerDefaultRoll3();" type="button" value="Set as Tool Default" title="Makes the current dotted quarter note roll parameters the default for the tool"></p>';
+    modal_msg += '<p class="configure_rollexplorer_text" style="text-align:center;margin:0px;margin-top:10px;margin-left:162px">Dotted Quarter Note Roll Parameters<input id="reset_roll_explorer_3" class="reset_roll_explorer_3 button btn btn-reset_roll_explorer_3" onclick="RollExplorerResetRoll3();" type="button" value="Reset" title="Reset dotted quarter note roll parameters to the current tool defaults"><input id="default_roll_explorer_3" class="button btn btn-default_roll_explorer_3" onclick="RollExplorerDefaultRoll3();" type="button" value="Set as Tool Default" title="Makes the current dotted quarter note roll parameters the default for the tool"></p>';
     modal_msg += '<p class="configure_rollexplorer_text" style="text-align:center;margin:0px;margin-top:8px">';
     modal_msg += 'Slot 1: <input style="width:85px;" id="roll_3_slot_1" title="Dotted quarter note slot 1 time" autocomplete="off" type="number" min="0" step="0.05" max="2.95"/>';
     modal_msg += 'Slot 2: <input style="width:85px;" id="roll_3_slot_2" title="Dotted quarter note slot 2 time" autocomplete="off" type="number" min="0" step="0.05" max="2.95"/>';
@@ -45966,7 +46139,8 @@ function TuneTrainerReset() {
   } else {
 
     // User entered odd values
-    var thePrompt = '<p style="font-size:14pt;text-align:center"><strong>Invalid Tune Trainer Values Entered</strong></p><p style="font-size:14pt;margin-top:36px;">All values must be numbers.</p><p style="font-size:14pt;">Starting tempo must be less than the ending tempo.</p><p style="font-size:14pt;">Tempo increment must be greater than zero.</p><p style="font-size:14pt;">Loop count must be greater than zero.</p><p style="font-size:14pt;">Please fix and try again.</p>'
+    // var thePrompt = '<p style="font-size:14pt;text-align:center"><strong>Invalid Tune Trainer Values Entered</strong></p><p style="font-size:14pt;margin-top:36px;">All values must be numbers.</p><p style="font-size:14pt;">Starting tempo must be less than the ending tempo.</p><p style="font-size:14pt;">Tempo increment must be greater than zero.</p><p style="font-size:14pt;">Loop count must be greater than zero.</p><p style="font-size:14pt;">Please fix and try again.</p>'
+    var thePrompt = '<p class="modal-alert-msg"><strong>Invalid Tune Trainer Values Entered</strong></p><p class="modal-text-l" style="margin-top:36px;">All values must be numbers.</p><p class="modal-text-l">Starting tempo must be less than the ending tempo.</p><p class="modal-text-l">Tempo increment must be greater than zero.</p><p class="modal-text-l">Loop count must be greater than zero.</p><p class="modal-text-l">Please fix and try again.</p>'
 
     DayPilot.Modal.alert(thePrompt, {
       theme: "modal_flat",
@@ -46005,9 +46179,12 @@ function ToggleTuneTrainerMetronome() {
 
         gPlayMetronome = false;
 
-        var modal_msg = '<p style="text-align:center;font-size:20pt;">Metronome Not Available for this Meter</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:20pt;">No metronome pattern is available for the meter of this tune.</p>';
-        modal_msg += '<p style="font-size:14pt;line-height:20pt;">Only the original version can be played.</p>';
+        // var modal_msg = '<p style="text-align:center;font-size:20pt;">Metronome Not Available for this Meter</p>';
+        var modal_msg = '<p class="modal-title-l">Metronome Not Available for this Meter</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:20pt;">No metronome pattern is available for the meter of this tune.</p>';
+        modal_msg += '<p class="modal-text-l">No metronome pattern is available for the meter of this tune.</p>';
+        // modal_msg += '<p style="font-size:14pt;line-height:20pt;">Only the original version can be played.</p>';
+        modal_msg += '<p class="modal-text-l">Only the original version can be played.</p>';
 
         DayPilot.Modal.alert(modal_msg, {
           theme: "modal_flat",
@@ -49297,21 +49474,21 @@ function ConfigureMusicXMLImport() {
 
   modal_msg += '<a href="https://michaeleskin.com/abctools/userguide.html#musicxml" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
   modal_msg += '<h2 class="modal-header">MusicXML/MIDI Import Settings&nbsp;&nbsp;</h2>';
-  modal_msg += '<div style="margin:10px 0;"><label style="font-size:12pt;">Bars-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_bpl" type="text" pattern="\d+" title="Default: 3"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Characters-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_cpl" type="text" pattern="\d+" title="Default: 0 - ignore"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Measure numbers:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_mnum" type="text" pattern="\d+" title="-1: No measure numbers, 1..n: Number every n-th measure, 0: Number every system"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Include measure numbers at end of staves:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_addstavenum" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Unfold repeats:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_unfld" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Credit text filter (level 0-6):&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_crf" type="text" pattern="[0123456]" title="0 (Default), 1, 2, 3, 4, 5, 6"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Denominator unit length for L: tags:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_den" type="text" pattern="\d\d?" title="0 (Automatic), 1, 2, 4, 8, 16, or 32"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">%%MIDI options:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_midi" type="text" pattern="[012]" title="0: No MIDI, 1: Only program, 2: All MIDI"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">No score line breaks:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_nlb" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">No pedal directions:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_noped" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">All directions to first voice:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_v1" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Translate stem directions:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_stems" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Inject Q: tag if not present:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_addq" type="checkbox"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Q: tag value to inject:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_q" type="text" pattern="\d+" title="Default: 100"/></div>\n';
-  modal_msg += '<div style="margin-bottom:10px;"><label style="font-size:12pt;">Inject P: tags for rehearsal marks (default is text annotation):&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_rehparts" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin:10px 0;"><label class="modal-label">Bars-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_bpl" type="text" pattern="\d+" title="Default: 3"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Characters-per-line:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_cpl" type="text" pattern="\d+" title="Default: 0 - ignore"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Measure numbers:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_mnum" type="text" pattern="\d+" title="-1: No measure numbers, 1..n: Number every n-th measure, 0: Number every system"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Include measure numbers at end of staves:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_addstavenum" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Unfold repeats:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_unfld" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Credit text filter (level 0-6):&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_crf" type="text" pattern="[0123456]" title="0 (Default), 1, 2, 3, 4, 5, 6"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Denominator unit length for L: tags:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_den" type="text" pattern="\d\d?" title="0 (Automatic), 1, 2, 4, 8, 16, or 32"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">%%MIDI options:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_midi" type="text" pattern="[012]" title="0: No MIDI, 1: Only program, 2: All MIDI"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">No score line breaks:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_nlb" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">No pedal directions:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_noped" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">All directions to first voice:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_v1" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Translate stem directions:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_stems" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Inject Q: tag if not present:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_addq" type="checkbox"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Q: tag value to inject:&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" style="width:60px;" id="musicxml_q" type="text" pattern="\d+" title="Default: 100"/></div>\n';
+  modal_msg += '<div style="margin-bottom:10px;"><label class="modal-label">Inject P: tags for rehearsal marks (default is text annotation):&nbsp;&nbsp;</label><input onchange="setMusicXMLOptions()" id="musicxml_rehparts" type="checkbox"/></div>\n';
   modal_msg += '<p style="text-align:center;margin-top:22px;"><input id="default_musicxml_settings" class="btn btn-clearbutton default_musicxml_settings" onclick="defaultMusicXMLSettings()" type="button" value="Reset to Default" title="Reset the MusicXML/MIDI import settings to their default values"></p>\n';
 
   const form = [{
@@ -49834,7 +50011,8 @@ function ConfigureTablatureSettings() {
 		'Tablature Injection Settings&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;"><strong>General Tablature Formatting Settings:</strong></p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;"><strong>General Tablature Formatting Settings:</strong></p>'
+    html: '<p class="modal-text"><strong>General Tablature Formatting Settings:</strong></p>'
   }, {
     name: "Font family (Default: Fira Sans):",
     id: "configure_font_family",
@@ -49867,7 +50045,8 @@ function ConfigureTablatureSettings() {
     type: "checkbox",
     cssClass: "configure_tab_settings_form_text"
   }, {
-    html: '<p style="font-size:12pt;line-height:18pt;margin-top:24px;"><strong>Irish Button Box and Anglo Concertina-specific Tablature Settings:</strong></p>'
+    // html: '<p style="font-size:12pt;line-height:18pt;margin-top:24px;"><strong>Irish Button Box and Anglo Concertina-specific Tablature Settings:</strong></p>'
+    html: '<p class="modal-text" style="margin-top:24px;"><strong>Irish Button Box and Anglo Concertina-specific Tablature Settings:</strong></p>'
   }, {
     name: "Box tab style:",
     id: "configure_box_tab_style",
@@ -51150,7 +51329,8 @@ function PDFExportDialog() {
         type: "checkbox",
         cssClass: "configure_pdf_settings_form_text"
       }, {
-        html: '<p id="exportpdfanchor" style="margin-top:20px;font-size:12pt;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
+        // html: '<p id="exportpdfanchor" style="margin-top:20px;font-size:12pt;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
+        html: '<p id="exportpdfanchor" class="modal-text" style="margin-top:20px;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
       }, {
         name: "Font:",
         id: "configure_fontname",
@@ -51231,7 +51411,8 @@ function PDFExportDialog() {
         type: "checkbox",
         cssClass: "configure_pdf_settings_form_text"
       }, {
-        html: '<p id="exportpdfanchor" style="margin-top:20px;font-size:12pt;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
+        // html: '<p id="exportpdfanchor" style="margin-top:20px;font-size:12pt;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
+        html: '<p id="exportpdfanchor" class="modal-text" style="margin-top:20px;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
       }, {
         name: "Font:",
         id: "configure_fontname",
@@ -51245,7 +51426,8 @@ function PDFExportDialog() {
         options: fontstyle_list,
         cssClass: "configure_pdf_fontstyle_select"
       }, {
-        html: '<p style="font-size:3pt;">&nbsp;</p>'
+//         html: '<p style="font-size:3pt;">&nbsp;</p>'
+        html: '<div class="modal-spacer-3pt"></div>'
       }];
     }
   } else {
@@ -51311,7 +51493,8 @@ function PDFExportDialog() {
       type: "checkbox",
       cssClass: "configure_pdf_settings_form_text"
     }, {
-      html: '<p id="exportpdfanchor" style="margin-top:20px;font-size:12pt;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
+      // html: '<p id="exportpdfanchor" style="margin-top:20px;font-size:12pt;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
+      html: '<p id="exportpdfanchor" class="modal-text" style="margin-top:20px;line-height:18px;">Font for Title Page, Table of Contents, Index, Page Headers/Footers, Page Numbers, Text Incipits:</p>'
     }, {
       name: "Font:",
       id: "configure_fontname",
@@ -51325,7 +51508,8 @@ function PDFExportDialog() {
       options: fontstyle_list,
       cssClass: "configure_pdf_fontstyle_select"
     }, {
-      html: '<p style="font-size:3pt;">&nbsp;</p>'
+//       html: '<p style="font-size:3pt;">&nbsp;</p>'
+      html: '<div class="modal-spacer-3pt"></div>'
     }];
 
   }
@@ -51333,7 +51517,8 @@ function PDFExportDialog() {
   // Put up zoom info for desktop Safari
   if (gIsSafari && (!isMobileBrowser())) {
     form = form.concat([{
-      html: '<p style="margin-top:24px;font-size:12pt;line-height:24px;text-align:center;">On Safari, before clicking <strong>Export</strong>, please set the Zoom level to 100% by pressing ⌘+0 (zero)</p>'
+      // html: '<p style="margin-top:24px;font-size:12pt;line-height:24px;text-align:center;">On Safari, before clicking <strong>Export</strong>, please set the Zoom level to 100% by pressing ⌘+0 (zero)</p>'
+      html: '<p class="modal-text" style="margin-top:24px;line-height:24px;text-align:center;">On Safari, before clicking <strong>Export</strong>, please set the Zoom level to 100% by pressing ⌘+0 (zero)</p>'
     }]);
   }
 
@@ -51750,7 +51935,8 @@ function Do_Browser_PDF_Export() {
       '<a href="https://michaeleskin.com/abctools/userguide.html#browser_print_to_pdf" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton">?</a>' +
       '<h2 class="modal-header modal-header-spaced">Browser Native Print-to-PDF with Play Links&nbsp;&nbsp;</h2>'
   }, {
-    html: '<p style="margin-top:10px;margin-bottom:30px;font-size:12pt;line-height:18pt;">Clicking "Export" will use the browser\'s native PDF exporter to export a PDF with play links on each tune using the playback instruments and volumes selected below:</p>'
+    // html: '<p style="margin-top:10px;margin-bottom:30px;font-size:12pt;line-height:18pt;">Clicking "Export" will use the browser\'s native PDF exporter to export a PDF with play links on each tune using the playback instruments and volumes selected below:</p>'
+    html: '<p class="modal-text" style="margin-top:10px;margin-bottom:30px;">Clicking "Export" will use the browser\'s native PDF exporter to export a PDF with play links on each tune using the playback instruments and volumes selected below:</p>'
   }, {
     name: "Soundfont for playback links:",
     id: "sound_font",
@@ -52101,7 +52287,8 @@ function AdvancedControlsDialog() {
      ALWAYS VISIBLE: SHOW / HIDE
      =========================================================== */
 
-  modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:20px;">Show/Hide ABC Features</p>';
+  // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:20px;">Show/Hide ABC Features</p>';
+  modal_msg += '<p class="modal-label-l" style="margin-top:20px;">Show/Hide ABC Features</p>';
   modal_msg += '<p style="text-align:center;">';
   modal_msg += '<input id="toggleannotations" class="advancedcontrolsdisabled btn btn-advancedcontrols" onclick="ToggleAnnotations(false)" type="button" value="Hide Annotations">';
   modal_msg += '<input id="toggletext" class="advancedcontrolsdisabled btn btn-advancedcontrols" onclick="ToggleTextAnnotations(false)" type="button" value="Hide Text">';
@@ -52114,7 +52301,8 @@ function AdvancedControlsDialog() {
      ALWAYS VISIBLE: STRIP
      =========================================================== */
 
-  modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:20px;">Strip ABC Features</p>';
+  // modal_msg += '<p style="text-align:center;font-size:14pt;margin-top:20px;">Strip ABC Features</p>';
+  modal_msg += '<p class="modal-label-l" style="margin-top:20px;">Strip ABC Features</p>';
   modal_msg += '<p style="text-align:center;">';
   modal_msg += '<input id="stripannotations" class="advancedcontrolsdisabled btn btn-injectcontrols" onclick="ToggleAnnotations(true)" type="button" value="Strip Annotations">';
   modal_msg += '<input id="striptext" class="advancedcontrolsdisabled btn btn-injectcontrols" onclick="ToggleTextAnnotations(true)" type="button" value="Strip Text">';
@@ -52231,7 +52419,8 @@ function AdvancedControlsDialog() {
 
   modal_msg += '</div>';
 
-  modal_msg += '<p style="font-size:2pt;">&nbsp;</p>';
+// modal_msg += '<p style="font-size:2pt;">&nbsp;</p>';
+modal_msg += '<div class="modal-spacer-3pt"></div>';
   modal_msg += '</div></div></div>';
 
   var format = GetRadioValue("notenodertab");
@@ -52346,17 +52535,28 @@ function processCustomInstruments(suppressStatus /* boolean */) {
           + 'class="modal-header-ui modal-link-help dialogcornerbutton">?</a>'
           + '<h2 class="modal-header">'
           + totalFiles + ' Custom ' + quant + ' Loaded&nbsp;&nbsp;</h2' +
-          + '<p style="font-size:12pt;line-height:18pt;">In the following, replace (n) with 1-8 for the custom instrument number.</p>'
-          + '<p style="font-size:12pt;line-height:18pt;">To play the custom instrument, add the following to your ABC tunes:</p>'
-          + '<p style="font-size:12pt;line-height:18pt;"><strong>%%MIDI program custom(n)</strong></p>'
-          + '<p style="font-size:12pt;line-height:18pt;">Example:<br/>%%MIDI program custom1</p>'
-          + '<p style="font-size:12pt;line-height:18pt;">Custom instruments have default volume scale and fade values built-in.</p>'
-          + '<p style="font-size:12pt;line-height:18pt;">To make the instrument volume louder or softer than the default,<br/>add the following to your ABC tunes:</p>'
-          + '<p style="font-size:12pt;line-height:18pt;"><strong>%custom_instrument_(n)_volume_scale (scale_multiplier_float)</strong></p>'
-          + '<p style="font-size:12pt;line-height:18pt;">Example:<br/>%custom_instrument_1_volume_scale 2.0</p>'
-          + '<p style="font-size:12pt;line-height:18pt;">To change the note release fade time from the default,<br/>add the following to your ABC tunes:</p>'
-          + '<p style="font-size:12pt;line-height:18pt;"><strong>%custom_instrument_(n)_fade (fade_time_in_ms)</strong></p>'
-          + '<p style="font-size:12pt;line-height:18pt;">Example:<br/>%custom_instrument_1_fade 1000</p>';
+          // + '<p style="font-size:12pt;line-height:18pt;">In the following, replace (n) with 1-8 for the custom instrument number.</p>'
+          + '<p class="modal-text">In the following, replace (n) with 1-8 for the custom instrument number.</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">To play the custom instrument, add the following to your ABC tunes:</p>'
+          + '<p class="modal-text">To play the custom instrument, add the following to your ABC tunes:</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;"><strong>%%MIDI program custom(n)</strong></p>'
+          + '<p class="modal-text"><strong>%%MIDI program custom(n)</strong></p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">Example:<br/>%%MIDI program custom1</p>'
+          + '<p class="modal-text">Example:<br/>%%MIDI program custom1</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">Custom instruments have default volume scale and fade values built-in.</p>'
+          + '<p class="modal-text">Custom instruments have default volume scale and fade values built-in.</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">To make the instrument volume louder or softer than the default,<br/>add the following to your ABC tunes:</p>'
+          + '<p class="modal-text">To make the instrument volume louder or softer than the default,<br/>add the following to your ABC tunes:</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;"><strong>%custom_instrument_(n)_volume_scale (scale_multiplier_float)</strong></p>'
+          + '<p class="modal-text"><strong>%custom_instrument_(n)_volume_scale (scale_multiplier_float)</strong></p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">Example:<br/>%custom_instrument_1_volume_scale 2.0</p>'
+          + '<p class="modal-text">Example:<br/>%custom_instrument_1_volume_scale 2.0</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">To change the note release fade time from the default,<br/>add the following to your ABC tunes:</p>'
+          + '<p class="modal-text">To change the note release fade time from the default,<br/>add the following to your ABC tunes:</p>'
+          // + '<p style="font-size:12pt;line-height:18pt;"><strong>%custom_instrument_(n)_fade (fade_time_in_ms)</strong></p>'
+          + '<p class="modal-text"><strong>%custom_instrument_(n)_fade (fade_time_in_ms)</strong></p>'
+          // + '<p style="font-size:12pt;line-height:18pt;">Example:<br/>%custom_instrument_1_fade 1000</p>'
+          + '<p class="modal-text">Example:<br/>%custom_instrument_1_fade 1000</p>';
 
           DayPilot.Modal.alert(modal_msg, {
             theme: "modal_flat",
@@ -52407,6 +52607,8 @@ async function manageCustomInstrumentSlots(files){
   const modal = (window.DayPilot && DayPilot.Modal && DayPilot.Modal.alert) ? DayPilot.Modal : DayPilot;
 
   const alertPromise = modal.alert(
+    `<a href="https://michaeleskin.com/abctools/userguide.html#custom_midi_instrument" target="_blank" title="View documentation in new tab" class="modal-header-ui modal-link-help dialogcornerbutton" aria-label="View documentation in new tab">?</a>` +
+    `<h2 class="modal-header">Assign Files to Custom Instruments</h2>` + 
     `<div id="${containerId}"></div>`,
     { top: 50, width:780, theme:"modal_flat", okText: "Done", scrollWithPage: AllowDialogsToScroll() }
   ).then(async function(){
@@ -52451,8 +52653,7 @@ async function manageCustomInstrumentSlots(files){
   // --- Styles (unchanged) ---
   const style = document.createElement("style");
   style.textContent = `
-    #${UID}-wrap { position: relative; , system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      max-width: 720px; width: min(720px, 92vw); margin: 0 auto; box-sizing: border-box; }
+    #${UID}-wrap { position: relative; max-width: 720px; width: min(720px, 92vw); margin: 0 auto; box-sizing: border-box; }
     #${UID}-grid { display: grid; gap: 8px; grid-template-columns: repeat(4, 1fr); margin-bottom:24px; }
     @media (max-width: 520px) { #${UID}-grid { grid-template-columns: repeat(2, 1fr); } }
     .${UID}-slot { border: 1px solid #ccc; border-radius: 10px; padding: 10px; min-height: 40px;
@@ -52461,46 +52662,30 @@ async function manageCustomInstrumentSlots(files){
     .${UID}-slot[data-has="false"] { color:#666; background:#fafafa; }
     .${UID}-slot[data-has="true"]  { font-weight: 600; }
     .${UID}-slot.dragover { outline: 2px dashed #888; outline-offset: 2px; }
-    .${UID}-label { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;font-size:11pt; }
+    .${UID}-label { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--abctools-font-size-label-s-11); }
     .${UID}-chip { border:1px solid #bbb; border-radius:8px; margin:6px; display:inline-flex; align-items:center;
-      cursor:grab; user-select:none; background:#fff; font-size:12px; max-width: 320px; overflow: hidden; text-overflow: ellipsis;
+      cursor:grab; user-select:none; background:#fff; font-size: var(--abctools-font-size-label-xs-10); max-width: 320px; overflow: hidden; text-overflow: ellipsis;
       white-space: nowrap; min-width: 0; }
     .${UID}-chip.selected { outline: 2px solid #007aff; }
     .${UID}-chip:active { cursor:grabbing; }
     #${UID}-buttons { display:flex; align-items:center; justify-content:flex-start; gap:12px; margin-top:12px; max-width:100%;
       padding-right:4px; box-sizing:border-box; flex-wrap: wrap; }
-    .${UID}-btn { min-width:80px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer; font-size:13px; }
+    .${UID}-btn { min-width:80px; border-radius:10px; border:1px solid #ccc; background:#fff; cursor:pointer; font-size: var(--abctools-font-size-label-xs-10); }
     .${UID}-btn.primary { background:#007aff; border-color:#007aff; color:#fff; }
     .${UID}-btn.danger  { background:#ffdbdb; border-color:#9c0d0d; color:#9c0d0d; width:120px;}
     @media (hover:hover){ .${UID}-btn.danger:hover{ background:#D0B0B0; } }
     #${UID}-hint {margin-top:24px;margin-bottom:18px;}
     #${UID}-hint2 {margin-top:18px;margin-bottom:36px;}
     #${UID}-hint3 {margin-top:18px;margin-bottom:36px;}
-    .${UID}-remove { position:absolute; top:4px; right:6px; color:#888; cursor:pointer; font-size:14px; line-height:1; user-select:none; }
+    .${UID}-remove { position:absolute; top:4px; right:6px; color:#888; cursor:pointer; font-size: var(--abctools-font-size-label-s-11); line-height:1; user-select:none; }
     .${UID}-remove:hover { color:#e02424; }
-    #${UID}-title{ text-align:center; font-size:18pt;  margin-bottom:36px; }
-    .${UID}-slotnum { position:absolute; top:4px; left:6px; font-size:12px; color:#666; pointer-events:none; user-select:none; }
-    .${UID}-doclink { position:absolute; top:-6px; left:0px; font-size:24pt; }
-    .${UID}-doclink a { text-decoration:none; color:inherit; }
-    .${UID}-doclink a:hover { color:#007aff; }
-    .${UID}-chklabel { display: inline-flex; align-items: center; gap: 6px; font-size: 16px; color: #333; user-select: none; }
+    .${UID}-slotnum { position:absolute; top:4px; left:6px; font-size: var(--abctools-font-size-label-xs-10); color:#666; pointer-events:none; user-select:none; }
+    .${UID}-chklabel { display: inline-flex; align-items: center; gap: 6px; font-size: var(--abctools-font-size-label-m-12); color: #333; user-select: none; }
   `;
   host.appendChild(style);
 
   // --- Structure (unchanged except display helpers) ---
   const wrap = el("div", { id: `${UID}-wrap` }, host);
-
-  const docLinkSpan = el("span", { class: `${UID}-doclink` }, wrap);
-  el("a", {
-    text: "?",
-    attrs: {
-      href: "https://michaeleskin.com/abctools/userguide.html#custom_midi_instrument",
-      target: "_blank",
-      title: "View documentation in new tab"
-    }
-  }, docLinkSpan);
-
-  el("div", { id: `${UID}-title`, text: "Assign Files to Custom Instruments" }, wrap);
 
   const sections = el("div", { id: `${UID}-sections` }, wrap);
 
@@ -52915,20 +53100,30 @@ function ShowBrowserInfo() {
   var modal_msg = '<h2 class="modal-header">Browser Information</h2>';
 
   // Clickable version number
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">';
+  modal_msg += '<p class="modal-text modal-text-spaced">';
   modal_msg += 'Tool version: <span id="versionNumber" style="color:blue;cursor:pointer;" ';
   modal_msg += 'title="Click to copy">' + `${gLiteVersionNumber} / ${gVersionNumber}` + '</span>';
   modal_msg += '<span id="copyTooltip" style="margin-left:10px;color:green;font-size:10pt;opacity:0;transition:opacity 0.5s;">Copied!</span></p>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.userAgent: ' + navigator.userAgent + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.platform: ' + navigator.platform + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.vendor: ' + navigator.vendor + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.maxTouchPoints: ' + navigator.maxTouchPoints + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsIOS: ' + gIsIOS + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsIPhone: ' + gIsIPhone + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsIPad: ' + gIsIPad + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsAndroid: ' + gIsAndroid + '</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:20pt;">localStorage available: ' + gLocalStorageAvailable + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.userAgent: ' + navigator.userAgent + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">navigator.userAgent: ' + navigator.userAgent + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.platform: ' + navigator.platform + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">navigator.platform: ' + navigator.platform + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.vendor: ' + navigator.vendor + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">navigator.vendor: ' + navigator.vendor + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">navigator.maxTouchPoints: ' + navigator.maxTouchPoints + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">navigator.maxTouchPoints: ' + navigator.maxTouchPoints + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsIOS: ' + gIsIOS + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">gIsIOS: ' + gIsIOS + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsIPhone: ' + gIsIPhone + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">gIsIPhone: ' + gIsIPhone + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsIPad: ' + gIsIPad + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">gIsIPad: ' + gIsIPad + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">gIsAndroid: ' + gIsAndroid + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">gIsAndroid: ' + gIsAndroid + '</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:20pt;">localStorage available: ' + gLocalStorageAvailable + '</p>';
+  modal_msg += '<p class="modal-text modal-text-spaced">localStorage available: ' + gLocalStorageAvailable + '</p>';
 
   // Hook up click handler on version number
   setTimeout(function() {
@@ -54469,12 +54664,14 @@ function ConfigureToolSettings() {
   form.push({ html: '<div id="tab_update" class="adv-tab-panel">' });
   if (gUpdateAvailable){
     form.push({
-        html: '<p style="text-align:center;font-size:12pt;margin-top:120px;">Click the button below to force an update to the latest version of the tool:</p><p style="text-align:center;"><input id="abcplayer_updatebutton_d" class="abcplayer_updatebutton_d btn btn-configuresettingsfromhelp" onclick="UpdateToLatestVersion();" type="button" value="Update to the Latest Version" title="Forces an update of the tool to the latest available version."></p><p style="text-align:center;font-size:12pt;line-height:18pt;margin-top:24px;color:red;">Latest version: ' + gUpdateVersion + '<br/>Installed version: ' + gLiteVersionNumber + '</p>'
+        // html: '<p style="text-align:center;font-size:12pt;margin-top:120px;">Click the button below to force an update to the latest version of the tool:</p><p style="text-align:center;"><input id="abcplayer_updatebutton_d" class="abcplayer_updatebutton_d btn btn-configuresettingsfromhelp" onclick="UpdateToLatestVersion();" type="button" value="Update to the Latest Version" title="Forces an update of the tool to the latest available version."></p><p style="text-align:center;font-size:12pt;line-height:18pt;margin-top:24px;color:red;">Latest version: ' + gUpdateVersion + '<br/>Installed version: ' + gLiteVersionNumber + '</p>'
+        html: '<p class="modal-text" style="text-align:center;margin-top:120px;">Click the button below to force an update to the latest version of the tool:</p><p style="text-align:center;"><input id="abcplayer_updatebutton_d" class="abcplayer_updatebutton_d btn btn-configuresettingsfromhelp" onclick="UpdateToLatestVersion();" type="button" value="Update to the Latest Version" title="Forces an update of the tool to the latest available version."></p><p class="modal-text" style="text-align:center;margin-top:24px;color:red;">Latest version: ' + gUpdateVersion + '<br/>Installed version: ' + gLiteVersionNumber + '</p>'
       });  
   }
   else{
     form.push({
-        html: '<p style="text-align:center;font-size:12pt;margin-top:120px;">Click the button below to force an update to the latest version of the tool:</p><p style="text-align:center;"><input id="abcplayer_updatebutton_d" class="abcplayer_updatebutton_d btn btn-configuresettingsfromhelp" onclick="UpdateToLatestVersion();" type="button" value="Update to the Latest Version" title="Forces an update of the tool to the latest available version."></p><p style="text-align:center;font-size:12pt;line-height:18pt;margin-top:24px;">You have the latest version:<br/>' + gLiteVersionNumber + ' / ' + gVersionNumber + '</p>'
+        // html: '<p style="text-align:center;font-size:12pt;margin-top:120px;">Click the button below to force an update to the latest version of the tool:</p><p style="text-align:center;"><input id="abcplayer_updatebutton_d" class="abcplayer_updatebutton_d btn btn-configuresettingsfromhelp" onclick="UpdateToLatestVersion();" type="button" value="Update to the Latest Version" title="Forces an update of the tool to the latest available version."></p><p style="text-align:center;font-size:12pt;line-height:18pt;margin-top:24px;">You have the latest version:<br/>' + gLiteVersionNumber + ' / ' + gVersionNumber + '</p>'
+        html: '<p class="modal-text" style="text-align:center;margin-top:120px;">Click the button below to force an update to the latest version of the tool:</p><p style="text-align:center;"><input id="abcplayer_updatebutton_d" class="abcplayer_updatebutton_d btn btn-configuresettingsfromhelp" onclick="UpdateToLatestVersion();" type="button" value="Update to the Latest Version" title="Forces an update of the tool to the latest available version."></p><p class="modal-text" style="text-align:center;margin-top:24px;">You have the latest version:<br/>' + gLiteVersionNumber + ' / ' + gVersionNumber + '</p>'
       });  
 
   }  
@@ -55848,11 +56045,16 @@ function DoFileRead(file, callback) {
         // Lite: Customized
         // Replace inline styles with reusable classes
         var modal_msg = '<h2 class="modal-header">First Time Use Notes on MIDI Import</h2>';
-        modal_msg += '<p style="font-size:12pt;line-height:18pt;">MIDI Import is an experimental feature that depends on an external service.</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:18pt;">It may sometimes produce complete garbage, odd results, fail, or even crash or lock up the tool.</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:18pt;">If the tool crashes during notation rendering after MIDI import is complete, reload the page to restart.</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:18pt;">Imported notes are quantized to sixteenth note durations.</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:18pt;">MIDI Import is limited to a maximum file length of 40960 bytes.</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:18pt;">MIDI Import is an experimental feature that depends on an external service.</p>';
+        modal_msg += '<p class="modal-text">MIDI Import is an experimental feature that depends on an external service.</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:18pt;">It may sometimes produce complete garbage, odd results, fail, or even crash or lock up the tool.</p>';
+        modal_msg += '<p class="modal-text">It may sometimes produce complete garbage, odd results, fail, or even crash or lock up the tool.</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:18pt;">If the tool crashes during notation rendering after MIDI import is complete, reload the page to restart.</p>';
+        modal_msg += '<p class="modal-text">If the tool crashes during notation rendering after MIDI import is complete, reload the page to restart.</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:18pt;">Imported notes are quantized to sixteenth note durations.</p>';
+        modal_msg += '<p class="modal-text">Imported notes are quantized to sixteenth note durations.</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:18pt;">MIDI Import is limited to a maximum file length of 40960 bytes.</p>';
+        modal_msg += '<p class="modal-text">MIDI Import is limited to a maximum file length of 40960 bytes.</p>';
 
         gMIDIImportWarned = true;
 
@@ -58040,17 +58242,26 @@ function TinyURLReminderDialog() {
   // Lite: Customized
   // Replace inline styles with reusable classes
   var modal_msg = '<h2 class="modal-header">TinyURL Use Request</h2>';
-  modal_msg += '<p style="font-size:12pt;line-height:18pt;text-align:center;">To use shortened URLs, you need to sign up<br/>for your own free or paid TinyURL account at:</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;"><strong><a href="https://tinyurl.com" target="_blank" title="TinyURL">TinyURL</a></strong></p>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">After signing up, you can obtain a private API token from:</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:18pt;text-align:center;">To use shortened URLs, you need to sign up<br/>for your own free or paid TinyURL account at:</p>';
+  modal_msg += '<p class="modal-text" style="text-align:center;">To use shortened URLs, you need to sign up<br/>for your own free or paid TinyURL account at:</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;"><strong><a href="https://tinyurl.com" target="_blank" title="TinyURL">TinyURL</a></strong></p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;"><strong><a href="https://tinyurl.com" target="_blank" title="TinyURL">TinyURL</a></strong></p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">After signing up, you can obtain a private API token from:</p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;">After signing up, you can obtain a private API token from:</p>';
 
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;"><strong><a href="https://tinyurl.com/app/settings/api" target="_blank" title="TinyURL API">TinyURL API Settings</a></strong></p>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">And then enter it on the <strong>Advanced Settings</strong> dialog.</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">More details here:</p>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;"><strong><a href="https://michaeleskin.com/abctools/userguide.html#private_tinyurl_token" target="_blank" title="Private TinyURL Token">Using a Private TinyURL API Token</a></strong></p>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;margin-top:36px;">Cheers and thanks!</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;"><strong><a href="https://tinyurl.com/app/settings/api" target="_blank" title="TinyURL API">TinyURL API Settings</a></strong></p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;"><strong><a href="https://tinyurl.com/app/settings/api" target="_blank" title="TinyURL API">TinyURL API Settings</a></strong></p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">And then enter it on the <strong>Advanced Settings</strong> dialog.</p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;">And then enter it on the <strong>Advanced Settings</strong> dialog.</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">More details here:</p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;">More details here:</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;"><strong><a href="https://michaeleskin.com/abctools/userguide.html#private_tinyurl_token" target="_blank" title="Private TinyURL Token">Using a Private TinyURL API Token</a></strong></p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;"><strong><a href="https://michaeleskin.com/abctools/userguide.html#private_tinyurl_token" target="_blank" title="Private TinyURL Token">Using a Private TinyURL API Token</a></strong></p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;margin-top:36px;">Cheers and thanks!</p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;margin-top:36px;">Cheers and thanks!</p>';
   modal_msg += '<div style="text-align:center"><img style="width:150px;" src="img/michael150.webp"/></div>';
-  modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">Michael Eskin</p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:14pt;text-align:center;">Michael Eskin</p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="text-align:center;">Michael Eskin</p>';
 
   DayPilot.Modal.alert(modal_msg, {
     theme: "modal_flat",
@@ -58458,14 +58669,20 @@ function CheckFacebook_iOS() {
         if (the_href) {
 
           the_href = "x-safari-" + the_href;
-          var modal_msg = '<p style="text-align:center;font-size:18pt;margin-top:60px;">Facebook iOS App Browser Issue</p>';
-          modal_msg += '<p style="font-size:12pt;line-height:30pt;">The Facebook iOS app browser does not support running the ABC Tools.</p>';
+          // var modal_msg = '<p style="text-align:center;font-size:18pt;margin-top:60px;">Facebook iOS App Browser Issue</p>';
+          var modal_msg = '<p class="modal-title" style="margin-top:60px;">Facebook iOS App Browser Issue</p>';
+          // modal_msg += '<p style="font-size:12pt;line-height:30pt;">The Facebook iOS app browser does not support running the ABC Tools.</p>';
+          modal_msg += '<p class="modal-text modal-text-spaced">The Facebook iOS app browser does not support running the ABC Tools.</p>';
 
-          modal_msg += '<p style="font-size:12pt;line-height:20pt;font-family:var(--abctools-font-fallback-ui)">Try opening the ABC Transcription Tools in Safari by clicking the button below.</p>';
+          // modal_msg += '<p style="font-size:12pt;line-height:20pt;font-family:var(--abctools-font-fallback-ui)">Try opening the ABC Transcription Tools in Safari by clicking the button below.</p>';
+          modal_msg += '<p class="modal-text modal-text-spaced">Try opening the ABC Transcription Tools in Safari by clicking the button below.</p>';
 
-          modal_msg += '<p style="font-size:12pt;line-height:18pt;">If that doesn\'t work:</p>';
-          modal_msg += '<p style="font-size:12pt;line-height:20pt;">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
-          modal_msg += '<p style="font-size:12pt;line-height:12pt;">2) Click <strong>Open in external browser</strong></p>';
+          // modal_msg += '<p style="font-size:12pt;line-height:18pt;">If that doesn\'t work:</p>';
+          modal_msg += '<p class="modal-text">If that doesn\'t work:</p>';
+          // modal_msg += '<p style="font-size:12pt;line-height:20pt;">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
+          modal_msg += '<p class="modal-text modal-text-spaced">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
+          // modal_msg += '<p style="font-size:12pt;line-height:12pt;">2) Click <strong>Open in external browser</strong></p>';
+          modal_msg += '<p class="modal-text modal-text-tight">2) Click <strong>Open in external browser</strong></p>';
 
           modal_msg += '<p style="text-align:center"><a style="display: inline-block; padding: 10px 20px; margin-top:40px; font-size: 18px; color: white; background-color: #007BFF; text-align: center; text-decoration: none; border-radius: 5px; transition: background-color 0.3s ease;" href=' + the_href + '>Click here to open in Safari</a></p>';
         }
@@ -58473,22 +58690,32 @@ function CheckFacebook_iOS() {
 
         // Cross-domain issue
 
-        var modal_msg = '<p style="text-align:center;font-size:18pt;margin-top:40px;">Facebook iOS App Browser Issue</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:30pt;">The Facebook iOS app browser does not support running the ABC Tools.</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">To open the ABC Transcription Tools in Safari from this view:</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:20pt;">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
-        modal_msg += '<p style="font-size:12pt;line-height:12pt;">2) Click <strong>Open in external browser</strong></p>';
+        // var modal_msg = '<p style="text-align:center;font-size:18pt;margin-top:40px;">Facebook iOS App Browser Issue</p>';
+        var modal_msg = '<p class="modal-title" style="margin-top:40px;">Facebook iOS App Browser Issue</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:30pt;">The Facebook iOS app browser does not support running the ABC Tools.</p>';
+        modal_msg += '<p class="modal-text modal-text-spaced">The Facebook iOS app browser does not support running the ABC Tools.</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:18pt;margin-top:36px;">To open the ABC Transcription Tools in Safari from this view:</p>';
+        modal_msg += '<p class="modal-text" style="margin-top:36px;">To open the ABC Transcription Tools in Safari from this view:</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:20pt;">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
+        modal_msg += '<p class="modal-text modal-text-spaced">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
+        // modal_msg += '<p style="font-size:12pt;line-height:12pt;">2) Click <strong>Open in external browser</strong></p>';
+        modal_msg += '<p class="modal-text modal-text-tight">2) Click <strong>Open in external browser</strong></p>';
 
       }
 
     } else {
 
       // Instructions for iOS 16 and before
-      var modal_msg = '<p style="text-align:center;font-size:18pt;margin-top:40px;">Facebook iOS App Browser Issue</p>';
-      modal_msg += '<p style="font-size:12pt;line-height:30pt;">The Facebook iOS app browser does not support running the ABC Tools.</p>';
-      modal_msg += '<p style="font-size:12pt;line-height:18pt;">To open the ABC Transcription Tools in Safari from this view:</p>';
-      modal_msg += '<p style="font-size:12pt;line-height:20pt;">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
-      modal_msg += '<p style="font-size:12pt;line-height:12pt;">2) Click <strong>Open in external browser</strong></p>';
+      // var modal_msg = '<p style="text-align:center;font-size:18pt;margin-top:40px;">Facebook iOS App Browser Issue</p>';
+      var modal_msg = '<p class="modal-title" style="margin-top:40px;">Facebook iOS App Browser Issue</p>';
+      // modal_msg += '<p style="font-size:12pt;line-height:30pt;">The Facebook iOS app browser does not support running the ABC Tools.</p>';
+      modal_msg += '<p class="modal-text modal-text-spaced">The Facebook iOS app browser does not support running the ABC Tools.</p>';
+      // modal_msg += '<p style="font-size:12pt;line-height:18pt;">To open the ABC Transcription Tools in Safari from this view:</p>';
+      modal_msg += '<p class="modal-text">To open the ABC Transcription Tools in Safari from this view:</p>';
+      // modal_msg += '<p style="font-size:12pt;line-height:20pt;">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
+      modal_msg += '<p class="modal-text modal-text-spaced">1) Click the&nbsp;&nbsp;<strong><span style="font-size:18pt">...</span></strong>&nbsp;&nbsp;at the top-right of the screen</p>';
+      // modal_msg += '<p style="font-size:12pt;line-height:12pt;">2) Click <strong>Open in external browser</strong></p>';
+      modal_msg += '<p class="modal-text modal-text-tight">2) Click <strong>Open in external browser</strong></p>';
 
     }
 
@@ -58605,7 +58832,8 @@ function fileOpenIntercept(e) {
 
   if (gIsDirty) {
 
-    var thePrompt = '<p style="font-size:18pt;line-height:20pt;text-align:center;">You Have Unsaved Changes</p><p style="font-size:13pt;line-height:16pt;text-align:center;margin-top:30px;">Click "OK" to abandon your work and open a new file.<br/><br/>Click "Cancel" to go back.</p>';
+    // var thePrompt = '<p style="font-size:18pt;line-height:20pt;text-align:center;">You Have Unsaved Changes</p><p style="font-size:13pt;line-height:16pt;text-align:center;margin-top:30px;">Click "OK" to abandon your work and open a new file.<br/><br/>Click "Cancel" to go back.</p>';
+    var thePrompt = '<p class="modal-title">You Have Unsaved Changes</p><p style="font-size:13pt;line-height:16pt;text-align:center;margin-top:30px;">Click "OK" to abandon your work and open a new file.<br/><br/>Click "Cancel" to go back.</p>';
 
     // Center the string in the prompt
     thePrompt = makeCenteredPromptString(thePrompt);
@@ -58723,7 +58951,8 @@ function isPureDesktopBrowser() {
 // Create a centered prompt string
 //
 function makeCenteredPromptString(thePrompt) {
-  return '<p style="font-size:12pt;line-height:18pt;text-align:center">' + thePrompt + '</p>';
+  // return '<p style="font-size:12pt;line-height:18pt;text-align:center">' + thePrompt + '</p>';
+  return '<p class="modal-alert-msg" style="text-align:center">' + thePrompt + '</p>';
 }
 
 //
@@ -59575,14 +59804,16 @@ function InjectMIDIGChordTemplates() {
 		'Inject MIDI gchord Templates&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject an inline %%MIDI gchord backup pattern annotation for each measure of the current tune along with optional inline %%MIDI gchordstress and %%MIDI gchordduration vectors:</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:36px;font-size:12pt;line-height:18pt;">This will inject an inline %%MIDI gchord backup pattern annotation for each measure of the current tune along with optional inline %%MIDI gchordstress and %%MIDI gchordduration vectors:</p>'
+    html: '<p class="modal-text" style="margin-top:36px;margin-bottom:36px;">This will inject an inline %%MIDI gchord backup pattern annotation for each measure of the current tune along with optional inline %%MIDI gchordstress and %%MIDI gchordduration vectors:</p>'
   }, {
     name: "    %%MIDI gchord pattern:",
     id: "injectPattern",
     type: "text",
     cssClass: "inject_gchord_templates_form_text"
   }, {
-    html: '<p style="margin-top:10px;font-size:4pt;">&nbsp;</p>'
+//     html: '<p style="margin-top:10px;font-size:4pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-4pt" style="margin-top:10px;"></div>'
   }, {
     name: "          Include inline %%MIDI gchordstress vector for each measure",
     id: "bDoInjectStress",
@@ -59594,7 +59825,8 @@ function InjectMIDIGChordTemplates() {
     type: "text",
     cssClass: "inject_gchord_templates_form_text"
   }, {
-    html: '<p style="margin-top:10px;font-size:4pt;">&nbsp;</p>'
+//     html: '<p style="margin-top:10px;font-size:4pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-4pt" style="margin-top:10px;"></div>'
   }, {
     name: "          Include inline %%MIDI gchordduration vector for each measure",
     id: "bDoInjectDuration",
@@ -59606,7 +59838,8 @@ function InjectMIDIGChordTemplates() {
     type: "text",
     cssClass: "inject_gchord_templates_form_text"
   }, {
-    html: '<p style="margin-top:24px;font-size:12pt;line-height:18pt;">&nbsp;</p>'
+//     html: '<p style="margin-top:24px;font-size:12pt;line-height:18pt;">&nbsp;</p>'
+    html: '<div class="modal-text" style="margin-top:24px;">&nbsp;</div>'
   }, ];
 
   const modal = DayPilot.Modal.form(form, theData, {
@@ -59961,7 +60194,8 @@ function JumpToTune() {
       'Jump to Tune&nbsp;&nbsp;' +
       '</h2>'
     }, {
-      html: '<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;margin-left:5px;" id="jumpToSearchValue" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here" oninput="JumpToSearch();"/>'
+      // html: '<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;margin-left:5px;" id="jumpToSearchValue" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here" oninput="JumpToSearch();"/>'
+      html: '<input style="width:100%;padding:6px;margin-left:5px;" id="jumpToSearchValue" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here" oninput="JumpToSearch();"/>'
     }, {
       html: theJumpDiv
     },
@@ -60766,24 +61000,30 @@ function FindAndReplace() {
 		'</h2>';
 
   if (isPureDesktopBrowser()){
-    modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Find:<br/><textarea style="width:625px;padding:6px;" id="searchText" title="Enter text to find here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Text to find..." rows="7"></textarea></p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Find:<br/><textarea style="width:625px;padding:6px;" id="searchText" title="Enter text to find here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Text to find..." rows="7"></textarea></p>';
+    modal_msg += '<p class="modal-text modal-text-spaced" style="margin-top:0px;">Find:<br/><textarea style="width:625px;padding:6px;" id="searchText" title="Enter text to find here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Text to find..." rows="7"></textarea></p>';
   }
   else{
-    modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Find:<br/><textarea style="width:625px;padding:6px;" id="searchText" title="Enter text to find here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Text to find..." rows="4"></textarea></p>';    
+    // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Find:<br/><textarea style="width:625px;padding:6px;" id="searchText" title="Enter text to find here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Text to find..." rows="4"></textarea></p>';    
+    modal_msg += '<p class="modal-text modal-text-spaced" style="margin-top:0px;">Find:<br/><textarea style="width:625px;padding:6px;" id="searchText" title="Enter text to find here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Text to find..." rows="4"></textarea></p>';    
   }
 
-  modal_msg += '<p style="font-size:12pt;line-height:12pt;margin-top:0px;">Case sensitive?&nbsp;<input id="searchCaseSensitive" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" onchange="SR_findMatches();gSR_startOffset=SR_getEditorSelectionStart();gSR_currentIndex=-1;" checked/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Match using regular expression?&nbsp;<input id="searchRegex" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" onchange="SR_findMatches();gSR_startOffset=SR_getEditorSelectionStart();gSR_currentIndex=-1;"/></p>';
+  // modal_msg += '<p style="font-size:12pt;line-height:12pt;margin-top:0px;">Case sensitive?&nbsp;<input id="searchCaseSensitive" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" onchange="SR_findMatches();gSR_startOffset=SR_getEditorSelectionStart();gSR_currentIndex=-1;" checked/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Match using regular expression?&nbsp;<input id="searchRegex" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" onchange="SR_findMatches();gSR_startOffset=SR_getEditorSelectionStart();gSR_currentIndex=-1;"/></p>';
+  modal_msg += '<p class="modal-text modal-text-tight" style="margin-top:0px;">Case sensitive?&nbsp;<input id="searchCaseSensitive" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" onchange="SR_findMatches();gSR_startOffset=SR_getEditorSelectionStart();gSR_currentIndex=-1;" checked/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Match using regular expression?&nbsp;<input id="searchRegex" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" onchange="SR_findMatches();gSR_startOffset=SR_getEditorSelectionStart();gSR_currentIndex=-1;"/></p>';
 
   if (isPureDesktopBrowser()){
-    modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Replace with:<br/><textarea style="width:625px;padding:6px;" id="replacementText" title="Enter replacement text here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Replace with..." rows="7"></textarea></p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Replace with:<br/><textarea style="width:625px;padding:6px;" id="replacementText" title="Enter replacement text here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Replace with..." rows="7"></textarea></p>';
+    modal_msg += '<p class="modal-text modal-text-spaced" style="margin-top:0px;">Replace with:<br/><textarea style="width:625px;padding:6px;" id="replacementText" title="Enter replacement text here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Replace with..." rows="7"></textarea></p>';
   }
   else{
-    modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Replace with:<br/><textarea style="width:625px;padding:6px;" id="replacementText" title="Enter replacement text here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Replace with..." rows="5"></textarea></p>';
+    // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;">Replace with:<br/><textarea style="width:625px;padding:6px;" id="replacementText" title="Enter replacement text here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Replace with..." rows="5"></textarea></p>';
+    modal_msg += '<p class="modal-text modal-text-spaced" style="margin-top:0px;">Replace with:<br/><textarea style="width:625px;padding:6px;" id="replacementText" title="Enter replacement text here" autocomplete="off" autocorrect="off" spellcheck="false" autocapitalize="none" placeholder="Replace with..." rows="5"></textarea></p>';
   }
   // Lite: Customized
   // Fix input inaccessible for tabbing
   // Replace inline styles with reusable classes
-  modal_msg += '<p class="btn-container" style="font-size:12pt;text-align:center;margin-top:24px;"><input class="btn btn-search-previous search-previous" id="search-previous" onclick="SR_search_previous();" type="button" value="Find Previous" title="Find previous match"/><input class="btn btn-search-next search-next" id="search-next" onclick="SR_search_next();" type="button" value="Find Next" title="Find next match"/><input class="btn btn-search-replace search-replace" id="search-replace" onclick="SR_replaceOne();" type="button" value="Replace" title="Replace one text instance"/><input class="btn btn-search-replace-all search-replace-all" id="search-replace-all" onclick="SR_replaceAll();" type="button" value="Replace All" title="Replace all text instances"/><label for="load_find_replace_fs" class="btn btn-search-load search-load" id="search-load" type="button" title="Load Find and Replace settings">Load<input type="file" id="load_find_replace_fs" accept=".txt,.TXT" class="visually-hidden"/></label><input class="btn btn-search-save search-save" id="search-save" onclick="SR_save();" type="button" value="Save" title="Save Find and Replace settings"/></p>';
+  // modal_msg += '<p class="btn-container" style="font-size:12pt;text-align:center;margin-top:24px;"><input class="btn btn-search-previous search-previous" id="search-previous" onclick="SR_search_previous();" type="button" value="Find Previous" title="Find previous match"/><input class="btn btn-search-next search-next" id="search-next" onclick="SR_search_next();" type="button" value="Find Next" title="Find next match"/><input class="btn btn-search-replace search-replace" id="search-replace" onclick="SR_replaceOne();" type="button" value="Replace" title="Replace one text instance"/><input class="btn btn-search-replace-all search-replace-all" id="search-replace-all" onclick="SR_replaceAll();" type="button" value="Replace All" title="Replace all text instances"/><label for="load_find_replace_fs" class="btn btn-search-load search-load" id="search-load" type="button" title="Load Find and Replace settings">Load<input type="file" id="load_find_replace_fs" accept=".txt,.TXT" class="visually-hidden"/></label><input class="btn btn-search-save search-save" id="search-save" onclick="SR_save();" type="button" value="Save" title="Save Find and Replace settings"/></p>';
+  modal_msg += '<p class="btn-container" style="text-align:center;margin-top:24px;"><input class="btn btn-search-previous search-previous" id="search-previous" onclick="SR_search_previous();" type="button" value="Find Previous" title="Find previous match"/><input class="btn btn-search-next search-next" id="search-next" onclick="SR_search_next();" type="button" value="Find Next" title="Find next match"/><input class="btn btn-search-replace search-replace" id="search-replace" onclick="SR_replaceOne();" type="button" value="Replace" title="Replace one text instance"/><input class="btn btn-search-replace-all search-replace-all" id="search-replace-all" onclick="SR_replaceAll();" type="button" value="Replace All" title="Replace all text instances"/><label for="load_find_replace_fs" class="btn btn-search-load search-load" id="search-load" type="button" title="Load Find and Replace settings">Load<input type="file" id="load_find_replace_fs" accept=".txt,.TXT" class="visually-hidden"/></label><input class="btn btn-search-save search-save" id="search-save" onclick="SR_save();" type="button" value="Save" title="Save Find and Replace settings"/></p>';
 
   DayPilot.Modal.alert(modal_msg, {
     theme: "modal_flat",
@@ -61154,16 +61394,19 @@ function SplitLongTextAndTags() {
 		'Split Long Tags and Text&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:36px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will split long strings in tags and/or text at the specified line length.</p>'
+    // html: '<p style="margin-top:36px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will split long strings in tags and/or text at the specified line length.</p>'
+    html: '<p class="modal-text" style="margin-top:36px;margin-bottom:24px;">This will split long strings in tags and/or text at the specified line length.</p>'
   }, {
-    html: '<p style="font-size:5pt;">&nbsp;</p>'
+//     html: '<p style="font-size:5pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-5pt"></div>'
   }, {
     name: "Maximum line length:",
     id: "max_tag_line_length",
     type: "number",
     cssClass: "splitlongtextandtags"
   }, {
-    html: '<p style="font-size:5pt;">&nbsp;</p>'
+//     html: '<p style="font-size:5pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-5pt"></div>'
   }, {
     name: "          Split tags",
     id: "bSplitTags",
@@ -61175,14 +61418,16 @@ function SplitLongTextAndTags() {
     type: "text",
     cssClass: "splitlongtextandtags_text"
   }, {
-    html: '<p style="font-size:5pt;">&nbsp;</p>'
+//     html: '<p style="font-size:5pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-5pt"></div>'
   }, {
     name: "          Split text",
     id: "bSplitText",
     type: "checkbox",
     cssClass: "splitlongtextandtags"
   }, {
-    html: '<p style="font-size:5pt;">&nbsp;</p>'
+//     html: '<p style="font-size:5pt;">&nbsp;</p>'
+    html: '<div class="modal-spacer-5pt"></div>'
   }, {
     name: "          Split all tunes",
     id: "bSplitAllTunes",
@@ -61456,11 +61701,12 @@ function NormalizeDiacriticals() {
 		'Normalize Diacriticals&nbsp;&nbsp;' +
 		'</h2>';
 
-  modal_msg += '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">When sorting the tunes by title or generating a sorted Table of Contents or Index in an exported PDF, for optimal sorting and title display, it is best to normalize the diacriticals if escaped versions were used in the ABC.</p>';
-
-  modal_msg += '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Click <strong>Normalize Diacriticals</strong> to replace all escaped /\'A or /\'E style diacriticals with single characters that include the diacritical marks, for example, Á and É.</p>';
-
-  modal_msg += '<p style="margin-top:24px;margin-bottom:36px;font-size:12pt;line-height:18pt;">Click <strong>Escape Diacriticals</strong> to replace all single characters that include the diacritical marks, for example, Á and É with escaped /\'A or /\'E style diacriticals.</p>';
+  // modal_msg += '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">When sorting the tunes by title or generating a sorted Table of Contents or Index in an exported PDF, for optimal sorting and title display, it is best to normalize the diacriticals if escaped versions were used in the ABC.</p>';
+  // modal_msg += '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Click <strong>Normalize Diacriticals</strong> to replace all escaped /\'A or /\'E style diacriticals with single characters that include the diacritical marks, for example, Á and É.</p>';
+  // modal_msg += '<p style="margin-top:24px;margin-bottom:36px;font-size:12pt;line-height:18pt;">Click <strong>Escape Diacriticals</strong> to replace all single characters that include the diacritical marks, for example, Á and É with escaped /\'A or /\'E style diacriticals.</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:24px;margin-bottom:12px;">When sorting the tunes by title or generating a sorted Table of Contents or Index in an exported PDF, for optimal sorting and title display, it is best to normalize the diacriticals if escaped versions were used in the ABC.</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:24px;margin-bottom:12px;">Click <strong>Normalize Diacriticals</strong> to replace all escaped /\'A or /\'E style diacriticals with single characters that include the diacritical marks, for example, Á and É.</p>';
+  modal_msg += '<p class="modal-text" style="margin-top:24px;margin-bottom:36px;">Click <strong>Escape Diacriticals</strong> to replace all single characters that include the diacritical marks, for example, Á and É with escaped /\'A or /\'E style diacriticals.</p>';
 
   modal_msg += '<p style="text-align:center;"><input id="normalizediacriticals" class="advancedcontrols btn btn-injectcontrols-headers" onclick="DoNormalizeDiacriticals(false)" type="button" value="Normalize Diacriticals" title="Normalizes escaped diacriticals">';
 
@@ -61693,11 +61939,14 @@ function NormalizeTitles() {
 		'Normalize Title Postfixes&nbsp;&nbsp;' +
 		'</h2>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Click one of the two actions below to process all title or subtitle T: tag postfix or prefix articles, for example:<br/><br/>"Kesh, The" and "Slockit Light, Da"<br/><br/>to the front of the titles and subtitles resulting in:<br/><br/>"The Kesh" and "Da Slockit Light" or the other way around.</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Click one of the two actions below to process all title or subtitle T: tag postfix or prefix articles, for example:<br/><br/>"Kesh, The" and "Slockit Light, Da"<br/><br/>to the front of the titles and subtitles resulting in:<br/><br/>"The Kesh" and "Da Slockit Light" or the other way around.</p>'
+    html: '<p class="modal-text" style="margin-top:24px;margin-bottom:12px;">Click one of the two actions below to process all title or subtitle T: tag postfix or prefix articles, for example:<br/><br/>"Kesh, The" and "Slockit Light, Da"<br/><br/>to the front of the titles and subtitles resulting in:<br/><br/>"The Kesh" and "Da Slockit Light" or the other way around.</p>'
   }, {
-    html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">The title or subtitle postfix articles that can be normalized are:</p>'
+    // html: '<p style="margin-top:24px;margin-bottom:12px;font-size:12pt;line-height:18pt;">The title or subtitle postfix articles that can be normalized are:</p>'
+    html: '<p class="modal-text" style="margin-top:24px;margin-bottom:12px;">The title or subtitle postfix articles that can be normalized are:</p>'
   }, {
-    html: '<p style="margin-top:18px;margin-bottom:48px;font-size:12pt;line-height:18pt;">The, the, A, a, An, an, Da, La, Le, Les, Ye, Der, Die, Das, Ein, Eine</p>'
+    // html: '<p style="margin-top:18px;margin-bottom:48px;font-size:12pt;line-height:18pt;">The, the, A, a, An, an, Da, La, Le, Les, Ye, Der, Die, Das, Ein, Eine</p>'
+    html: '<p class="modal-text" style="margin-top:18px;margin-bottom:48px;">The, the, A, a, An, an, Da, La, Le, Les, Ye, Der, Die, Das, Ein, Eine</p>'
   }, {
     html: '<p style="text-align:center;margin-top:18px;margin-bottom:12px"><input id="title_normalize_forward" style="margin-right:18px;" class="advancedcontrols btn btn-injectcontrols-headers" onclick="normalizeTitleArticles(false);" type="button" value="Kesh, The → The Kesh" title="Move the title postfixes to the start of the titles"><input id="title_normalize_inverse" style="margin-right:18px;" class="advancedcontrols btn btn-injectcontrols-headers" onclick="normalizeTitleArticles(true);" type="button" value="The Kesh → Kesh, The" title="Moves the title prefixes to the end of the titles"></p>'
   }, {
@@ -64414,9 +64663,12 @@ async function DoStartup() {
 
                   button.classList.remove("abcjs-loading");
 
-                  var modal_msg = '<p style="text-align:center;font-size:18pt;">Click OK to Play</p>';
-                  modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:36px;text-align:center;">Your browser requires a click before you can use F4 to play the tune.</p>';
-                  modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:18px;text-align:center;">Please click OK to play the tune.</p>';
+                  // var modal_msg = '<p style="text-align:center;font-size:18pt;">Click OK to Play</p>';
+                  var modal_msg = '<p class="modal-title">Click OK to Play</p>';
+                  // modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:36px;text-align:center;">Your browser requires a click before you can use F4 to play the tune.</p>';
+                  modal_msg += '<p class="modal-alert-msg" style="margin-top:36px;">Your browser requires a click before you can use F4 to play the tune.</p>';
+                  // modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:18px;text-align:center;">Please click OK to play the tune.</p>';
+                  modal_msg += '<p class="modal-alert-msg" style="margin-top:18px;">Please click OK to play the tune.</p>';
 
                   DayPilot.Modal.alert(modal_msg, {
                     theme: "modal_flat",
@@ -64596,9 +64848,12 @@ async function DoStartup() {
 
                 button.classList.remove("abcjs-loading");
 
-                var modal_msg = '<p style="text-align:center;font-size:18pt;">Click OK to Play</p>';
-                modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:36px;text-align:center;">Your browser requires a click before you can use F4 to play the tune.</p>';
-                modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:18px;text-align:center;">Please click OK to play the tune.</p>';
+                // var modal_msg = '<p style="text-align:center;font-size:18pt;">Click OK to Play</p>';
+                var modal_msg = '<p class="modal-title">Click OK to Play</p>';
+                // modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:36px;text-align:center;">Your browser requires a click before you can use F4 to play the tune.</p>';
+                modal_msg += '<p class="modal-alert-msg" style="margin-top:36px;">Your browser requires a click before you can use F4 to play the tune.</p>';
+                // modal_msg += '<p style="font-size:14pt;line-height:18pt;margin-top:18px;text-align:center;">Please click OK to play the tune.</p>';
+                modal_msg += '<p class="modal-alert-msg" style="margin-top:18px;">Please click OK to play the tune.</p>';
 
                 DayPilot.Modal.alert(modal_msg, {
                   theme: "modal_flat",
@@ -66007,16 +66262,21 @@ function PhraseBuilder(theTrainerTune,callback){
     'Phrase-by-Phrase Tune Trainer Builder&nbsp;&nbsp;' +
     '</h2>'
   },{
-      html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will break the tune(s) into groups of measures of the phrase length specified below followed by the same number of measures of rests.</p>'
+      // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">This will break the tune(s) into groups of measures of the phrase length specified below followed by the same number of measures of rests.</p>'
+      html: '<p class="modal-text" style="margin-top:24px;margin-bottom:24px;">This will break the tune(s) into groups of measures of the phrase length specified below followed by the same number of measures of rests.</p>'
   },{
-      html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">If you want additional full-measure rest time between the phrases, set the rest padding value as desired.</p>'
+      // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">If you want additional full-measure rest time between the phrases, set the rest padding value as desired.</p>'
+      html: '<p class="modal-text" style="margin-top:24px;margin-bottom:24px;">If you want additional full-measure rest time between the phrases, set the rest padding value as desired.</p>'
   },{ 
-      html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">The resulting ABC can be brought into the Tune Trainer for "Call and Response" style phrase-by-phrase tune training.</p>'
+      // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">The resulting ABC can be brought into the Tune Trainer for "Call and Response" style phrase-by-phrase tune training.</p>'
+      html: '<p class="modal-text" style="margin-top:24px;margin-bottom:24px;">The resulting ABC can be brought into the Tune Trainer for "Call and Response" style phrase-by-phrase tune training.</p>'
   }, {
-      html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">All chords in the tune(s) will be stripped.</p>'
+      // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">All chords in the tune(s) will be stripped.</p>'
+      html: '<p class="modal-text" style="margin-top:24px;margin-bottom:24px;">All chords in the tune(s) will be stripped.</p>'
   },
   {
-      html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">Tunes with V: tags or other ABC tags at the start of lines outside the header will be skipped.</p>'
+      // html: '<p style="margin-top:24px;margin-bottom:24px;font-size:12pt;line-height:18pt;">Tunes with V: tags or other ABC tags at the start of lines outside the header will be skipped.</p>'
+      html: '<p class="modal-text" style="margin-top:24px;margin-bottom:24px;">Tunes with V: tags or other ABC tags at the start of lines outside the header will be skipped.</p>'
   }, 
   {
     name: "Phrase length in measures:",
@@ -66395,7 +66655,8 @@ function OpenInPureOcarinas(abcText){
     }
     else{
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL is too long to open in the Pure Ocarinas tool.</p>', {
+      // DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL is too long to open in the Pure Ocarinas tool.</p>', {
+      DayPilot.Modal.alert('<p class="modal-text" style="text-align:center;">Share URL is too long to open in the Pure Ocarinas tool.</p>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())
@@ -66419,7 +66680,8 @@ function OpenInABCJSQuickEditor(abcText){
     }
     else{
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL is too long to open in the abcjs Quick Editor.</p>', {
+      // DayPilot.Modal.alert('<p style="text-align:center;font-size:12pt;">Share URL is too long to open in the abcjs Quick Editor.</p>', {
+      DayPilot.Modal.alert('<p class="modal-text" style="text-align:center;">Share URL is too long to open in the abcjs Quick Editor.</p>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())
@@ -66480,7 +66742,8 @@ function OpenInABCEncoder(abcText){
     }
     else{
 
-      DayPilot.Modal.alert('<p style="text-align:center;font-family:var(--abctools-font-fallback-ui);font-size:12pt;">Share URL is too long to open in the ABC Encoder.</p>', {
+      // DayPilot.Modal.alert('<p style="text-align:center;font-family:var(--abctools-font-fallback-ui);font-size:12pt;">Share URL is too long to open in the ABC Encoder.</p>', {
+      DayPilot.Modal.alert('<p class="modal-text" style="text-align:center;">Share URL is too long to open in the ABC Encoder.</p>', {
         theme: "modal_flat",
         top: 230,
         scrollWithPage: (AllowDialogsToScroll())
@@ -66855,21 +67118,21 @@ function buildAbcjsEditorHtml(seed, contentId){
   <style>
     .dp-modal .dp-modal-main { width: 700px !important; max-width: 700px !important; }
 
-    .abcjs_custom_css-theme { ,system-ui,-apple-system,Segoe UI,Roboto,sans-serif; font-size: 13px; }
-    .abcjs_custom_css-title { text-align:center; font-size: 24px; margin: 24px 0 24px; }
+    .abcjs_custom_css-theme { ,system-ui,-apple-system,Segoe UI,Roboto,sans-serif; font-size: var(--abctools-font-size-label-xs-10); }
+    .abcjs_custom_css-title { text-align:center; font-size: var(--abctools-font-size-header-m-18); margin: 24px 0 24px; }
 
     .abcjs_custom_css-scroll { border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
-    .abcjs_custom_css-head { font-size: 16px; font-weight: 600; color: #111827; text-align:center; }
+    .abcjs_custom_css-head { font-size: var(--abctools-font-size-label-m-12); font-weight: 600; color: #111827; text-align:center; }
 
     .abcjs_custom_css-grid-body { padding: 8px; }
-    .abcjs_custom_css-cell.key code { color: #111827; , Helvetica, Arial, sans-serif; font-size: 12pt; }
+    .abcjs_custom_css-cell.key code { color: #111827; , Helvetica, Arial, sans-serif; font-size: var(--abctools-font-size-label-m-12); }
 
     .abcjs_custom_css-grid-head {position: sticky; top: 0; z-index: 1; display: grid; grid-template-columns: 45% 55%; column-gap: 6px; align-items: center; padding: 8px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
     .abcjs_custom_css-row {display: grid; grid-template-columns: 45% 55%; align-items: center; gap: 6px; margin: 10px 0; }
     .abcjs_custom_css-color {width: 96%; height: 45px; padding: 0; border: 1px solid #cfd4dc; border-radius: 6px; }
     .abcjs_custom_css-actions { display: flex; gap: 30px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
 
-    .abcjs_custom_css-btn {appearance: none; border: 1px solid #cfd4dc; border-radius: 6px; padding: 8px 14px; background: #fff; cursor: pointer; font-size: 14px; min-width: 180px; transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
+    .abcjs_custom_css-btn {appearance: none; border: 1px solid #cfd4dc; border-radius: 6px; padding: 8px 14px; background: #fff; cursor: pointer; font-size: var(--abctools-font-size-label-s-11); min-width: 180px; transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease; }
 
     .abcjs_custom_css-btn.primary {background: darkblue; color: #fff; border-color: darkblue; }
 
@@ -67226,13 +67489,13 @@ function buildEditorHtml(seed, contentId){
     .dp-modal .dp-modal-main { width: 780px !important; max-width: 780px !important; }
     .dp-modal .dp-modal-title { text-align: center !important; }
 
-    .abc-theme { , system-ui,-apple-system,Segoe UI,Roboto,sans-serif; font-size: 13px; }
+    .abc-theme { font-size: var(--abctools-font-size-label-xs-10); }
     .abc-wrap  { width: 740px; margin: 0px -10px; position:relative; }
-    .abc-title { text-align:center; font-size: 24px; margin: 24px 0 24px; }
+    .abc-title { text-align:center; font-size: var(--abctools-font-size-header-m-18); margin: 24px 0 24px; }
 
     .abc-grid {display:grid; grid-template-columns: 170px 64px 120px 1fr 1fr; column-gap:10px; align-items:center; }
     .abc-grid-head { margin-bottom: 8px; }
-    .abc-head { , system-ui,-apple-system,Segoe UI,Roboto,sans-serif; font-size: 14px;font-weight:600; color:#111827; padding: 0 2px 2px;}
+    .abc-head { font-size: var(--abctools-font-size-label-s-11); font-weight:600; color:#111827; padding: 0 2px 2px;}
 
     .abc-grid-body { row-gap: 8px; }
     .abc-row { display: contents; }
@@ -67244,7 +67507,7 @@ function buildEditorHtml(seed, contentId){
     .abc-cell.c5 { grid-column:5; }
 
     .abc-cell.key { white-space: nowrap; }
-    .abc-cell.key code {, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-size: 14px; font-weight: 700; /* bold */ color: #111827; }
+    .abc-cell.key code {, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; font-size: var(--abctools-font-size-label-s-11); font-weight: 700; /* bold */ color: #111827; }
     .abc-color { width: 48px; height: 33px; padding:0; border:1px solid #cfd4dc; border-radius:4px; background:#f9fafb; }
     .abc-sel   { width: 100%; height:28px; padding:2px 8px; border:1px solid #cfd4dc; border-radius:4px; background:#fff; }
 
@@ -67265,7 +67528,7 @@ function buildEditorHtml(seed, contentId){
       }
     }
     .abc-btn:active { transform: translateY(1px); }
-    .abc-actions .abc-btn { font-size:14px; height:auto; min-height:32px; width:195px; line-height:1.2; white-space:nowrap; }
+    .abc-actions .abc-btn { font-size: var(--abctools-font-size-label-s-11); height:auto; min-height:32px; width:195px; line-height:1.2; white-space:nowrap; }
     .modal_flat_buttons .abc-actions, .dp-modal-buttons .abc-actions { margin-top:0; }
   </style>
 

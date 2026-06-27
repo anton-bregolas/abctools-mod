@@ -8,14 +8,15 @@ body {																											/* vanilla abc tools settings */
   --abctools-font-size-header-xl-24: 2rem;                  /* 24pt */
   --abctools-font-size-header-l-20: 1.667rem;               /* 20pt */
   --abctools-font-size-header-m-18: 1.5rem;                 /* 18pt */
-  --abctools-font-size-header-s: 1.125rem;                  /* 18px */
+  --abctools-font-size-header-sm-16: 1.333rem;              /* 16pt */
 	--abctools-font-size-label-l-14: 1.167rem;    					  /* 14pt */
+  --abctools-font-size-header-s-13: 1.125rem;               /* 18px */
 	--abctools-font-size-code-13: 1.083rem;								    /* 13pt */
 	--abctools-font-size-label-m-12: 1rem;    					      /* 12pt */
 	--abctools-font-size-label-s-11: 0.917rem;							  /* 11pt */
   --abctools-font-size-contextmenu: 0.917rem;               /* 11pt */
   --abctools-font-size-select: 0.917rem;                    /* 11pt */
-	--abctools-font-size-label-xs-10: 0.833rem;						    /* 10pt */
+	--abctools-font-size-label-xs-10: 0.833rem;						    /* 10pt */                       /* ~5pt */
   --abctools-ui-btn-bgcolor: #d8d8d8; 										 /* #d8d8d8 */
   --abctools-ui-btn-bordercolor: gray; 	 								 /* darken(#d8d8d8, 7.5%) */
 	--abctools-ui-btn-boxshadow: none; 												/* 0 0.1rem 0.1rem rgba(0, 0, 0, 0.25), 0 -0.1rem 0.5rem rgba(0, 0, 0, 0.1) inset */
@@ -29,6 +30,10 @@ body {																											/* vanilla abc tools settings */
 	--abctools-ui-float-btn-filter: drop-shadow(1px 1px 7px white);
   --abctools-ui-modal-btn-font-size: 2rem;
   --abctools-ui-modal-btn-width: 2.2rem;
+  --abctools-ui-modal-spacer-11pt: 0.917rem;                /* 11pt */  
+  --abctools-ui-modal-spacer-5pt: 0.417rem;                 /* 5pt */  
+  --abctools-ui-modal-spacer-4pt: 0.333rem;                 /* 4pt */
+  --abctools-ui-modal-spacer-3pt: 0.25rem;                  /* 3pt */
   --abctools-ui-tab-btn-bgcolor: #d5ebfdba;               /* #ffffff */
   --abctools-notation-fullscreen-scaling: 50%;              /* 50% */
 
@@ -266,7 +271,7 @@ div.modal_flat_form_item_label {
 
 .modal_flat_main textarea,
 .modal_flat_wide_main textarea {
-  font-size: var(--abctools-font-size-code);
+  font-size: var(--abctools-font-size-code-13);
   /* color: green !important; */
 }
 
@@ -475,6 +480,67 @@ div.modal_flat_form_item_label {
   padding: 0.65em 1.1em 0;
   width: 100%;
   gap: 1rem;
+}
+
+.modal-alert-msg {
+  font-size: var(--abctools-font-size-label-l-14);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.modal-title-l {
+  font-size: var(--abctools-font-size-header-l-20);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.modal-label-l {
+  font-size: var(--abctools-font-size-label-l-14);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.modal-label {
+  font-size: var(--abctools-font-size-label-m-12);
+}
+
+.modal-text-l {
+  font-size: var(--abctools-font-size-label-l-14);
+  line-height: 1.57;
+}
+
+.modal-text {
+  font-size: var(--abctools-font-size-label-m-12);
+  line-height: 1.5;
+}
+
+.modal-text-s {
+  font-size: var(--abctools-font-size-label-s-11);
+  line-height: 1.5;
+}
+
+.modal-text-spaced {
+  line-height: 1.67;
+}
+
+.modal-text-tight {
+  line-height: 1.2;
+}
+
+.modal-spacer-11pt {
+  height: var(--abctools-ui-modal-spacer-11pt);
+}
+
+.modal-spacer-5pt {
+  height: var(--abctools-ui-modal-spacer-5pt);
+}
+
+.modal-spacer-4pt {
+  height: var(--abctools-ui-modal-spacer-4pt);
+}
+
+.modal-spacer-3pt {
+  height: var(--abctools-ui-modal-spacer-3pt);
 }
 
 /*//////////////////////////////////////////
@@ -883,7 +949,8 @@ body[data-layout="mobile-true"] {                           /* Default */
   --abctools-font-size-header-xl-24: 2rem;                  /* 24pt */
   --abctools-font-size-header-l-20: 1.667rem;               /* 20pt */
   --abctools-font-size-header-m-18: 1.5rem;                 /* 18pt */
-  --abctools-font-size-header-s: 1.125rem;                  /* 18px */
+  --abctools-font-size-header-sm-16: 1.333rem;               /* 16pt */
+  --abctools-font-size-header-s-13: 1.125rem;                  /* 18px */
 	--abctools-font-size-label-l-14: 1.5rem;    					  /* 14pt */
 	--abctools-font-size-code-13: 1.083rem;								    /* 13pt */
 	--abctools-font-size-label-m-12: 1rem;    					      /* 12pt */
