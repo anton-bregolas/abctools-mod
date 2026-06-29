@@ -234,7 +234,7 @@ window.DayPilot = window.DayPilot || {};
 
       dialog.innerHTML =
         '<div class="dp-lite-body ' + theme + '_inner">' +
-          '<div class="dp-lite-body-scroll">' + bodyContent + '</div>' +
+          '<div class="dp-lite-body-scroll" tabindex="-1">' + bodyContent + '</div>' +
           '<div class="dp-lite-footer ' + theme + '_buttons dp-modal-buttons">' + footerButtons + '</div>' +
         '</div>';
 
@@ -258,7 +258,7 @@ window.DayPilot = window.DayPilot || {};
         '<div class="dp-lite-header">' +
         '</div>' +
         '<div class="dp-lite-body ' + theme + '_inner">' +
-          '<div class="dp-lite-body-scroll">' + bodyContent + '</div>' +
+          '<div class="dp-lite-body-scroll" tabindex="-1">' + bodyContent + '</div>' +
         '</div>' +
         '<div class="dp-lite-footer ' + theme + '_buttons dp-modal-buttons">' + footerButtons + '</div>';
 

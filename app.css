@@ -588,7 +588,6 @@ opacity: 0.4;
 #bodhranslipjig,
 #bodhranhornpipe,
 #ceoltasdialog,
-#cull_select_all,
 #changetuneorder,
 #exportall_abcbutton,
 #exportall_mp3button,
@@ -603,7 +602,6 @@ opacity: 0.4;
 #sortbutton,
 #swingexplorertest,
 #tunebookbuilder-play,
-#tuneset_select_all,
 #websiteimages {
 	margin-right: 1.5rem;
 }
@@ -4124,7 +4122,9 @@ padding-left:10px;
 	}
 }
 
-.draggable_tune {
+/* .draggable_tune {
+display: block;
+position: relative;
 cursor: grab;
 user-select: none;
 margin: 5px;
@@ -4135,6 +4135,8 @@ font-size: var(--abctools-font-size-label-m-12);
 }
 
 .draggable_tune_mobile{
+display: block;
+position: relative;
 cursor: grab;
 user-select: none;
 margin: 5px;
@@ -4142,17 +4144,19 @@ padding: 10px;
 border: 1px solid #ddd;
 background-color: #f9f9f9;
 font-size: var(--abctools-font-size-label-m-12);
-}
+} */
 
-.draggable_tune_selected {
+/* .draggable_tune_selected {
 	background-color: #B0FFB0;
-}
+} */
 
-.draggable_tune_mobile_selected {
+/* .draggable_tune_mobile_selected {
 	background-color: #B0FFB0;
-}
+} */
 
-.cullable_tune {
+/* .cullable_tune {
+display: block;
+position: relative;
 cursor: grab;
 user-select: none;
 margin: 5px;
@@ -4160,13 +4164,14 @@ padding: 10px;
 border: 1px solid #ddd;
 background-color: #f9f9f9;
 font-size: var(--abctools-font-size-label-m-12);
-}
+} */
 
-.cull_selected {
+/* .cull_selected {
 	background-color: #FFE5E5;
-}
+} */
 
-.tuneset_tune {
+/* .tuneset_tune {
+display: block;
 cursor: grab;
 user-select: none;
 margin: 5px;
@@ -4174,13 +4179,15 @@ padding: 10px;
 border: 1px solid #ddd;
 background-color: #f9f9f9;
 font-size: var(--abctools-font-size-label-m-12);
-}
+} */
 
-.tuneset_selected {
+/* .tuneset_selected {
 	background-color: #E5FFE5;
-}
+} */
 
-.jumpto_tune {
+/* .jumpto_tune {
+display: block;
+position: relative;
 cursor: grab;
 user-select: none;
 margin: 5px;
@@ -4188,11 +4195,11 @@ padding: 10px;
 border: 1px solid #ddd;
 background-color: #f9f9f9;
 font-size: var(--abctools-font-size-label-m-12);
-}
+} */
 
-.jumpto_selected {
+/* .jumpto_selected {
 	background-color: #B0FFB0;
-}
+} */
 
 .smartdraw_export_all_text{
 	line-height: 1;
@@ -5054,7 +5061,7 @@ font-family: sans-serif;
 }
 
 .tuneset_tune {
-position: relative;
+/* position: relative; */
 padding-right: 30px; /* space for badge */
 }
 

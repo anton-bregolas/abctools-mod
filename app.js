@@ -19051,10 +19051,15 @@ function AddFromSearch(e, callback) {
   var theHeight = window.innerHeight - 680;
 
   if (isMobileBrowser()) {
-    theHeight = window.innerHeight - 705;
-  }
 
-  if (theHeight < 100) theHeight = 100;
+    theHeight = window.innerHeight - 705;
+
+    if (theHeight < 100) theHeight = 100;
+
+  } else {
+
+    if (theHeight < 124) theHeight = 124;
+  }
 
   // Lite: Customized
   // Replace inline styles with reusable classes
@@ -19071,7 +19076,7 @@ function AddFromSearch(e, callback) {
 
   // modal_msg += '<p style="font-size:12pt;line-height:24pt;margin-top:0px;margin-bottom:18px;">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
   // modal_msg += '<p style="margin-top:0px;margin-bottom:18px;" class="modal-text modal-text-spaced">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
-modal_msg += '<p style="margin-top:0px;margin-bottom:18px;" class="modal-text modal-text-spaced">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
+  modal_msg += '<p style="margin-top:0px;margin-bottom:18px;" class="modal-text modal-text-spaced">Search for text in the tune name:&nbsp;&nbsp;<input style="width:100%;padding:6px;" id="tuneNameToSearch" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here"/> </p>';
 
   modal_msg += '<p class="tunesearchoptions">Only return first variation found?&nbsp;<input id="only_first_variation" type="checkbox" style="margin-top:-5px;margin-bottom:0px;" checked/>&nbsp;&nbsp;&nbsp;Match start of title?&nbsp;<input id="match_title_start" type="checkbox" style="margin-top:-5px;margin-bottom:0px;"/>&nbsp;&nbsp;&nbsp;Only return tunes with chords?&nbsp;<input id="chords_only" type="checkbox" style="margin-top:-5px;margin-bottom:0px;"/></p>';
 
@@ -19245,31 +19250,40 @@ modal_msg += '<p style="margin-top:0px;margin-bottom:18px;" class="modal-text mo
 
 //
 // Change the tune order using up and down buttons for mobile
-// Drag and drop not available on mobile browsers
+//
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
+// Add touchscreen support to drag-and-drop
 //
 
-function ChangeTuneOrderMobileSelect(item) {
+// function ChangeTuneOrderMobileSelect(tune, listBox) {
 
-  if (ChangeTuneOrderCurrent) {
-    ChangeTuneOrderCurrent.classList.remove('draggable_tune_mobile_selected');
-  }
+//   if (listBox._currentItem) {
+//     // ChangeTuneOrderCurrent.classList.remove('draggable_tune_mobile_selected');
+//     listBox._currentItem.setAttribute('aria-selected', 'false');
+//   }
 
-  ChangeTuneOrderCurrent = item;
+//   listBox._currentItem = tune;
 
-  item.classList.add('draggable_tune_mobile_selected');
+//   // item.classList.add('draggable_tune_mobile_selected');
+//   tune.setAttribute('aria-selected', 'true');
 
-}
+//   const allTunes = Array.from(listBox.querySelectorAll('[role="option"]'));
+//   liteNavFocusWithRovingTabIndex(tune, allTunes);
+// }
 
 function ChangeTuneOrderMobileUp() {
 
   //console.log("ChangeTuneOrderMobileUp");
 
-  if (ChangeTuneOrderCurrent == null) {
+  const sortableList = document.getElementById('sortable-tune-list-mobile');
+
+  if (sortableList._currentItem == null) {
     return;
   }
 
   // Find the previous sibling div
-  var previousSibling = ChangeTuneOrderCurrent.previousElementSibling;
+  var previousSibling = sortableList._currentItem.previousElementSibling;
 
   // Check if there is a previous sibling 
   if (previousSibling == null) {
@@ -19279,26 +19293,30 @@ function ChangeTuneOrderMobileUp() {
     return;
   }
 
-  const sortableList = document.getElementById('sortable-tune-list-mobile');
+  sortableList.insertBefore(sortableList._currentItem, previousSibling);
 
-  sortableList.insertBefore(ChangeTuneOrderCurrent, previousSibling);
+  const tunes = document.querySelectorAll('#sortable-tune-list-mobile [role="option"]');
 
-  const childDivs = document.querySelectorAll('#sortable-tune-list-mobile .draggable_tune_mobile');
+  // Extract and display data-tune-index values
+  // ChangeTuneOrderNewOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+  sortableList._newOrder = Array.from(tunes).map(tune => tune.dataset.tuneIndex);
 
-  // Extract and display data_tune_index values
-  ChangeTuneOrderNewOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+  // Auto-scroll to keep selected item visible
+  sortableList._currentItem.scrollIntoView({ block: 'nearest' });
 }
 
 function ChangeTuneOrderMobileDown() {
 
   //console.log("ChangeTuneOrderMobileDown");
 
-  if (ChangeTuneOrderCurrent == null) {
+  const sortableList = document.getElementById('sortable-tune-list-mobile');
+
+  if (sortableList._currentItem == null) {
     return;
   }
 
   // Find the next sibling div
-  var nextSibling = ChangeTuneOrderCurrent.nextElementSibling;
+  var nextSibling = sortableList._currentItem.nextElementSibling;
 
   // Check if there is a next sibling
   if (nextSibling == null) {
@@ -19309,28 +19327,30 @@ function ChangeTuneOrderMobileDown() {
   var prevSibling = nextSibling;
   nextSibling = nextSibling.nextElementSibling;
 
-  const sortableList = document.getElementById('sortable-tune-list-mobile');
-
   // Check if there is a next sibling
 
   // Special handling of the last item
   if (nextSibling == null) {
-    sortableList.insertBefore(prevSibling, ChangeTuneOrderCurrent);
+    sortableList.insertBefore(prevSibling, sortableList._currentItem);
   } else {
 
-    sortableList.insertBefore(ChangeTuneOrderCurrent, nextSibling);
+    sortableList.insertBefore(sortableList._currentItem, nextSibling);
   }
 
-  const childDivs = document.querySelectorAll('#sortable-tune-list-mobile .draggable_tune_mobile');
+  const tunes = document.querySelectorAll('#sortable-tune-list-mobile [role="option"]');
 
-  // Extract and display data_tune_index values
-  ChangeTuneOrderNewOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+  // Extract and display data-tune-index values
+  // ChangeTuneOrderNewOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+  sortableList._newOrder = Array.from(tunes).map(tune => tune.dataset.tuneIndex);
 
+  // Auto-scroll to keep selected item visible
+  sortableList._currentItem.scrollIntoView({ block: 'nearest' });
 }
 
-var ChangeTuneOrderCurrent = null;
-var ChangeTuneOrderOriginalOrder = [];
-var ChangeTuneOrderNewOrder = [];
+// var ChangeTuneOrderCurrent = null;
+// var ChangeTuneOrderOriginalOrder = [];
+// var ChangeTuneOrderNewOrder = [];
+// var ChangeTuneOrderDragMode = false;
 
 function ChangeTuneOrderMobile() {
 
@@ -19338,10 +19358,9 @@ function ChangeTuneOrderMobile() {
 
   var i, j, k;
 
-  var ChangeTuneOrderOriginalOrder = [];
-  ChangeTuneOrderNewOrder = [];
-
-  ChangeTuneOrderCurrent = null;
+  // var ChangeTuneOrderOriginalOrder = [];
+  // ChangeTuneOrderNewOrder = [];
+  // ChangeTuneOrderCurrent = null;
 
   totalTunes = CountTunes();
 
@@ -19369,13 +19388,17 @@ function ChangeTuneOrderMobile() {
   var theData = {};
 
   // MAE 14 Jul 2024 - Make the div fill the screen
-  var theHeight = window.innerHeight - 430;
+  // var theHeight = window.innerHeight - 430;
 
-  var theSortableDiv = '<div id="sortable-tune-list-mobile" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  // var theSortableDiv = '<div id="sortable-tune-list-mobile" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  var theSortableDiv = '<div id="sortable-tune-list-mobile" role="listbox" aria-labelledby="sortable-tune-list-mobile-grouplabel" tabindex="-1" style="overflow:auto;margin-top:18px">';
+
+  // Add accessible description for draggable options
+  theSortableDiv += '<div hidden id="draggable-tune-descr">Tap and hold to grab</div>';
 
   for (i = 0; i < nTitles; ++i) {
 
-    theSortableDiv += '<div class="draggable_tune_mobile" data_tune_index="' + i + '" onclick="ChangeTuneOrderMobileSelect(this)">' + theTitles[i] + '</div>';
+    theSortableDiv += '<div role="option" aria-selected="false" aria-describedby="draggable-tune-descr" data-tune-index="' + i + '" tabindex="-1"><span class="draggable_tune_mobile_text">' + theTitles[i] + '</span></div>';
   }
 
   theSortableDiv += '</div>';
@@ -19393,21 +19416,27 @@ function ChangeTuneOrderMobile() {
       'Change the Order of the Tunes&nbsp;&nbsp;' +
       '</h2>'
     }, {
+      html: '<p id="sortable-tune-list-mobile-grouplabel" style="text-align:center; margin-top:18px;" class="modal-text">' +
+      'Hold and drag an item or select it and use button controls to adjust tune order.' +
+      '</p>'
+    }, {
       html: theSortableDiv
     }, {
-      html: '<p style="text-align:center;margin-top:36px;"><input id="mobile_tune_order_up" class="advancedcontrols btn btn-injectcontrols-headers" onclick="ChangeTuneOrderMobileUp(this);" type="button" value="Move Up" title="Moves the currently selected tune up one position"><input id="mobile_tune_order_down" class="advancedcontrols btn btn-injectcontrols-headers" onclick="ChangeTuneOrderMobileDown(this);" type="button" value="Move Down" title="Moves the currently selected tune down one position"></p>'
+      html: '<div class="modal-footer-ui-container" style="margin-top:36px;"><input id="mobile_tune_order_up" class="modal-footer-ui advancedcontrols btn btn-injectcontrols-headers" onclick="ChangeTuneOrderMobileUp(this);" type="button" value="Move Up" title="Moves the currently selected tune up one position"><input id="mobile_tune_order_down" class="modal-footer-ui advancedcontrols btn btn-injectcontrols-headers" onclick="ChangeTuneOrderMobileDown(this);" type="button" value="Move Down" title="Moves the currently selected tune down one position"></div>'
     }
   ];
 
   setTimeout(function() {
 
-    const childDivs = document.querySelectorAll('#sortable-tune-list-mobile .draggable_tune_mobile');
+    const tunes = document.querySelectorAll('#sortable-tune-list-mobile [role="option"]');
 
-    // Extract and display data_tune_index values
-    ChangeTuneOrderNewOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+    // Extract and display data-tune-index values
+    // ChangeTuneOrderNewOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+    sortableList._newOrder = Array.from(tunes).map(tune => tune.dataset.tuneIndex);
 
     // Clone it
-    ChangeTuneOrderOriginalOrder = ChangeTuneOrderNewOrder.slice();
+    // ChangeTuneOrderOriginalOrder = ChangeTuneOrderNewOrder.slice();
+    sortableList._originalOrder = sortableList._newOrder.slice();
 
   }, 100);
 
@@ -19425,7 +19454,8 @@ function ChangeTuneOrderMobile() {
       var bGotChange = false;
 
       for (i = 0; i < totalTunes; ++i) {
-        if (ChangeTuneOrderNewOrder[i] != ChangeTuneOrderOriginalOrder[i]) {
+        // if (ChangeTuneOrderNewOrder[i] != ChangeTuneOrderOriginalOrder[i]) {
+        if (sortableList._newOrder[i] != sortableList._originalOrder[i]) {
           bGotChange = true;
           break;
         }
@@ -19458,7 +19488,7 @@ function ChangeTuneOrderMobile() {
 
           for (i = 0; i < totalTunes; ++i) {
 
-            var thisTune = getTuneByIndex(parseInt(ChangeTuneOrderNewOrder[i]));
+            var thisTune = getTuneByIndex(parseInt(sortableList._newOrder[i]));
 
             thisTune = thisTune.trim();
 
@@ -19505,19 +19535,33 @@ function ChangeTuneOrderMobile() {
 
   });
 
+  const sortableList = document.getElementById('sortable-tune-list-mobile');
+
+  sortableList._newOrder = [];
+  sortableList._currentItem = null;
+
+  // Lite: Customized
+  // Set up drag-and-drop navigation via Pointer Events API
+  setTimeout(() => liteNavInitDragDropListReorderTunes(sortableList, 400, true), 50);
+  // Set up keyboard navigation for reordering the tunes
+  setTimeout(() => liteNavInitDragDropListKeyDown(sortableList), 100);
 }
 
 //
 // Change the tune order using drag and drop
 //
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
+// Add touchscreen support to drag-and-drop
+//
 function ChangeTuneOrder() {
 
   var i, j, k;
 
-  var originalOrder = [];
-  var newOrder = [];
+  // var originalOrder = [];
+  // var newOrder = [];
 
-  ChangeTuneOrderCurrent = null;
+  // ChangeTuneOrderCurrent = null;
 
   totalTunes = CountTunes();
 
@@ -19545,13 +19589,17 @@ function ChangeTuneOrder() {
   var theData = {};
 
   // MAE 14 Jul 2024 - Make the div fill the screen
-  var theHeight = window.innerHeight - 380;
+  // var theHeight = window.innerHeight - 380;
 
-  var theSortableDiv = '<div id="sortable-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  // var theSortableDiv = '<div id="sortable-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  var theSortableDiv = '<div id="sortable-tune-list" role="listbox" aria-multiselectable="false" aria-labelledby="sortable-tune-list-grouplabel" tabindex="-1" style="overflow:auto;margin-top:18px">';
+  
+  // Add accessible description for draggable options
+  theSortableDiv += '<div hidden id="draggable-tune-descr">Press to grab</div>';
 
   for (i = 0; i < nTitles; ++i) {
 
-    theSortableDiv += '<div class="draggable_tune" draggable="true" data_tune_index="' + i + '">' + theTitles[i] + '</div>';
+    theSortableDiv += '<div role="option" aria-selected="false" aria-describedby="draggable-tune-descr" data-tune-index="' + i + '" tabindex="-1"><span class="draggable_tune_text">' + theTitles[i] + '</span></div>';
   }
 
   theSortableDiv += '</div>';
@@ -19570,7 +19618,10 @@ function ChangeTuneOrder() {
       '</h2>'
     }, {
       // html: '<p style="margin-top:18px;font-size:12pt;">Drag and drop the tune names to change the order of the tunes in the tunebook:</p>'
-      html: '<p style="margin-top:18px;" class="modal-text">Drag and drop the tune names to change the order of the tunes in the tunebook:</p>'
+      html: '<p id="sortable-tune-list-grouplabel" style="text-align:center; margin-top:18px;" class="modal-text">' +
+      'Drag and drop the items to change the order of the tunes in the tunebook.' +
+      '<br>On the keyboard, select an item with Space or <span aria-label="Enter key">⏎</span>; use arrows to reorder.' +
+      '</p>'
     }, {
       html: theSortableDiv
     }
@@ -19578,13 +19629,15 @@ function ChangeTuneOrder() {
 
   setTimeout(function() {
 
-    const childDivs = document.querySelectorAll('#sortable-tune-list .draggable_tune');
+    const tunes = document.querySelectorAll('#sortable-tune-list [role="option"]');
 
-    // Extract and display data_tune_index values
-    newOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+    // Extract and display data-tune-index values
+    // newOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+    sortableList._newOrder = Array.from(tunes).map(tune => tune.dataset.tuneIndex);
 
     // Clone it
-    originalOrder = newOrder.slice();
+    // originalOrder = newOrder.slice();
+    sortableList._originalOrder = sortableList._newOrder.slice();
 
   }, 100);
 
@@ -19602,7 +19655,7 @@ function ChangeTuneOrder() {
       var bGotChange = false;
 
       for (i = 0; i < totalTunes; ++i) {
-        if (newOrder[i] != originalOrder[i]) {
+        if (sortableList._newOrder[i] != sortableList._originalOrder[i]) {
           bGotChange = true;
           break;
         }
@@ -19635,7 +19688,7 @@ function ChangeTuneOrder() {
 
           for (i = 0; i < totalTunes; ++i) {
 
-            var thisTune = getTuneByIndex(parseInt(newOrder[i]));
+            var thisTune = getTuneByIndex(parseInt(sortableList._newOrder[i]));
 
             thisTune = thisTune.trim();
 
@@ -19683,104 +19736,85 @@ function ChangeTuneOrder() {
 
   const sortableList = document.getElementById('sortable-tune-list');
 
-  let dragItem = null;
+  sortableList._dragItem = null;
+  sortableList._currentItem = null;
 
   sortableList.addEventListener('click', function(e) {
 
-    var theTarget = e.target;
+    if (sortableList._dragMoved) return;
 
-    if (theTarget.classList && theTarget.classList.contains('draggable_tune')) {
+    var theTarget = e.target.closest('[role="option"]');
 
-      dragItem = theTarget;
+    if (theTarget) {
 
-      if (ChangeTuneOrderCurrent) {
-        ChangeTuneOrderCurrent.classList.remove('draggable_tune_selected');
+      sortableList._dragItem = theTarget;
+
+      if (sortableList._currentItem) {
+        // sortableList._currentItem.classList.remove('draggable_tune_selected');
+        sortableList._currentItem.setAttribute('aria-selected', 'false');
       }
 
-      ChangeTuneOrderCurrent = dragItem;
+      sortableList._currentItem = sortableList._dragItem;
 
-      dragItem.classList.add('draggable_tune_selected');
+      // sortableList._dragItem.classList.add('draggable_tune_selected');
+      sortableList._dragItem.setAttribute('aria-selected', 'true');
+
+      sortableList._dragMode = true;
     }
 
   });
 
-  // Add drag and drop event listeners
-  sortableList.addEventListener('dragstart', function(e) {
-
-    dragItem = e.target;
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', dragItem.innerHTML);
-
-    if (ChangeTuneOrderCurrent) {
-      ChangeTuneOrderCurrent.classList.remove('draggable_tune_selected');
-    }
-
-    ChangeTuneOrderCurrent = dragItem;
-
-    dragItem.classList.add('draggable_tune_selected');
-
-  });
-
-  sortableList.addEventListener('dragover', function(e) {
-    e.preventDefault();
-    const target = e.target;
-    if (target && target !== dragItem && target.classList.contains('draggable_tune')) {
-
-      const rect = target.getBoundingClientRect();
-
-      const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
-
-      sortableList.insertBefore(dragItem, next ? target.nextElementSibling : target);
-
-      const childDivs = document.querySelectorAll('#sortable-tune-list .draggable_tune');
-
-      // Extract and display data_tune_index values
-      newOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
-
-    }
-
-  });
-
-  sortableList.addEventListener('dragend', function() {
-    dragItem = null;
-  });
-
+  // Lite: Customized
+  // Set up drag-and-drop navigation via Pointer Events API
+  setTimeout(() => liteNavInitDragDropListReorderTunes(sortableList), 50);
+  // Set up keyboard navigation for reordering the tunes
+  setTimeout(() => liteNavInitDragDropListKeyDown(sortableList), 100);
 }
 
 //
 // Cull tunes from the tunebook
 //
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
 
 function CullTunesUpdateKeepList() {
 
   // Reset the keep list
   CullTunesKeepList = [];
 
-  const childDivs = document.querySelectorAll('#cullable-tune-list .cullable_tune');
+  const tunes = document.querySelectorAll('#cullable-tune-list [role="option"]');
 
-  Array.from(childDivs).map(div => {
-    if (div.classList.contains('cull_selected')) {
-      CullTunesKeepList.push(0);
-    } else {
-      CullTunesKeepList.push(1);
-    }
+  Array.from(tunes).map((tune) => {
+    CullTunesKeepList.push(tune.getAttribute('aria-selected') === 'true' ? 0 : 1);
   });
 }
 
-function CullToggleSelection(item) {
-  item.classList.toggle('cull_selected');
+function CullToggleSelection(option) {
+  var selected = option.getAttribute('aria-selected') === 'true';
+  option.setAttribute('aria-selected', selected ? 'false' : 'true');
+  // if (selected) {
+  //   option.classList.remove('cull_selected');
+  // } else {
+  //   option.classList.add('cull_selected');
+  // }
   CullTunesUpdateKeepList();
 }
 
 function CullSelectAll() {
-  const childDivs = document.querySelectorAll('#cullable-tune-list .cullable_tune');
-  Array.from(childDivs).map(div => div.classList.add('cull_selected'));
+  const tunes = document.querySelectorAll('#cullable-tune-list [role="option"]');
+  Array.from(tunes).forEach((tune) => {
+    tune.setAttribute('aria-selected', 'true');
+    // opt.classList.add('cull_selected');
+  });
   CullTunesUpdateKeepList();
 }
 
 function CullClearSelection() {
-  const childDivs = document.querySelectorAll('#cullable-tune-list .cullable_tune');
-  Array.from(childDivs).map(div => div.classList.remove('cull_selected'));
+  const tunes = document.querySelectorAll('#cullable-tune-list [role="option"]');
+  Array.from(tunes).forEach((tune) => {
+    tune.setAttribute('aria-selected', 'false');
+    // opt.classList.remove('cull_selected');
+  });
   CullTunesUpdateKeepList();
 }
 
@@ -19819,13 +19853,17 @@ function CullTunes() {
   var theData = {};
 
   // MAE 14 Jul 2024 - Make the div fill the screen
-  var theHeight = window.innerHeight - 410;
+  // var theHeight = window.innerHeight - 410;
 
-  var theCullableDiv = '<div id="cullable-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  // var theCullableDiv = '<div id="cullable-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
 
+  var theCullableDiv = '<div id="cullable-tune-list" role="listbox" aria-multiselectable="false" aria-labelledby="cull-select-grouplabel" tabindex="-1" style="overflow:auto;margin-top:18px">';
+
+  // Lite: Customized
+  // Refactor to keyboard-navigable listbox menu
   for (i = 0; i < nTitles; ++i) {
 
-    theCullableDiv += '<div class="cullable_tune" onclick="CullToggleSelection(this)">' + theTitles[i] + '</div>';
+    theCullableDiv += '<div role="option" aria-selected="false" class="cullable_tune" data-index="'+i+'" tabindex="-1"><span class="cullable_tune_text">' + theTitles[i] + '</span></div>';
   }
 
   theCullableDiv += '</div>';
@@ -19842,6 +19880,8 @@ function CullTunes() {
       '<h2 class="modal-header">' +
       'Delete Selected Tunes&nbsp;&nbsp;' +
       '</h2>'
+    }, {
+      html: '<p id="cull-select-grouplabel" style="text-align:center; margin-top:18px;margin-bottom:12px;" class="modal-text">Select the tunes you want to delete, then confirm the action below.</p>'
     }, {
       html: theCullableDiv
     }, {
@@ -19946,6 +19986,10 @@ function CullTunes() {
       }
     }
   });
+
+  // Lite: Customized
+  // Set up keyboard navigation for the multi-select list
+  setTimeout(() => liteNavInitMultiSelectList("cullable-tune-list", CullToggleSelection), 50);
 }
 
 //
@@ -20165,20 +20209,22 @@ function processTuneSet(tuneSet, tuneNames, bRepeat, nRepeat, bIsVerbose) {
   return tuneSet;
 }
 
-function BuildTuneSetToggleSelection(item) {
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
 
-  item.classList.toggle('tuneset_selected');
+function BuildTuneSetToggleSelection(option) {
 
-  const index = BuildTuneSetSelectionOrder.indexOf(item);
+  var selected = option.getAttribute('aria-selected') === 'true';
+  option.setAttribute('aria-selected', selected ? 'false' : 'true');
 
-  if (item.classList.contains('tuneset_selected')) {
-    if (index === -1) {
-      BuildTuneSetSelectionOrder.push(item);
-    }
+  if (selected) {
+    // option.classList.remove('tuneset_selected');
+    var idx = BuildTuneSetSelectionOrder.indexOf(option);
+    if (idx !== -1) BuildTuneSetSelectionOrder.splice(idx, 1);
   } else {
-    if (index !== -1) {
-      BuildTuneSetSelectionOrder.splice(index, 1);
-    }
+    // option.classList.add('tuneset_selected');
+    var idx = BuildTuneSetSelectionOrder.indexOf(option);
+    if (idx === -1) BuildTuneSetSelectionOrder.push(option);
   }
 
   updateTuneSelectionNumbers();
@@ -20186,7 +20232,7 @@ function BuildTuneSetToggleSelection(item) {
 
 function updateTuneSelectionNumbers() {
 
-  const allItems = document.querySelectorAll('#tuneset-tune-list .tuneset_tune');
+  const allItems = document.querySelectorAll('#tuneset-tune-list [role="option"]');
 
   allItems.forEach(item => {
     const numberTag = item.querySelector('.tuneset-selection-number');
@@ -20204,15 +20250,19 @@ function updateTuneSelectionNumbers() {
 
 }
 
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
+
 function BuildTuneSetSelectAll() {
 
-  const childDivs = document.querySelectorAll('#tuneset-tune-list .tuneset_tune');
+  const tunes = document.querySelectorAll('#tuneset-tune-list [role="option"]');
 
   BuildTuneSetSelectionOrder = []; // reset
 
-  Array.from(childDivs).forEach(div => {
-    div.classList.add('tuneset_selected');
-    BuildTuneSetSelectionOrder.push(div);
+  Array.from(tunes).forEach((tune) => {
+    tune.setAttribute('aria-selected', 'true');
+    // item.classList.add('tuneset_selected');
+    BuildTuneSetSelectionOrder.push(tune);
   });
 
   updateTuneSelectionNumbers();
@@ -20591,10 +20641,16 @@ function BuildTuneSetAppend() {
   }
 }
 
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
+
 function BuildTuneSetClearSelection() {
 
-  const childDivs = document.querySelectorAll('#tuneset-tune-list .tuneset_tune');
-  Array.from(childDivs).map(div => div.classList.remove('tuneset_selected'));
+  const tunes = document.querySelectorAll('#tuneset-tune-list [role="option"]');
+  Array.from(tunes).forEach((tune) => {
+    tune.setAttribute('aria-selected', 'false');
+    // item.classList.remove('tuneset_selected');
+  });
 
   BuildTuneSetSelectionOrder = [];
   updateTuneSelectionNumbers();
@@ -20602,18 +20658,25 @@ function BuildTuneSetClearSelection() {
 
 function filterTuneSetList() {
   const query = document.getElementById("tuneset-search").value.toLowerCase();
-  const items = document.querySelectorAll("#tuneset-tune-list .tuneset_tune");
+  const tunes = document.querySelectorAll("#tuneset-tune-list [role='option']");
   const clearBtn = document.getElementById("tuneset-search-clear");
 
-  items.forEach(item => {
-    const text = item.textContent.toLowerCase();
-    item.style.display = text.includes(query) ? "" : "none";
+  tunes.forEach(tune => {
+    const text = tune.textContent.toLowerCase();
+    tune.style.display = text.includes(query) ? "" : "none";
   });
 
   // Show/hide clear button
   if (clearBtn) {
     clearBtn.style.display = query ? "block" : "none";
   }
+
+  // Lite: Customized
+  // Reset roving tabindex to only visible items
+  const visibleOptions =
+    Array.from(tunes).filter((tune) => tune.offsetParent !== null);
+    
+  liteNavInitRovingTabIndex(visibleOptions);
 }
 
 var BuildTuneSetSelectionOrder = [];
@@ -20658,16 +20721,21 @@ function BuildTuneSet() {
   };
 
   // MAE 14 Jul 2024 - Make the div fill the screen
-  var theHeight = window.innerHeight - 670;
+  // var theHeight = window.innerHeight - 670;
 
-  // var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;font-size:12pt;"> <span id="tuneset-search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:14pt;color:#888;display:none;" title="Clear filter and show all tunes"> ❌ </span> </div>';
-var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;"> <span id="tuneset-search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;display:none;" title="Clear filter and show all tunes"> ❌ </span> </div>';
+  // var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;font-size:12pt;"> <button id="tuneset-search-clear" type="button" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:14pt;color:#888;display:none;border:none;background:none;cursor:pointer;line-height:1;padding:0;" title="Clear filter and show all tunes" aria-label="Clear filter"> ❌ </button> </div>';
+  
+  // Lite: Customized
+  // Convert X to proper button
+  var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:relative;width:90%;margin-left:auto;margin-right:auto;"> <input id="tuneset-search" type="text" placeholder="Filter by text..." style="width:100%;padding:6px 28px 6px 6px;"> <button id="tuneset-search-clear" type="button" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#888;display:none;border:none;background:none;cursor:pointer;padding:0;" title="Clear filter and show all tunes" aria-label="Clear filter">❌</button> </div>';
 
   var theTuneSetDiv = theSearchBar +
-    '<div id="tuneset-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:12px;margin-bottom:18px;">';
+    '<div id="tuneset-tune-list" role="listbox" aria-multiselectable="true" aria-labelledby="tuneset-select-grouplabel" tabindex="-1" style="overflow:auto;margin-top:12px;margin-bottom:18px;">';
 
+  // Lite: Customized
+  // Refactor to keyboard-navigable listbox menu
   for (i = 0; i < nTitles; ++i) {
-    theTuneSetDiv += '<div class="tuneset_tune" onclick="BuildTuneSetToggleSelection(this)">' + theTitles[i] + '</div>';
+    theTuneSetDiv += '<div role="option" aria-selected="false" class="tuneset_tune" data-index="'+i+'" tabindex="-1"><span class="tuneset_tune_text">' + theTitles[i] + '</span></div>';
   }
 
   theTuneSetDiv += '</div>';
@@ -20686,9 +20754,9 @@ var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:re
       '</h2>'
     }, {
       // html: '<p style="margin-top:8px;margin-bottom:12px;font-size:12pt;line-height:18pt;">Select the tunes you want in a tune set, then choose one of the three actions below:</p>'
-      html: '<p style="margin-top:8px;margin-bottom:12px;" class="modal-text">Select the tunes you want in a tune set, then choose one of the three actions below:</p>'
+      html: '<p id="tuneset-select-grouplabel" style="margin-top:8px;margin-bottom:12px;" class="modal-text">Select the tunes you want in a tune set, then choose one of the three actions below:</p>'
     }, {
-      html: '<p style="text-align:center;margin-top:14px;"><input id="tuneset_select_all" class="advancedcontrols btn btn-injectcontrols-headers" onclick="BuildTuneSetSelectAll();" type="button" value="Select All" title="Selects all the tunes for set creation"><input id="tuneset_clear_selection" class="advancedcontrols btn btn-injectcontrols-headers" onclick="BuildTuneSetClearSelection();" type="button" value="Clear Selection" title="Unselects all the tunes for set creation"></p>'
+      html: '<p style="text-align:center;margin-top:18px;margin-bottom:20px"><input id="tuneset_open_in_player" style="margin-right:18px;" class="advancedcontrols btn btn-tuneset-inject" onclick="BuildTuneSetOpen(false);" type="button" value="Open in New Tab in Player" title="Opens the tune set in a new tab in the Player"><input id="tuneset_open_in_editor" style="margin-right:18px;" class="advancedcontrols btn btn-tuneset-inject" onclick="BuildTuneSetOpen(true);" type="button" value="Open in New Tab in Editor" title="Opens the tune set in a new tab in the Editor"><input id="tuneset_append_to_abc" class="advancedcontrols btn btn-tuneset-inject" onclick="BuildTuneSetAppend();" type="button" value="Append to ABC" title="Appends the tune set to the current ABC"></p>'
     }, {
       html: theTuneSetDiv
     }, {
@@ -20707,8 +20775,8 @@ var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:re
       type: "number",
       cssClass: "create_tune_set_text"
     }, {
-      html: '<p style="text-align:center;margin-top:18px;margin-bottom:20px"><input id="tuneset_open_in_player" style="margin-right:18px;" class="advancedcontrols btn btn-tuneset-inject" onclick="BuildTuneSetOpen(false);" type="button" value="Open in New Tab in Player" title="Opens the tune set in a new tab in the Player"><input id="tuneset_open_in_editor" style="margin-right:18px;" class="advancedcontrols btn btn-tuneset-inject" onclick="BuildTuneSetOpen(true);" type="button" value="Open in New Tab in Editor" title="Opens the tune set in a new tab in the Editor"><input id="tuneset_append_to_abc" class="advancedcontrols btn btn-tuneset-inject" onclick="BuildTuneSetAppend();" type="button" value="Append to ABC" title="Appends the tune set to the current ABC"></p>'
-    }
+      html: '<p style="text-align:center;margin-top:14px;"><input id="tuneset_select_all" class="advancedcontrols btn btn-injectcontrols-headers" onclick="BuildTuneSetSelectAll();" type="button" value="Select All" title="Selects all the tunes for set creation"><input id="tuneset_clear_selection" class="advancedcontrols btn btn-injectcontrols-headers" onclick="BuildTuneSetClearSelection();" type="button" value="Clear Selection" title="Unselects all the tunes for set creation"></p>'
+    },
   ];
 
   setTimeout(() => {
@@ -20785,6 +20853,10 @@ var theSearchBar = '<div style="margin-bottom:10px;text-align:center;position:re
     }
 
   },10);
+
+  // Lite: Customized
+  // Set up keyboard navigation for the multi-select checkbox list
+  setTimeout(() => liteNavInitMultiSelectList("tuneset-tune-list", BuildTuneSetToggleSelection), 50);
 }
 
 //
@@ -35108,7 +35180,7 @@ function ExportAll() {
   modal_msg += '    <div id="exportall-tab-audio" class="adv-tab-panel' + (initialTab === "exportall-tab-audio" ? ' active' : '') + '">';
   //modal_msg += '      <p style="text-align:center;font-size:14pt;margin-top:18px;">Export All Tunes as Audio/MIDI</p>';
   // modal_msg += '      <p style="text-align:center;font-size:18pt;">';
-  modal_msg += '      <p class="modal-title">';
+  modal_msg += '      <p class="modal-label-l">';
   modal_msg += '        <input id="exportall_mp3button" class="exportall_mp3button btn btn-allmp3download" onclick="BatchMP3Export();" type="button" value="Export all as MP3 Audio" title="Saves the audio for all the tunes as .MP3 files">';
   modal_msg += '        <input id="exportall_midibutton" class="exportall_midibutton btn btn-allmididownload" onclick="BatchMIDIExport();" type="button" value="Export all as MIDI" title="Saves the MIDI file for all the tunes">';
   modal_msg += '      </p>';
@@ -60087,11 +60159,13 @@ function JumpToSearch() {
 
   var theJumpDivContents = "";
 
+  // Lite: Customized
+  // Refactor to keyboard-navigable listbox menu
   for (i = 0; i < gJumpTitleCount; ++i) {
 
     if (searchAll || (gJumpTitles[i].toLowerCase().indexOf(searchVal) != -1)) {
-
-      theJumpDivContents += '<div class="jumpto_tune" onclick="JumpToToggleSelection(this,' + i + ')">' + gJumpTitles[i] + '</div>';
+      // theJumpDivContents += '<div class="jumpto_tune" onclick="JumpToToggleSelection(this,' + i + ')">' + gJumpTitles[i] + '</div>';
+      theJumpDivContents += '<div role="option" aria-selected="false" class="jumpto_tune" id="jumpto_tune_'+i+'" tabindex="-1"><span class="jumpto_tune_text">' + gJumpTitles[i] + '</span></div>';
     }
   }
 
@@ -60100,24 +60174,32 @@ function JumpToSearch() {
   // Reset selected tune
   gJumpTune = -1;
 
+  // Lite: Customized
+  // Re-attach keyboard handlers after list rebuild
+  liteNavInitJumpToTune();
 }
 
-function JumpToToggleSelection(item, index) {
+// Lite: Customized
+// Update to use with the keyboard-navigable listbox menu
+function JumpToToggleSelection(index) {
 
   //console.log("index "+index);
 
   gJumpTune = index;
 
-  const childDivs = document.querySelectorAll('#jumpto-tune-list .jumpto_tune');
+  // const childDivs = document.querySelectorAll('#jumpto-tune-list .jumpto_tune');
+  const tunes = document.querySelectorAll('#jumpto-tune-list [role="option"]');
 
-  Array.from(childDivs).map(div => {
+  // Array.from(childDivs).map(div => {
+  tunes.forEach((el) => {
 
-    div.classList.remove('jumpto_selected');
-
+    // div.classList.remove('jumpto_selected');
+    el.setAttribute('aria-selected', 'false');
   });
 
-  item.classList.add('jumpto_selected');
-
+  // item.classList.add('jumpto_selected');
+  const selectedTune = document.getElementById('jumpto_tune_' + index);
+  if (selectedTune) selectedTune.setAttribute('aria-selected', 'true');
 }
 
 var gJumpTune = -1;
@@ -60170,13 +60252,16 @@ function JumpToTune() {
   var theData = {};
 
   // MAE 14 Jul 2024 - Make the div fill the screen
-  var theHeight = window.innerHeight - 330;
+  // var theHeight = window.innerHeight - 330;
 
-  var theJumpDiv = '<div id="jumpto-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  // Lite: Customized
+  // Refactor to keyboard-navigable listbox menu
+  // var theJumpDiv = '<div id="jumpto-tune-list" style="overflow:auto;height:' + theHeight + 'px;margin-top:18px">';
+  var theJumpDiv = '<div id="jumpto-tune-list" role="listbox" aria-multiselectable="false" aria-labelledby="jumpto-tune-grouplabel" tabindex="-1" style="overflow:auto;margin-top:18px">';
 
   for (i = 0; i < nTitles; ++i) {
-
-    theJumpDiv += '<div id="jumpto_tune_'+i+'" class="jumpto_tune" onclick="JumpToToggleSelection(this,' + i + ')">' + theTitles[i] + '</div>';
+    // theJumpDiv += '<div id="jumpto_tune_'+i+'" class="jumpto_tune" onclick="JumpToToggleSelection(this,' + i + ')">' + theTitles[i] + '</div>';
+    theJumpDiv += '<div role="option" aria-selected="false" class="jumpto_tune" id="jumpto_tune_'+i+'" tabindex="-1"><span class="jumpto_tune_text">' + theTitles[i] + '</span></div>';
   }
 
   theJumpDiv += '</div>';
@@ -60192,7 +60277,8 @@ function JumpToTune() {
       'class="modal-header-ui modal-link-help dialogcornerbutton">?</a>' +
       '<h2 class="modal-header">' +
       'Jump to Tune&nbsp;&nbsp;' +
-      '</h2>'
+      '</h2>' +
+      '<p id="jumpto-tune-grouplabel" style="text-align:center; margin-top:18px 0;">Select a tune to jump to. Double click or press ⏎ to quickly confirm a selection.</p>'
     }, {
       // html: '<input style="width:100%;font-size:12pt;line-height:18px;padding:6px;margin-left:5px;" id="jumpToSearchValue" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here" oninput="JumpToSearch();"/>'
       html: '<input style="width:100%;padding:6px;margin-left:5px;" id="jumpToSearchValue" type="text" title="Enter your search text here" autocomplete="off" autocorrect="off" placeholder="Enter your search text here" oninput="JumpToSearch();"/>'
@@ -60302,6 +60388,9 @@ function JumpToTune() {
     },50);
   }
 
+  // Lite: Customized
+  // Attach keyboard handlers to list of items
+  liteNavInitJumpToTune();
 }
 
 // 

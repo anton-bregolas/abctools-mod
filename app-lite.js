@@ -458,7 +458,738 @@ function litePasteToABC() {
 }
 
 ////////////////////////////////////////////
-// APP LITE: UI MENU (LEGACY) CUSTOM ITEMS
+// APP LITE: UI LISTBOXES NAVIGATION
+///////////////////////////////////////////
+
+// Handle roving tabindex navigation in a list of selectable items
+
+function liteNavFocusWithRovingTabIndex(item, itemsArr) {
+
+  if (!item || !itemsArr || !itemsArr.length) return;
+
+  itemsArr.forEach(el => el.tabIndex = -1);
+
+  item.tabIndex = 0;
+  item.focus();
+}
+
+// Set up initial tabindex state for roving tabindex navigation
+// Make only first item in the list focusable by Tab initially
+
+function liteNavInitRovingTabIndex(nodeList) {
+
+  if (!nodeList || !nodeList.length) return;
+
+  nodeList.forEach((el, i) => el.tabIndex = i === 0 ? 0 : -1);
+}
+
+// Handle keyboard havigation in Jump to Tune dialog
+// Handle double click on Jump to Tune items
+
+function liteNavHandleJumpToTune(e) {
+
+  const listBox = document.getElementById("jumpto-tune-list");
+
+  if (!listBox) return;
+
+  if (e.type === "dblclick") {
+
+    const tune = e.target.closest('[role="option"].jumpto_tune');
+
+    if (tune) {
+      e.preventDefault();
+      liteNavClickModalOK();
+    }
+    return;
+  }
+
+  const tunes = Array.from(listBox.querySelectorAll('[role="option"].jumpto_tune'));
+  const current = e.target.closest('[role="option"].jumpto_tune');
+  const idx = tunes.indexOf(current);
+
+  if (e.key === "Enter" || e.key === " ") {
+
+    if (current) {
+      e.preventDefault();
+      JumpToToggleSelection(parseInt(current.id.replace('jumpto_tune_', '')));
+      liteNavClickModalOK();
+    }
+    return;
+  }
+
+  if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+    e.preventDefault();
+    if (tunes.length && idx !== -1) {
+      const target = idx === 0 ? tunes[tunes.length - 1] : tunes[idx - 1];
+      JumpToToggleSelection(parseInt(target.id.replace('jumpto_tune_', '')));
+      liteNavFocusWithRovingTabIndex(target, tunes);
+    }
+    return;
+  }
+
+  if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+    e.preventDefault();
+    if (tunes.length && idx !== -1) {
+      const target = idx === tunes.length - 1 ? tunes[0] : tunes[idx + 1];
+      JumpToToggleSelection(parseInt(target.id.replace('jumpto_tune_', '')));
+      liteNavFocusWithRovingTabIndex(target, tunes);
+    }
+    return;
+  }
+
+  if (e.key === "Home") {
+    e.preventDefault();
+    if (tunes.length) {
+      JumpToToggleSelection(parseInt(tunes[0].id.replace('jumpto_tune_', '')));
+      liteNavFocusWithRovingTabIndex(tunes[0], tunes);
+    }
+    return;
+  }
+
+  if (e.key === "End") {
+    e.preventDefault();
+    if (tunes.length) {
+      JumpToToggleSelection(parseInt(tunes[tunes.length - 1].id.replace('jumpto_tune_', '')));
+      liteNavFocusWithRovingTabIndex(tunes[tunes.length - 1], tunes);
+    }
+    return;
+  }
+}
+
+// Initialize keyboard havigation in Jump to Tune dialog
+// Initialize mouse interactions in with Jump to Tune items
+
+function liteNavInitJumpToTune() {
+
+  const listBox = document.getElementById("jumpto-tune-list");
+
+  if (!listBox) return;
+
+  const tunes = listBox.querySelectorAll('[role="option"].jumpto_tune');
+
+  if (!tunes.length) return;
+
+  let active =
+    listBox.querySelector('[role="option"].jumpto_tune[aria-selected="true"]');
+  
+  if (!active) {
+    liteNavInitRovingTabIndex(tunes);
+    active = tunes[0];
+  }
+
+  tunes.forEach(el => { if (el !== active) el.tabIndex = -1; });
+
+  listBox.addEventListener('keydown', liteNavHandleJumpToTune);
+
+  listBox.addEventListener('dblclick', liteNavHandleJumpToTune);
+
+  listBox.addEventListener('focusin', (e) => {
+
+    const tune = e.target.closest('[role="option"].jumpto_tune');
+
+    if (tune && tune.getAttribute('aria-selected') !== 'true') {
+      if (e.relatedTarget && listBox.contains(e.relatedTarget)) return;
+      var idx = tune.id.replace('jumpto_tune_', '');
+      JumpToToggleSelection(parseInt(idx));
+      const all = listBox.querySelectorAll('[role="option"].jumpto_tune');
+      liteNavFocusWithRovingTabIndex(tune, Array.from(all));
+    }
+  });
+
+  // Toggle selection on click
+  listBox.addEventListener('click', (e) => {
+    const tune = e.target.closest('[role="option"].jumpto_tune');
+    if (tune) {
+      var idx = tune.id.replace('jumpto_tune_', '');
+      JumpToToggleSelection(parseInt(idx));
+      const all = listBox.querySelectorAll('[role="option"].jumpto_tune');
+      liteNavFocusWithRovingTabIndex(tune, Array.from(all));
+    }
+  });
+}
+
+// Handle keyboard havigation for listboxes with multiple selectable items
+// Handle navigation used in Reorder Tunes and Create Tune Set dialogs
+
+function liteNavHandleMultiSelectList(e, toggleFn) {
+
+  const listBox = e.currentTarget;
+  const currentTune = e.target.closest('[role="option"]');
+
+  if (!currentTune || !toggleFn) return;
+
+  const all =
+    Array.from(listBox.querySelectorAll('[role="option"]'))
+      .filter((tune) => tune.offsetParent !== null);
+
+  const idx = all.indexOf(currentTune);
+  if (idx === -1) return;
+
+  if (e.key === ' ' && e.shiftKey) {
+
+    e.preventDefault();
+    const anchor = listBox._lastSelected || currentTune;
+    const anchorIdx = all.indexOf(anchor);
+    if (anchorIdx !== -1) liteNavSelectRange(anchorIdx, all);
+    listBox._lastSelected = currentTune;
+    currentTune.focus();
+    return;
+  }
+
+  if (e.key === " " || e.key === "Enter") {
+
+    e.preventDefault();
+    toggleFn(currentTune);
+    listBox._lastSelected = currentTune;
+    currentTune.focus();
+    return;
+  }
+
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    e.preventDefault();
+
+    if (e.shiftKey) {
+      const targetTune = all[idx === 0 ? all.length - 1 : idx - 1];
+      toggleFn(targetTune);
+    }
+
+    liteNavFocusWithRovingTabIndex(idx === 0 ? all[all.length - 1] : all[idx - 1], all);
+    return;
+  }
+
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    e.preventDefault();
+
+    if (e.shiftKey) {
+      const targetTune = all[idx === all.length - 1 ? 0 : idx + 1];
+      toggleFn(targetTune);
+    }
+
+    liteNavFocusWithRovingTabIndex(idx === all.length - 1 ? all[0] : all[idx + 1], all);
+    return;
+  }
+
+  if (e.key === 'Home') {
+    e.preventDefault();
+
+    if (e.ctrlKey && e.shiftKey) {
+      liteNavSelectRange(0, all);
+      listBox._lastSelected = currentTune;
+    }
+
+    liteNavFocusWithRovingTabIndex(all[0], all);
+    return;
+  }
+
+  if (e.key === 'End') {
+    e.preventDefault();
+
+    if (e.ctrlKey && e.shiftKey) {
+      liteNavSelectRange(all.length - 1, all);
+      listBox._lastSelected = currentTune;
+    }
+
+    liteNavFocusWithRovingTabIndex(all[all.length - 1], all);
+    return;
+  }
+
+  if ((e.key === 'a' || e.key === 'A') && e.ctrlKey) {
+    e.preventDefault();
+
+    const allSelected =
+      all.every((tune) => tune.getAttribute('aria-selected') === 'true');
+
+    all.forEach((tune) => {
+      const isSelected = tune.getAttribute('aria-selected') === 'true';
+      if ((!allSelected && !isSelected) ||
+          (allSelected && isSelected)) {
+        toggleFn(tune);
+      }
+    });
+    return;
+  }
+}
+
+// Initialize keyboard navigation in multi-select option list
+// Initialize click to toggle in multi-select option list 
+
+function liteNavInitMultiSelectList(listBoxId, toggleFn) {
+
+  const listBox = document.getElementById(listBoxId);
+
+  if (!listBox) return;
+
+  listBox._lastSelected = null;
+
+  const tunes = listBox.querySelectorAll('[role="option"]');
+
+  liteNavInitRovingTabIndex(tunes)
+
+  listBox.addEventListener('keydown', (e) => {
+    liteNavHandleMultiSelectList(e, toggleFn)
+  });
+  
+  listBox.addEventListener('click', (e) => {
+    const tune = e.target.closest('[role="option"]');
+    if (tune) {
+      toggleFn(tune);
+    }
+  });
+}
+
+// Handle selecting a range of options for keyboard navigation
+// Select from anchor to current, deselect other options
+
+function liteNavSelectRange(anchorIdx, itemsArr) {
+
+  const min = Math.min(anchorIdx, idx);
+  const max = Math.max(anchorIdx, idx);
+
+  itemsArr.forEach(function(item, i) {
+    const isSelected = 
+      item.getAttribute('aria-selected') === 'true';
+    if (i >= min && i <= max) {
+      if (!isSelected) toggleFn(item);
+    } else {
+      if (isSelected) toggleFn(item);
+    }
+  });
+}
+
+// Handle drag-and-drop list keyboard navigation (Reorder Tunes dialog)
+// Arrow navigation shifts focus between items without moving them
+// Single press, Space or Enter trigger dragging mode, arrows shift items
+// Moving items beyond visible range auto-scrolls the parent dialog
+
+function liteNavHandleDragDropListKeyDown(e, onReorder) {
+
+  const listBox = e.currentTarget;
+  const item = e.target.closest('[role="option"]');
+
+  if (!item) return;
+
+  const all = Array.from(listBox.querySelectorAll('[role="option"]'));
+  const idx = all.indexOf(item);
+
+  if (e.key === 'Enter' || e.key === ' ') {
+
+    e.preventDefault();
+
+    if (listBox._dragMode) {
+
+      // Exit drag mode
+      listBox._dragMode = false;
+      // item.classList.remove('draggable_tune_selected', 'draggable_tune_mobile_selected');
+      item.setAttribute('aria-selected', 'false');
+      item.removeAttribute('aria-pressed');
+      item.removeAttribute('data-dragging');
+
+    } else {
+
+      // Enter drag mode
+      listBox._dragMode = true;
+
+      if (listBox._currentItem) {
+        // listBox._currentItem.classList.remove('draggable_tune_selected', 'draggable_tune_mobile_selected');
+        listBox._currentItem.setAttribute('aria-selected', 'false');
+      }
+
+      listBox._currentItem = item;
+      // item.classList.add('draggable_tune_selected');
+      listBox._dragItem = item;
+      item.setAttribute('aria-selected', 'true');
+      item.setAttribute('aria-pressed', 'true');
+      item.setAttribute('data-dragging', 'true');
+    }
+    return;
+  }
+
+  if (listBox._dragMode) {
+
+    e.preventDefault();
+
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      const prev = item.previousElementSibling;
+      if (prev && prev.matches('[role="option"]')) {
+        listBox.insertBefore(item, prev);
+        item.focus();
+        item.scrollIntoView({ block: 'nearest' });
+        if (onReorder) onReorder();
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      const next = item.nextElementSibling;
+      if (next && next.matches('[role="option"]')) {
+        listBox.insertBefore(next, item);
+        item.focus();
+        item.scrollIntoView({ block: 'nearest' });
+        if (onReorder) onReorder();
+      }
+      return;
+    }
+
+    if (e.key === 'Escape') {
+      listBox._dragMode = false;
+      // item.classList.remove('draggable_tune_selected', 'draggable_tune_mobile_selected');
+      item.setAttribute('aria-selected', 'false');
+      return;
+    }
+
+    return;
+  }
+
+  // Normal navigation mode: roving tabindex with wrap-around
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    e.preventDefault();
+    liteNavFocusWithRovingTabIndex(idx === 0 ? all[all.length - 1] : all[idx - 1], all);
+    return;
+  }
+
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    liteNavFocusWithRovingTabIndex(idx === all.length - 1 ? all[0] : all[idx + 1], all);
+    return;
+  }
+
+  if (e.key === 'Home') {
+    e.preventDefault();
+    if (all.length) liteNavFocusWithRovingTabIndex(all[0], all);
+    return;
+  }
+
+  if (e.key === 'End') {
+    e.preventDefault();
+    if (all.length) liteNavFocusWithRovingTabIndex(all[all.length - 1], all);
+    return;
+  }
+}
+
+// Initialize Reorder Tunes keyboard navigation
+
+function liteNavInitDragDropListKeyDown(listBox) {
+
+  const onKeyboardReorder = () => {
+    const currentItems = listBox.querySelectorAll('[role="option"]');
+    listBox._newOrder =
+      Array.from(currentItems)
+        .map((item) => item.dataset.tuneIndex);
+  }
+
+  // Attach event listener, pass custom onReorder logic
+  listBox.addEventListener('keydown', (e) =>
+    liteNavHandleDragDropListKeyDown(e, onKeyboardReorder)
+  );
+
+  // Apply roving tabindex: only first item focusable by Tab initially
+  const items = listBox.querySelectorAll('[role="option"]');
+  liteNavInitRovingTabIndex(items);
+}
+
+// Handle drag-and-drop functionality of interactive listbox (Reorder Tunes dialog)
+// Use unified click / touch events logic via Pointer Events API
+// Handle customization for event types via opts object
+
+function liteNavHandleDragDropListPointerEvents(listDiv, opts) {
+
+  if (!listDiv) return;
+
+  opts = opts || {};
+  
+  const listBox = listDiv;
+  const tuneSelector = opts.tuneSelector || '[role="option"]';
+  const longPressMs = opts.longPressMs != null ? opts.longPressMs : 200;
+  const moveThreshold = opts.moveThreshold != null ? opts.moveThreshold : 10;
+
+  // Touchscreens: Prevent accidental scroll on touch-drag
+  listBox.querySelectorAll(tuneSelector).forEach((el) => {
+    el.style.touchAction = 'none';
+  });
+
+  let dragTarget = null;
+  let startY = 0;
+  let isDragging = false;
+  let hasMoved = false;
+  let longPressTimer = null;
+  let movedSignificantly = false;
+
+  listBox.addEventListener('pointerdown', (e) => {
+
+    const tune = e.target.closest(tuneSelector);
+    if (!tune) return;
+
+    listBox.setPointerCapture(e.pointerId);
+
+    dragTarget = tune;
+    startY = e.clientY;
+    isDragging = false;
+    hasMoved = false;
+    movedSignificantly = false;
+    longPressTimer = null;
+
+    // Set long press timeout
+    longPressTimer = setTimeout(() => {
+      // Detect scroll: Don't start drag if user swiped on element
+      if (dragTarget && !isDragging && !movedSignificantly) {
+        isDragging = true;
+        if (opts.onStart) opts.onStart(dragTarget);
+      }
+    }, longPressMs);
+  });
+
+  listBox.addEventListener('pointermove', (e) => {
+
+    if (!dragTarget) return;
+
+    const dy = Math.abs(e.clientY - startY);
+
+    // Detect swipe vs. tap: Track significant movement regardless of drag state
+    if (dy > moveThreshold) {
+      movedSignificantly = true;
+    }
+
+    // Touchscreens: Programmatically scroll parent during pre-drag swipe
+    if (!isDragging && e.pointerType === 'touch' && movedSignificantly) {
+      scrollClosestScrollableParent(listBox, startY - e.clientY);
+      startY = e.clientY;
+      return;
+    }
+
+    // Desktop: Start drag on significant movement before long-press timer
+    if (!isDragging && dy > moveThreshold && e.pointerType !== 'touch') {
+      clearTimeout(longPressTimer);
+      isDragging = true;
+      if (opts.onStart) opts.onStart(dragTarget);
+    }
+
+    if (!isDragging) return;
+
+    // Set hasMoved only on movement during active drag
+    // Handle hold + release like a click, not a drag
+    if (dy > moveThreshold) {
+      hasMoved = true;
+    }
+
+    e.preventDefault();
+
+    // Find the drop target under the pointer
+    const elements = document.elementsFromPoint(e.clientX, e.clientY);
+    let dropTarget = null;
+    for (let i = 0; i < elements.length; i++) {
+      const candidate = elements[i].closest(tuneSelector);
+      if (candidate && candidate !== dragTarget) {
+        dropTarget = candidate;
+        break;
+      }
+    }
+
+    if (dropTarget) {
+      const rect = dropTarget.getBoundingClientRect();
+      const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+      if (next) {
+        listBox.insertBefore(dragTarget, dropTarget.nextElementSibling);
+      } else {
+        listBox.insertBefore(dragTarget, dropTarget);
+      }
+      if (opts.onReorder) opts.onReorder();
+    }
+
+    // Auto-scroll when dragging near listBox edges
+    const listBoxRect = listBox.getBoundingClientRect();
+    const scrollThreshold = 30;
+    const scrollSpeed = 10;
+    const visibleTop = Math.max(listBoxRect.top, 0);
+    const visibleBottom = Math.min(listBoxRect.bottom, window.innerHeight);
+
+    if (e.clientY < visibleTop + scrollThreshold) {
+
+      scrollClosestScrollableParent(listBox, -scrollSpeed);
+
+    } else if (e.clientY > visibleBottom - scrollThreshold) {
+      
+      scrollClosestScrollableParent(listBox, scrollSpeed);
+    }
+  });
+
+  listBox.addEventListener('pointerup', (e) => {
+
+    clearTimeout(longPressTimer);
+
+    if (isDragging) {
+
+      if (opts.onEnd) opts.onEnd(dragTarget);
+
+    } else if (!movedSignificantly) {
+
+      if (opts.onPointerTap) opts.onPointerTap(dragTarget);
+    }
+
+    listBox._dragMoved = hasMoved;
+
+    dragTarget = null;
+    isDragging = false;
+
+    // Clear suppression flag after click has had time to fire
+    setTimeout(function() { listBox._dragMoved = false; }, 100);
+  });
+
+  listBox.addEventListener('pointercancel', (e) => {
+
+    clearTimeout(longPressTimer);
+
+    // If drag was active, clean up selection state
+    if (isDragging && opts.onEnd) {
+      opts.onEnd(dragTarget);
+    }
+
+    listBox._dragMoved = false;
+    dragTarget = null;
+    isDragging = false;
+  });
+}
+
+// Initialize drag-and-drop listbox navigation for Reorder Tunes dialog
+// Optionally customize for touchscreen devices (desktop and mobile)
+
+function liteNavInitDragDropListReorderTunes(listDiv, touchDelay, isTouchScreen) {
+
+  if (!listDiv) return;
+
+  const listBox = listDiv;
+  
+  liteNavHandleDragDropListPointerEvents(listBox, {
+
+    longPressMs: touchDelay || null,
+
+    onPointerTap: (item) => {
+      if (listBox._currentItem) {
+        listBox._currentItem.setAttribute('aria-selected', 'false');
+      }
+      listBox._currentItem = item;
+      item.setAttribute('aria-selected', 'true');
+      const allItems = Array.from(listBox.querySelectorAll('[role="option"]'));
+      liteNavFocusWithRovingTabIndex(item, allItems);
+    },
+
+    onStart: (item) => {
+      listBox._dragItem = item;
+      if (listBox._currentItem) {
+        listBox._currentItem.setAttribute('aria-selected', 'false');
+      }
+      listBox._currentItem = item;
+      item.setAttribute('aria-selected', 'true');
+      item.setAttribute('aria-pressed', 'true');
+      item.setAttribute('data-dragging', 'true');
+      listBox._dragMode = true;
+      const allItems = Array.from(listBox.querySelectorAll('[role="option"]'));
+      liteNavFocusWithRovingTabIndex(item, allItems);
+    },
+
+    onReorder: () => {
+      const tunes = listBox.querySelectorAll('[role="option"]');
+      listBox._newOrder =
+        Array.from(tunes)
+          .map((tune) => tune.dataset.tuneIndex);
+    },
+
+    onEnd: (item) => {
+      item.removeAttribute('data-dragging');
+      item.removeAttribute('aria-pressed');
+      listBox._dragMode = false;
+    }
+  });
+
+  if (isTouchScreen) {
+    // Handle tap to select (suppressed after a drag)
+    listBox.addEventListener('click', (e) => {
+      if (listBox._dragMoved) return;
+      const tune = e.target.closest('[role="option"]');
+      if (tune && listBox._onPointerTap) {
+        listBox._onPointerTap(tune);
+      }
+    });
+  }
+}
+
+// Scroll the nearest scrollable ancestor (modal dialog etc.)
+// Handles scrolling for lists of elements with touch-action disabled
+
+function scrollClosestScrollableParent(el, dy) {
+
+  let parent = el.parentElement;
+  
+  while (parent) {
+    const style = getComputedStyle(parent);
+    if ((style.overflowY === 'auto' || style.overflowY === 'scroll' ||
+          style.overflow === 'auto' || style.overflow === 'scroll') &&
+        parent.scrollHeight > parent.clientHeight) {
+      parent.scrollTop += dy;
+      return;
+    }
+    parent = parent.parentElement;
+  }
+}
+
+// Select tab in ABC Tools Links Center
+
+function liteOpenToolsLinks_SelectTab(tabId) {
+
+  const dialog =
+    document.getElementById("abc-tools-links-dialog");
+  
+  if (!dialog) return;
+
+  const buttons = dialog.querySelectorAll(".adv-tab-btn");
+  const panels = dialog.querySelectorAll(".adv-tab-panel");
+
+  buttons.forEach(function(btn) {
+    var active = (btn.getAttribute("data-tab") === tabId);
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-selected", active ? "true" : "false");
+  });
+
+  panels.forEach(function(panel) {
+    panel.classList.toggle("active", panel.id === tabId);
+  });
+}
+
+// Initialize tabs in ABC Tools Links Center
+
+function liteOpenToolsLinks_InitTabs() {
+
+  const dialog =
+    document.getElementById("abc-tools-links-dialog");
+
+  const tabs = dialog.querySelectorAll('[data-tab]');
+
+  tabs.forEach(
+    el => el.addEventListener(
+      'click',
+      () => liteOpenToolsLinks_SelectTab(el.dataset.tab)
+    )
+  );
+}
+
+////////////////////////////////////////////
+// APP LITE: UI MODALS NAVIGATION (LEGACY)
+///////////////////////////////////////////
+
+// Click the modal OK button programmatically
+
+function liteNavClickModalOK() {
+
+  const buttons = document.getElementsByClassName("modal_flat_ok");
+
+  for (let i = 0; i < buttons.length; ++i) {
+
+    buttons[i].click();
+    break;
+  }
+}
+
+////////////////////////////////////////////
+// APP LITE: UI OPEN CUSTOM DIALOGS (LEGACY)
 ///////////////////////////////////////////
 
 // Populate and open ABC Tools Links Center
@@ -535,46 +1266,6 @@ function liteOpenToolsLinks() {
   liteOpenToolsLinks_InitTabs();
 }
 
-// Select tab in ABC Tools Links Center
-
-function liteOpenToolsLinks_SelectTab(tabId) {
-
-  const dialog =
-    document.getElementById("abc-tools-links-dialog");
-  
-  if (!dialog) return;
-
-  const buttons = dialog.querySelectorAll(".adv-tab-btn");
-  const panels = dialog.querySelectorAll(".adv-tab-panel");
-
-  buttons.forEach(function(btn) {
-    var active = (btn.getAttribute("data-tab") === tabId);
-    btn.classList.toggle("active", active);
-    btn.setAttribute("aria-selected", active ? "true" : "false");
-  });
-
-  panels.forEach(function(panel) {
-    panel.classList.toggle("active", panel.id === tabId);
-  });
-}
-
-// Initialize tabs in ABC Tools Links Center
-
-function liteOpenToolsLinks_InitTabs() {
-
-  const dialog =
-    document.getElementById("abc-tools-links-dialog");
-
-  const tabs = dialog.querySelectorAll('[data-tab]');
-
-  tabs.forEach(
-    el => el.addEventListener(
-      'click',
-      () => liteOpenToolsLinks_SelectTab(el.dataset.tab)
-    )
-  );
-}
-
 // Populate and open ABC Tools Lite: Latest dialog
 
 function liteOpenToolsLatestScreen() {
@@ -586,49 +1277,55 @@ function liteOpenToolsLatestScreen() {
 	modal_msg += '<svg aria-hidden="true"><use href="#lite-icon-help"></use></svg>';
   modal_msg += '</a>';
   
-  // Modal Dialog Updates Wrapper
+  // Updates Dialog Wrapper
   modal_msg += '<div class="modal-wrapper-centered-column">';
 
-  // Modal Dialog Updates Header
+  // Updates Dialog Header
   modal_msg += '<header class="modal-header-updates-container">';
   modal_msg += '<h2 class="modal-header-updates">ABC Tools Lite: Latest</h2>';
   modal_msg += '<h3 class="modal-subheader modal-subheader-updates">Version ' + gLiteVersionNumber + ' (June 2026)</h3>';
   modal_msg += '</header>';
 
-  // Modal Dialog Updates Intro
+  // Updates Dialog Intro
   modal_msg += '<p class="modal-subheader-updates modal-subheader-intro">';
   modal_msg += 'Some of the latest custom changes, fixes and improvements added to the fork:';
   modal_msg += '</p>';
 
-  // Modal Dialog Updates Summary
+  // Updates Dialog Summary
   modal_msg += '<section class="modal-section-updates modal-section-summary">';
   modal_msg += '<h4>Update Summary</h4>';
   modal_msg += '<ul>';
-  modal_msg += '<li><strong>ABC Tools Lite</strong>: N.S.S.S. ABC Encoder export option added to Share dialogs.</li>';
-  modal_msg += '<li><strong>ABC Tools Lite</strong>: Full keyboard navigation support for editor and notation view.</li>';
+  modal_msg += '<li><strong>ABC Tools Lite</strong>: Dialog modals have been redesigned. Menus adapt to page, content scrolls within, no more background scroll & "flyaway" dialogs.</li>';
+  modal_msg += '<li><strong>ABC Tools Lite</strong>: Full keyboard navigation support for editor & menus.</li>';
   modal_msg += '<li><strong>ABC Tools Lite</strong>: New <a href="https://github.com/anton-bregolas/abctools-lite#tools-lite-new-keyboard-shortcuts" target="_blank" title="View Full List of Keyboard Shortcuts on ABC Tools Lite GitHub">keyboard shortcuts</a> and <a href="https://github.com/anton-bregolas/abctools-lite#tools-lite-new-customization-options" target="_blank" title="View Full List of New Customization Options on ABC Tools Lite GitHub">customization options</a> added.</li>';
   modal_msg += '<li><strong>ABC Tools Lite</strong>: Custom new <a href="https://github.com/anton-bregolas/abctools-lite#ui-fixes--features-roadmap" target="_blank" title="View Full List of Custom UI Features on ABC Tools Lite GitHub">fonts, icons and styles</a> added to UI components.</li>';
   modal_msg += '<li><strong>ABC Transcription Tools</strong> updated to version <b>' + gVersionNumber + '</b>.</li>';
   modal_msg += '</ul>';
   modal_msg += '</section>';
 
-  // Modal Dialog Updates List Latest
+  // Updates Dialog Latest
   modal_msg += '<section class="modal-section-updates">';
   modal_msg += '<h4>Selected Updates</h4>';
   modal_msg += '<ul>';
-  modal_msg += '<li><b>Copy</b> & <b>Paste</b> buttons with smart insert / replace logic added to the top bar.</li>';
-  modal_msg += '<li>You can now send your tunes to <a href="https://ns.tunebook.app/abc-encoder.html" title="Open Anton Zille\'s ABC Encoder Tool, a Swiss army knife of ABC collection editing" target="_blank"><b>ABC Encoder</b></a> for advanced sorting, formatting or encoding via the <b>Sharing</b> dialog. Sorted ABC can then be reopened in ABC Tools.</li>';
-  modal_msg += '<li>Keyboard users can now <b>Tab</b> through editor and notation buttons and open menus with <b>Enter</b> / <b>Space</b>. All dialogs now support pressing <b>Escape</b> to exit.</li>';
-  modal_msg += '<li>New <b>X</b> button ensures app menus are easy to <b>quit</b> for desktop & mobile users.</li>';
-  modal_msg += '<li>Try custom <a href="https://github.com/anton-bregolas/abctools-lite#tools-lite-new-keyboard-shortcuts" target="_blank" title="View Full List of Keyboard Shortcuts on ABC Tools Lite GitHub"><b>keyboard shortcuts</b></a> to speed up tasks and get to editing ABC quicker.</li>';
+  modal_msg += '<li>Menus with interactive lists now fully support <b>arrow navigation</b> and follow accessibility patterns. Use <b>Tab</b> / <b>Shift + Tab</b> to enter or exit the list, <b>↑ ↓ ← →</b> to navigate, <b>Space / Enter</b> to select an item and <b>Shift + ↑ ↓ ← →</b> to multi-select.</li>';
+  modal_msg += '<li>Quickly confirm <b>Jump to Tune</b> with a <b>double click</b> or <b>Space / Enter</b> on the selected item. Select an item in <b>Reorder Tunes</b> with <b>Space / Enter</b> to enter the drag-and-drop mode, use arrows to reorder.</li>';
   modal_msg += '<li>Try updated <b>context menu (Ctrl + Shift + F10)</b> which now uses modern anchor positioning and semantic markup. Access newly-added tools via <b>ABC Tools Links</b>.</li>';
-  modal_msg += '<li>Try <b>compact mode (Shift + F9)</b> to save more screen space on narrow devices.</li>';
-  modal_msg += '<li>Full support for <b>Deflate</b> compression algorithm added to Export Websites.</li>';
-  modal_msg += '<li>Updated <b>Help Dialog</b> now shows tips depending on the current view.</li>';
+  modal_msg += '<li>You can now send your tunes to <a href="https://ns.tunebook.app/abc-encoder.html" title="Open Anton Zille\'s ABC Encoder Tool, a Swiss army knife of ABC collection editing" target="_blank"><b>ABC Encoder</b></a> for advanced sorting, formatting or encoding via the <b>Sharing</b> dialog. Sorted ABC can then be reopened in ABC Tools.</li>';
   modal_msg += '<li>The ongoing <b>ABC Tools restyle</b> goes hand in hand with laborious <b>accessibility improvements</b>. If you find my work useful, consider <a href="https://ns.tunebook.app/" target="_blank" title="View Anton Zille\'s tunebook projects and support options"><b>Supporting & Following</b></a>.</li>';
   modal_msg += '</ul>';
   modal_msg += '</section>';
-
+  
+  // Updates Dialog Archive
+  modal_msg += '<section class="modal-section-updates">';
+  modal_msg += '<details><summary><b>Updates Archive</b></summary><ul>';
+  modal_msg += '<li>Try custom <a href="https://github.com/anton-bregolas/abctools-lite#tools-lite-new-keyboard-shortcuts" target="_blank" title="View Full List of Keyboard Shortcuts on ABC Tools Lite GitHub"><b>keyboard shortcuts</b></a> to speed up tasks and get to editing ABC quicker.</li>';
+  modal_msg += '<li>Try <b>compact mode (Shift + F9)</b> to save more screen space on narrow devices.</li>';
+  modal_msg += '<li><b>Copy</b> & <b>Paste</b> buttons with smart insert / replace logic added to the top bar.</li>';
+  modal_msg += '<li>New <b>X</b> button ensures app menus are easy to <b>quit</b> for desktop & mobile users.</li>';
+  modal_msg += '<li>Keyboard users can now <b>Tab</b> through editor and notation buttons and open menus with <b>Enter</b> / <b>Space</b>. All dialogs now support pressing <b>Escape</b> to exit.</li>';
+  modal_msg += '<li>Full support for <b>Deflate</b> compression algorithm added to Export Websites.</li>';
+  modal_msg += '<li>Updated <b>Help Dialog</b> now shows tips depending on the current view.</li>';
+  modal_msg += '</ul></details>';
   modal_msg += '</div>';
 
   DayPilot.Modal.alert(modal_msg, {

@@ -7,10 +7,8 @@ body {																											/* vanilla abc tools settings */
 	--abctools-font-ui: 'Fira Sans';													/* Helvetica */
   --abctools-font-size-header-xl-24: 2rem;                  /* 24pt */
   --abctools-font-size-header-l-20: 1.667rem;               /* 20pt */
-  --abctools-font-size-header-m-18: 1.5rem;                 /* 18pt */
-  --abctools-font-size-header-sm-16: 1.333rem;              /* 16pt */
-	--abctools-font-size-label-l-14: 1.167rem;    					  /* 14pt */
-  --abctools-font-size-header-s-13: 1.125rem;               /* 18px */
+  --abctools-font-size-header-m-18: 1.5rem;                 /* 16pt */
+	--abctools-font-size-label-l-14: 1.167rem;                /* 18px */
 	--abctools-font-size-code-13: 1.083rem;								    /* 13pt */
 	--abctools-font-size-label-m-12: 1rem;    					      /* 12pt */
 	--abctools-font-size-label-s-11: 0.917rem;							  /* 11pt */
@@ -34,6 +32,11 @@ body {																											/* vanilla abc tools settings */
   --abctools-ui-modal-spacer-5pt: 0.417rem;                 /* 5pt */  
   --abctools-ui-modal-spacer-4pt: 0.333rem;                 /* 4pt */
   --abctools-ui-modal-spacer-3pt: 0.25rem;                  /* 3pt */
+  --abctools-ui-option-bgcolor: #f9f9f9;                  /* f9f9f9 */
+  --abctools-ui-option-borderfocuscolor: #aaa;            /* none */
+  --abctools-ui-option-deletecolor: #ffe5e5;              /* ffe5e5 */
+  --abctools-ui-option-selectcolor: #b0ffb0;              /* b0ffb0 */
+  --abctools-ui-option-selectlitecolor: #e5ffe5;          /* e5ffe5 */
   --abctools-ui-tab-btn-bgcolor: #d5ebfdba;               /* #ffffff */
   --abctools-notation-fullscreen-scaling: 50%;              /* 50% */
 
@@ -720,9 +723,24 @@ a:focus-visible,
   outline-width: 0.19rem;
 }
 
+.modal-footer-ui-container {
+  position: absolute;
+  bottom: -60px;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2.2rem;
+  width: calc(100% - 4.4rem);
+  pointer-events: none;
+}
+
+.modal-footer-ui {
+  pointer-events: auto;
+}
+
 @supports (-webkit-tap-highlight-color: rgba(0,0,0,0)) {
   .btn, .btn-lite, .btn-uioverlay, .ContextMenu,
-  a, input, label, select {
+  a, input, label, select, option, [role="option"] {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
 }
@@ -825,6 +843,82 @@ ul.notation-placeholder-text {
 
 .lite-custom-setting {
   font-weight: bold;
+}
+
+/* UI: Listbox Menus */
+
+[role="option"] {
+  display: block;
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid var(--abctools-bgcolor-secondary);
+  background-color: var(--abctools-ui-option-bgcolor);
+  font-size: var(--abctools-font-size-label-m-12);
+}
+
+[role="option"][aria-selected="true"] {
+  background-color: var(--abctools-ui-option-selectcolor);
+}
+
+[role="option"][aria-selected="true"].cullable_tune {
+  background-color: var(--abctools-ui-option-deletecolor);
+}
+
+[role="option"][aria-selected="true"].tuneset_tune {
+  background-color: var(--abctools-ui-option-selectlitecolor);
+}
+
+[role="option"][data-dragging="true"] {
+  scale: 1.0075;
+  box-shadow: 5px 5px 5px color-mix(in srgb, transparent 75%, var(--abctools-bgcolor-contrast));
+}
+
+[role="option"][data-dragging="true"],
+[role="option"]:focus:not(:focus-visible) {
+  border-color: var(--abctools-ui-option-borderfocuscolor);
+}
+
+[role="option"]:focus-visible {
+  outline: 0.15rem solid var(--abctools-ui-btn-outlinecolor);
+  outline-offset: -0.15rem;
+  border-radius: 0.15rem;
+}
+
+#cull_select_all,
+#tuneset_select_all,
+#mobile_tune_order_up {
+	margin-right: 1.125rem;
+}
+
+#cullable-tune-list {
+  border: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+
+#tuneset-search-clear {
+  outline-offset: 0.3rem;
+  border-radius: 50%;
+}
+
+#sortable-tune-list [role="option"],
+#sortable-tune-list-mobile [role="option"] {
+  cursor: grab;
+}
+
+#sortable-tune-list:has([data-dragging]),
+#sortable-tune-list:has([data-dragging]) [role="option"],
+#sortable-tune-list:has([data-dragging]) [role="option"] * {
+  cursor: grabbing;
+}
+
+#sortable-tune-list-mobile:has([data-dragging]),
+#sortable-tune-list-mobile:has([data-dragging]) [role="option"],
+#sortable-tune-list-mobile:has([data-dragging]) [role="option"] * {
+  cursor: grabbing;
 }
 
 /*//////////////////////////////////////////
@@ -948,10 +1042,8 @@ ul.notation-placeholder-text {
 body[data-layout="mobile-true"] {                           /* Default */
   --abctools-font-size-header-xl-24: 2rem;                  /* 24pt */
   --abctools-font-size-header-l-20: 1.667rem;               /* 20pt */
-  --abctools-font-size-header-m-18: 1.5rem;                 /* 18pt */
-  --abctools-font-size-header-sm-16: 1.333rem;               /* 16pt */
-  --abctools-font-size-header-s-13: 1.125rem;                  /* 18px */
-	--abctools-font-size-label-l-14: 1.5rem;    					  /* 14pt */
+  --abctools-font-size-header-m-18: 1.5rem;           /* 18px */
+	--abctools-font-size-label-l-14: 1.5rem;    					    /* 14pt */
 	--abctools-font-size-code-13: 1.083rem;								    /* 13pt */
 	--abctools-font-size-label-m-12: 1rem;    					      /* 12pt */
 	--abctools-font-size-label-s-11: 0.917rem;							  /* 11pt */
