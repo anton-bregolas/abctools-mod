@@ -10,7 +10,7 @@ var SDTheOKButton = null;
 var SDTheNotationImages = [];
 var SDTuneOrder = [];
 var SDTuneArray = [];
-var SmartDrawTuneCurrent = null;
+// var SmartDrawTuneCurrent = null;
 var SmartDrawTitles = null;
 var SDExportFormat = "0";
 var SDIncipits = [];
@@ -404,6 +404,9 @@ function SDGenerateIncipits(){
 //
 // Create a share URL for a tune
 //
+// Lite: Customized
+// Fix lzw/def mixup, prefer def
+//
 function SDEncodeABCToolsShareURL(theABC,setName,displayFormat,staffSpacing,addPlayLink) {
 
     // Clean up the set name
@@ -428,7 +431,7 @@ function SDEncodeABCToolsShareURL(theABC,setName,displayFormat,staffSpacing,addP
     var deflated = pako.deflate(utf8Bytes, { level: 6 });
     var abc_compressed = def_bytesToBase64URL(deflated);
 
-    var url = "https://abc.tunebook.app/abctools.html?lzw=" + abcInLZW + "&format=" + displayFormat + "&ssp=" + staffSpacing+ "&pdf=one&pn=br&fp=yes&name="+setName;
+    var url = "https://abc.tunebook.app/abctools.html?def=" + abc_compressed + "&format=" + displayFormat + "&ssp=" + staffSpacing+ "&pdf=one&pn=br&fp=yes&name="+setName;
 
     if (addPlayLink){
       url = url + "&play=1";
@@ -581,7 +584,7 @@ function SDDoBatchImageExport(vson_callback){
 	thePrompt = makeCenteredPromptString(thePrompt);
 
 	// Put up batch running dialog
-	DayPilot.Modal.alert(thePrompt,{ theme: "modal_flat", top: 290, scrollWithPage: (AllowDialogsToScroll()), okText:"Cancel" }).then(function(args){
+	DayPilot.Modal.alertmini(thePrompt,{ theme: "modal_flat", top: 290, scrollWithPage: (AllowDialogsToScroll()), okText:"Cancel" }).then(function(args){
 		
 		//console.log("Got cancel");
 		
@@ -822,6 +825,9 @@ function SDDownloadJPG(callback,val){
 //
 // Create SmartDraw Set List using Drag and Drop
 //
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
+//
 
 function AddSmartDrawSetName(){
 
@@ -838,31 +844,36 @@ function AddSmartDrawSetName(){
 
 			var oldItem;
 
-			if (SmartDrawTuneCurrent){
+			const sortableList = document.getElementById('sortable-tune-list');
 
-				oldItem = SmartDrawTuneCurrent;
-		 		newItem = SmartDrawTuneCurrent.cloneNode(true);
+			if (sortableList._currentItem){
 
-		 		if (SmartDrawTuneCurrent){
-					SmartDrawTuneCurrent.classList.remove('draggable_tune_selected');
+				oldItem = sortableList._currentItem;
+		 		newItem = sortableList._currentItem.cloneNode(true);
+
+		 		if (sortableList._currentItem){
+					// SmartDrawTuneCurrent.classList.remove('draggable_tune_selected');
+					sortableList._currentItem.setAttribute('aria-selected', 'false');
 				}
 
 		 	}
 		 	else{
-		 		const childDivs = document.querySelectorAll('#sortable-tune-list .draggable_tune');
+		 		const childDivs = sortableList.querySelectorAll('[role="option"]');
 		 		oldItem = childDivs[0];
 		 		newItem = oldItem.cloneNode(true);
 		 	}
 
 		 	newItem.innerHTML = theSetName;
-		 	newItem.setAttribute('data_tune_index',"-1");
+		 	newItem.dataset.tuneIndex = "-1";
 
-		 	document.getElementById('sortable-tune-list').insertBefore(newItem, oldItem);
+		 	sortableList.insertBefore(newItem, oldItem);
 
 		 	// Highlight it
-		 	SmartDrawTuneCurrent = newItem;
+		 	// SmartDrawTuneCurrent = newItem;
+			sortableList._currentItem = newItem;
 
-			SmartDrawTuneCurrent.classList.add('draggable_tune_selected');
+			// SmartDrawTuneCurrent.classList.add('draggable_tune_selected');
+			newItem.setAttribute('aria-selected', 'true');
 
 		}
 
@@ -874,12 +885,14 @@ function DeleteSmartDrawSetName(){
 
 	//console.log("DeleteSmartDrawSetName");
 
-	if (SmartDrawTuneCurrent){
+	const sortableList = document.getElementById('sortable-tune-list');
 
-		if (SmartDrawTuneCurrent.getAttribute('data_tune_index') == "-1"){
+	if (sortableList._currentItem){
 
-			document.getElementById('sortable-tune-list').removeChild(SmartDrawTuneCurrent);
-			SmartDrawTuneCurrent = null;
+		if (sortableList._currentItem.dataset.tuneIndex == "-1"){
+
+			sortableList.removeChild(sortableList._currentItem);
+			sortableList._currentItem = null;
 
 		}
 	}
@@ -895,7 +908,7 @@ function saveVSON(fname, theData) {
 
     if (theData.length == 0) {
 		
-        DayPilot.Modal.alert("Nothing to save!", {
+        DayPilot.Modal.alertmini("Nothing to save!", {
             theme: "modal_flat",
             top: 200
         });
@@ -976,10 +989,11 @@ function ExportSmartDrawSetList(){
 					// Clear the JPEG cache
 					SDTheNotationImages = [];
 
-					const childDivs = document.querySelectorAll('#sortable-tune-list .draggable_tune');
+					const tunes = document.querySelectorAll('#sortable-tune-list [role="option"]');
 					
 					// Extract and display data_tune_index values
-					var SDTuneOrderRaw = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+					// var SDTuneOrderRaw = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+					var SDTuneOrderRaw = Array.from(tunes).map(tune => tune.dataset.tuneIndex);
 
 					var nTuneOrder = SDTuneOrderRaw.length;
 
@@ -1077,7 +1091,7 @@ function ExportSmartDrawSetList(){
 
 					 			var isSetMarker = false;
 
-					 			if (thisDiv.getAttribute('data_tune_index') == "-1"){
+					 			if (thisDiv.dataset.tuneIndex == "-1"){
 
 					 				//console.log("Set list marker found: "+divName);
 
@@ -1201,7 +1215,7 @@ function ExportSmartDrawSetList(){
 
 					 			var isSetMarker = false;
 
-					 			if (thisDiv.getAttribute('data_tune_index') == "-1"){
+					 			if (thisDiv.dataset.tuneIndex == "-1"){
 
 					 				//console.log("Set list marker found: "+divName);
 
@@ -1338,6 +1352,10 @@ function ExportSmartDrawSetList(){
 
 }
 
+// Lite: Customized
+// Refactor to keyboard-navigable listbox menu
+// Add touchscreen support to drag-and-drop
+//
 function SmartDrawExport(){
 
 	var i,j,k;
@@ -1357,7 +1375,7 @@ function SmartDrawExport(){
 	SDTheNotationImages = [];
 	SDTuneOrder = [];
 	SDTuneArray = [];
-	SmartDrawTuneCurrent = null;
+	// SmartDrawTuneCurrent = null;
 	SmartDrawTitles = null;
 
 	clearGetTuneByIndexCache();
@@ -1369,30 +1387,38 @@ function SmartDrawExport(){
 
 	if (nTitles == 0){
 
-		var thePrompt = "No tunes to create SmartDraw set list.";
+		var thePrompt = "No tunes to create SmartDraw set list";
 		
 		// Center the string in the prompt
 		thePrompt = makeCenteredPromptString(thePrompt);
 		
-		DayPilot.Modal.alert(thePrompt,{ theme: "modal_flat", top: 200, scrollWithPage: (AllowDialogsToScroll()) });
+		DayPilot.Modal.alertmini(thePrompt,{ theme: "modal_flat", top: 200, scrollWithPage: (AllowDialogsToScroll()) });
 
 		return;
 	}
 
 	var theData = {};
 
-	var theSortableDiv = '<div id="sortable-tune-list" style="overflow:auto;height:475px;margin-top:18px">';
+	// var theSortableDiv = '<div id="sortable-tune-list" style="overflow:auto;height:475px;margin-top:18px">';
+	var theSortableDiv = '<div id="sortable-tune-list" role="listbox" aria-label="SmartDraw set list builder" tabindex="-1" style="overflow:auto;margin-top:18px">';
+  
+	// Add accessible description for draggable options
+	theSortableDiv += '<div hidden id="draggable-tune-descr">Press to grab</div>';
 
 	for (i=0;i<nTitles;++i){
 
-		theSortableDiv += '<div class="draggable_tune" draggable="true" data_tune_index="'+i+'">'+SmartDrawTitles[i]+'</div>';
+		// theSortableDiv += '<div class="draggable_tune" draggable="true" data-tune-index="'+i+'">'+SmartDrawTitles[i]+'</div>';
+		theSortableDiv += '<div role="option" aria-selected="false" aria-describedby="draggable-tune-descr" data-tune-index="'+i+'" tabindex="-1"><span class="draggable_tune_text">'+SmartDrawTitles[i]+'</span></div>';
 	}
 	
 	theSortableDiv += '</div>';
-
-	modal_msg = '<h2 class="modal-header modal-header-settings">SmartDraw Set List Builder&nbsp;&nbsp;<span style="font-size:24pt;" title="View documentation in new tab"><a href="https://michaeleskin.com/abctools/userguide.html#smartdraw_export" target="_blank" style="text-decoration:none;position:absolute;left:20px;top:20px">?</a></span></p>';
-
-	modal_msg += '<p style="margin-top:18px;font-size:12pt;">Drag and drop the tune names to change the order of the tunes in the set list.</p>';
+	// modal_msg = '<h2 class="modal-header modal-header-settings">SmartDraw Set List Builder&nbsp;&nbsp;<span style="font-size:24pt;" title="View documentation in new tab"><a href="https://michaeleskin.com/abctools/userguide.html#smartdraw_export" target="_blank" style="text-decoration:none;position:absolute;left:20px;top:20px">?</a></span></p>';
+	modal_msg = '';
+	modal_msg += '<h2 class="modal-header">SmartDraw Set List Builder&nbsp;&nbsp;</h2>';
+	modal_msg += '<a href="https://michaeleskin.com/abctools/userguide.html#smartdraw_export" target="_blank" ' +
+				 'title="View documentation in new tab" ' +
+				 'class="modal-header-ui modal-link-help dialogcornerbutton">?</a>';
+	modal_msg += '<p style="margin-top:18px;font-size:12pt;">Drag and drop the tune names to change the order of the tunes in the set sortableList.</p>';
 	modal_msg += '<p style="margin-top:18px;font-size:12pt;">Add or delete set name markers using the buttons below.</p>';
 	modal_msg += theSortableDiv;
 	modal_msg += '<p style="margin-top:24px;" class="btn-container btn-container-center"><input id="smartdraw_add_set_name" class="advancedcontrols btn btn-injectcontrols-headers" onclick="AddSmartDrawSetName();" type="button" value="Add Set Name" title="Adds a set name element to the list"><input id="smartdraw_delete_set_name" class="advancedcontrols btn btn-injectcontrols-headers" onclick="DeleteSmartDrawSetName();" type="button" value="Delete Set Name" title="Deletes a selected set name element from the list"><input id="smartdraw_export" class="advancedcontrols btn btn-smartdraw-export" onclick="ExportSmartDrawSetList();" type="button" value="Export SmartDraw Set List" title="Exports the set list as a SmartDraw diagram"></p>';
@@ -1416,67 +1442,74 @@ function SmartDrawExport(){
 
 	const sortableList = document.getElementById('sortable-tune-list');
 
-	let dragItem = null;
+	// let dragItem = null;
+
+	sortableList._dragItem = null;
+	sortableList._currentItem = null;
 
 	// Add drag and drop event listeners
 
-	sortableList.addEventListener('click', function (e) {
+	// sortableList.addEventListener('click', function (e) {
+	// 
+	// 	var theTarget = e.target;
+	// 
+	// 	if (theTarget.classList && theTarget.classList.contains('draggable_tune')){
+	// 		
+	// 		dragItem = theTarget;
+	// 
+	// 		if (SmartDrawTuneCurrent){
+	// 			SmartDrawTuneCurrent.classList.remove('draggable_tune_selected');
+	// 		}
+	// 
+	// 		SmartDrawTuneCurrent = dragItem;
+	// 
+	// 		dragItem.classList.add('draggable_tune_selected');
+	// 	}
+	// 
+	// });
+	// 
+	// sortableList.addEventListener('dragstart', function (e) {
+	// 	
+	// 	dragItem = e.target;
+	// 	e.dataTransfer.effectAllowed = 'move';
+	// 	e.dataTransfer.setData('text/plain', dragItem.innerHTML);
+	// 
+	// 	if (SmartDrawTuneCurrent){
+	// 		SmartDrawTuneCurrent.classList.remove('draggable_tune_selected');
+	// 	}
+	// 
+	// 	SmartDrawTuneCurrent = dragItem;
+	// 
+	// 	dragItem.classList.add('draggable_tune_selected');
+	// 
+	// });
+	// 
+	// sortableList.addEventListener('dragover', function (e) {
+	// 	e.preventDefault();
+	// 	const target = e.target;
+	// 	if (target && target !== dragItem && target.classList.contains('draggable_tune')) {
+	// 
+	// 		const rect = target.getBoundingClientRect();
+	// 		
+	// 		const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+	// 		
+	// 		sortableList.insertBefore(dragItem, next ? target.nextElementSibling : target);
+	// 
+	//     	const childDivs = document.querySelectorAll('#sortable-tune-list .draggable_tune');
+	// 
+	// 		// Extract and display data_tune_index values
+	// 		newOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
+	// 
+	// 	}
+	// 
+	// });
+	// 
+	// sortableList.addEventListener('dragend', function () {
+	// 	dragItem = null;
+	// });
 
-		var theTarget = e.target;
-
-		if (theTarget.classList && theTarget.classList.contains('draggable_tune')){
-		
-			dragItem = theTarget;
-
-			if (SmartDrawTuneCurrent){
-				SmartDrawTuneCurrent.classList.remove('draggable_tune_selected');
-			}
-
-			SmartDrawTuneCurrent = dragItem;
-
-			dragItem.classList.add('draggable_tune_selected');
-		}
-
-	});
-
-	sortableList.addEventListener('dragstart', function (e) {
-		
-		dragItem = e.target;
-		e.dataTransfer.effectAllowed = 'move';
-		e.dataTransfer.setData('text/plain', dragItem.innerHTML);
-
-		if (SmartDrawTuneCurrent){
-			SmartDrawTuneCurrent.classList.remove('draggable_tune_selected');
-		}
-
-		SmartDrawTuneCurrent = dragItem;
-
-		dragItem.classList.add('draggable_tune_selected');
-
-	});
-
-	sortableList.addEventListener('dragover', function (e) {
-		e.preventDefault();
-		const target = e.target;
-		if (target && target !== dragItem && target.classList.contains('draggable_tune')) {
-
-			const rect = target.getBoundingClientRect();
-			
-			const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
-			
-			sortableList.insertBefore(dragItem, next ? target.nextElementSibling : target);
-
-	    	const childDivs = document.querySelectorAll('#sortable-tune-list .draggable_tune');
-
-			// Extract and display data_tune_index values
-			newOrder = Array.from(childDivs).map(div => div.getAttribute('data_tune_index'));
-
-		}
-
-	});
-
-	sortableList.addEventListener('dragend', function () {
-		dragItem = null;
-	});
-
+	// Lite: Customized
+	// Drag-and-drop via Pointer Events + keyboard nav
+	liteNavInitDragDropListReorderTunes(sortableList);
+	liteNavInitDragDropListKeyDown(sortableList);
 }
