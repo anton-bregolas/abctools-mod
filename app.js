@@ -20807,6 +20807,10 @@ function BuildTuneSet() {
     cancelText: null,
   }).then(function(args) {
 
+    // Lite: Customized
+    // Fix latent Cancel error, ignore result on Esc / X
+    if (args.canceled) return;
+
     var bRepeat = args.result.repeat_enable;
     BuildTuneSetRepeat = bRepeat;
 
@@ -58124,51 +58128,51 @@ function showWhatsNewScreen() {
 
   return;
 
-  // --- Inline styles to keep this self-contained like your existing dialog ---
-  var modal_msg = '';
-  modal_msg += '<div style=" line-height:16pt;">';
+  // // --- Inline styles to keep this self-contained like your existing dialog ---
+  // var modal_msg = '';
+  // modal_msg += '<div style=" line-height:16pt;">';
 
-  // Header
-  modal_msg += '<div style="text-align:center; padding:14px 10px; border-radius:12px;';
-  modal_msg += 'background: linear-gradient(135deg, #0b2f24 0%, #116149 52%, #1f9d73 100%);';
-  modal_msg += 'box-shadow: 0 6px 16px rgba(0,0,0,0.14); color:#fff;">';
-  modal_msg += '<div style="font-size:20pt; line-height:24pt; font-weight:bold;">What&apos;s New</div>';
-  modal_msg += '<div style="font-size:11pt; opacity:0.92; margin-top:3px;">Version ' + gVersionNumber + ' released 15 June 2026</div>';
-  modal_msg += '</div>';
+  // // Header
+  // modal_msg += '<div style="text-align:center; padding:14px 10px; border-radius:12px;';
+  // modal_msg += 'background: linear-gradient(135deg, #0b2f24 0%, #116149 52%, #1f9d73 100%);';
+  // modal_msg += 'box-shadow: 0 6px 16px rgba(0,0,0,0.14); color:#fff;">';
+  // modal_msg += '<div style="font-size:20pt; line-height:24pt; font-weight:bold;">What&apos;s New</div>';
+  // modal_msg += '<div style="font-size:11pt; opacity:0.92; margin-top:3px;">Version ' + gVersionNumber + ' released 15 June 2026</div>';
+  // modal_msg += '</div>';
 
-    // Feature card
-  modal_msg += '<div style="margin:10px 0 6px 0; padding:0px 12px; border-radius:12px;';
-  modal_msg += 'background:#fff; border:1px solid #e7e7e7; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">';
-  modal_msg += '<p><strong>Fixed major playback bug with 1st/2nd endings that started when the tablature-only mode was added.</strong></p>';
-  modal_msg += '</div>';
+  //   // Feature card
+  // modal_msg += '<div style="margin:10px 0 6px 0; padding:0px 12px; border-radius:12px;';
+  // modal_msg += 'background:#fff; border:1px solid #e7e7e7; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">';
+  // modal_msg += '<p><strong>Fixed major playback bug with 1st/2nd endings that started when the tablature-only mode was added.</strong></p>';
+  // modal_msg += '</div>';
 
-  // Feature card
-  modal_msg += '<div style="margin:10px 0 6px 0; padding:0px 12px; border-radius:12px;';
-  modal_msg += 'background:#fff; border:1px solid #e7e7e7; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">';
-  modal_msg += '<p><strong>Added a new Inject %tablature_only button on the ABC Features tab of the More ABC Tools dialog</strong></p>';
-  modal_msg += '<p>When clicked, it injects the following two annotations above the first X: tag in the ABC to make it easy to enable the standalone stringed instrument tablature display feature:</p>';
-  modal_msg += '<p><strong>%tablature_only</strong><br/>'; 
-  modal_msg += '<strong>%%staffsep 80</strong></p>'; 
-  modal_msg += '</div>';
+  // // Feature card
+  // modal_msg += '<div style="margin:10px 0 6px 0; padding:0px 12px; border-radius:12px;';
+  // modal_msg += 'background:#fff; border:1px solid #e7e7e7; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">';
+  // modal_msg += '<p><strong>Added a new Inject %tablature_only button on the ABC Features tab of the More ABC Tools dialog</strong></p>';
+  // modal_msg += '<p>When clicked, it injects the following two annotations above the first X: tag in the ABC to make it easy to enable the standalone stringed instrument tablature display feature:</p>';
+  // modal_msg += '<p><strong>%tablature_only</strong><br/>'; 
+  // modal_msg += '<strong>%%staffsep 80</strong></p>'; 
+  // modal_msg += '</div>';
 
-  // Feature card
-  modal_msg += '<div style="margin:10px 0 6px 0; padding:0px 12px; border-radius:12px;';
-  modal_msg += 'background:#fff; border:1px solid #e7e7e7; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">';
-  modal_msg += '<p><strong>Standalone stringed instrument tablature without standard notation above is now possible</strong></p>';
-  modal_msg += '<p>You can now show standalone stringed instrument tablature without standard notation above by adding the following ABC annotation to either a single tune or to the ABC file header to have it apply to all the tunes in an ABC tunebook:</p>';
-  modal_msg += '<p><strong>%tablature_only</strong></p>'; 
-  modal_msg += '<p>This is only available for the stringed instrument tablatures, not tin whistle or recorder fingering tablatures.</p>'; 
-  modal_msg += '<p>This works for tune display, playback, as well as image, PDF and website export.</p>';
-  modal_msg += '</div>';
+  // // Feature card
+  // modal_msg += '<div style="margin:10px 0 6px 0; padding:0px 12px; border-radius:12px;';
+  // modal_msg += 'background:#fff; border:1px solid #e7e7e7; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">';
+  // modal_msg += '<p><strong>Standalone stringed instrument tablature without standard notation above is now possible</strong></p>';
+  // modal_msg += '<p>You can now show standalone stringed instrument tablature without standard notation above by adding the following ABC annotation to either a single tune or to the ABC file header to have it apply to all the tunes in an ABC tunebook:</p>';
+  // modal_msg += '<p><strong>%tablature_only</strong></p>'; 
+  // modal_msg += '<p>This is only available for the stringed instrument tablatures, not tin whistle or recorder fingering tablatures.</p>'; 
+  // modal_msg += '<p>This works for tune display, playback, as well as image, PDF and website export.</p>';
+  // modal_msg += '</div>';
 
-  modal_msg += '</div>'; // wrapper
+  // modal_msg += '</div>'; // wrapper
 
-  DayPilot.Modal.alert(modal_msg, {
-    theme: "modal_flat",
-    top: 25,
-    width: 675,
-    scrollWithPage: (AllowDialogsToScroll())
-  });
+  // DayPilot.Modal.alert(modal_msg, {
+  //   theme: "modal_flat",
+  //   top: 25,
+  //   width: 675,
+  //   scrollWithPage: (AllowDialogsToScroll())
+  // });
 
 }
 

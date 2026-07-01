@@ -211,18 +211,14 @@ window.DayPilot = window.DayPilot || {};
     let footerButtons = "";
     if (type === "prompt" || type === "confirm") {
       const okText = options.okText || "OK";
-      const cancelText = options.cancelText !== undefined ? options.cancelText : "Cancel";
+      const cancelText = options.cancelText || "Cancel";
       footerButtons = '<button class="dp-lite-ok dp-modal-button-ok ' + theme + '_ok">' + escapeHtml(okText) + '</button>';
-      if (cancelText !== null) {
-        footerButtons += '<button class="dp-lite-cancel ' + theme + '_cancel">' + escapeHtml(cancelText) + '</button>';
-      }
+      footerButtons += '<button class="dp-lite-cancel ' + theme + '_cancel">' + escapeHtml(cancelText) + '</button>';
     } else if (type === "form") {
       const fOkText = options.okText || "OK";
-      const fCancelText = options.cancelText !== undefined ? options.cancelText : "Cancel";
+      const fCancelText = options.cancelText || "Cancel";
       footerButtons = '<button class="dp-lite-ok dp-modal-button-ok ' + theme + '_ok">' + escapeHtml(fOkText) + '</button>';
-      if (fCancelText !== null) {
-        footerButtons += '<button class="dp-lite-cancel ' + theme + '_cancel">' + escapeHtml(fCancelText) + '</button>';
-      }
+      footerButtons += '<button class="dp-lite-cancel ' + theme + '_cancel">' + escapeHtml(fCancelText) + '</button>';
     } else {
       const aOkText = options.okText || "OK";
       footerButtons = '<button class="dp-lite-ok dp-modal-button-ok ' + theme + '_ok">' + escapeHtml(aOkText) + '</button>';
