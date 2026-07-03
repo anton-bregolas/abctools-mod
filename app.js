@@ -62680,11 +62680,6 @@ function SetupContextMenu(showUpdateItem) {
             fn: function(target) {
               LaunchStandardEditor();
             }
-          }, {}, {
-            name: 'About the Quick Editor',
-            fn: function(target) {
-              LaunchQuickEditorHelp();
-            }
           }, ]);
 
         if (showUpdateItem) {
@@ -62845,11 +62840,6 @@ function SetupContextMenu(showUpdateItem) {
         name: 'Launch Standard Editor',
         fn: function(target) {
             LaunchStandardEditor();
-          }
-        }, {}, {
-          name: 'About the Quick Editor',
-          fn: function(target) {
-            LaunchQuickEditorHelp();
           }
         }, ];
 
@@ -63226,11 +63216,6 @@ function SetupContextMenu(showUpdateItem) {
         fn: function(target) {
           LaunchStandardEditor();
         }
-      }, {}, {
-        name: 'About the Quick Editor',
-        fn: function(target) {
-          LaunchQuickEditorHelp();
-        }
       }, ];
 
       if (showUpdateItem) {
@@ -63366,6 +63351,10 @@ function SetupContextMenu(showUpdateItem) {
     }
   }
 
+  if (document.body.dataset.layout === 'mobile-true') {
+    items = items.slice().reverse();
+  }
+  
   var cm1 = new ContextMenu('.context-menu', items);
 }
 

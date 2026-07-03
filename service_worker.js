@@ -30,12 +30,12 @@
 //
 //
 // ABC Tools Lite:
-// Last updated on 2026-07-01
+// Last updated on 2026-07-03
 
 const cacheName = 'abctoolscache-3261';
 
 const CACHE_PREFIX = 'abctools';
-const CACHE_VERSION = 'lite-3261-18';
+const CACHE_VERSION = 'lite-3261-19';
 const CACHE_NAME_LITE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 
 const contentToCache = [
@@ -65,6 +65,7 @@ const contentToCache = [
     'pako.min.js',
 	'dialog-lite.css',
 	'dialog-lite.js',
+    'context-menu-lite.js',
 	'lame.min.js',
 	'unmute.min.js',
 	'tab-injectors-min.js',
@@ -79,7 +80,6 @@ const contentToCache = [
     'manage_database.js',
     'website_generator.js',
     'pdf-website-import.js',
-    'context-menu.js',
 	'api-keys.js',
     'codemirror-min.js',
     'simple.min.js',

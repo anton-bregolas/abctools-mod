@@ -86,8 +86,8 @@ dialog.dp-lite-dialog.dp-lite-top::backdrop {
 
 .dp-lite-dialog-compact .modal-link-help,
 .dp-lite-dialog-legacy .modal-link-help,
-.dp-lite-dialog-compact .modal_flat_x:not(.corner-x),
-.dp-lite-dialog-legacy .modal_flat_x:not(.corner-x) {
+.dp-lite-dialog-compact .modal-header-x:not(.corner-x),
+.dp-lite-dialog-legacy .modal-header-x:not(.corner-x) {
   top: 0.75rem;
 }
 

@@ -61,7 +61,7 @@ window.DayPilot = window.DayPilot || {};
       if (focused && document.body.contains(focused)) {
         focused.focus();
       } else if (currentDialog) {
-        const xBtn = currentDialog.querySelector(".modal_flat_x");
+        const xBtn = currentDialog.querySelector(".modal-header-x");
         if (xBtn) xBtn.focus();
       }
     } else {
@@ -81,6 +81,17 @@ window.DayPilot = window.DayPilot || {};
       currentType = null;
 
       document.body.removeAttribute("data-dialog");
+
+      // Restore focus to the context menu trigger when all dialogs close
+      if (typeof gCM_lastTrigger !== 'undefined' && gCM_lastTrigger && document.body.contains(gCM_lastTrigger)) {
+        const trigger = gCM_lastTrigger;
+        gCM_lastTrigger = null;
+        setTimeout(function() {
+          if (document.body.contains(trigger)) {
+            trigger.focus({ preventScroll: true });
+          }
+        }, 0);
+      }
     }
     closingInProgress = false;
   }
@@ -163,7 +174,7 @@ window.DayPilot = window.DayPilot || {};
 
   function buildXButton(isCornerX) {
     const btn = document.createElement("button");
-    btn.className = `modal_flat_x btn-lite modal-header-ui ${isCornerX? ' corner-x' : ''}`;
+    btn.className = `modal-header-x btn-lite modal-header-ui ${isCornerX? ' corner-x' : ''}`;
     btn.setAttribute("aria-label", "Close dialog");
 
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -341,11 +352,11 @@ window.DayPilot = window.DayPilot || {};
       } else if (type === "form") {
         const hasAutofocus = dialog.querySelector("[autofocus]");
         if (!hasAutofocus) {
-          const xBtn = dialog.querySelector(".modal_flat_x");
+          const xBtn = dialog.querySelector(".modal-header-x");
           if (xBtn) { xBtn.focus(); }
         }
       } else if (inputWasKeyboard) {
-        const xBtn = dialog.querySelector(".modal_flat_x");
+        const xBtn = dialog.querySelector(".modal-header-x");
         if (xBtn) { xBtn.focus(); } else if (okBtn) okBtn.focus();
       } else if (okBtn) {
         okBtn.focus();
