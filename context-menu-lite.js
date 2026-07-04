@@ -58,6 +58,8 @@ class ContextMenu {
       className: ''
     },
   ) {
+    this._scrollHandler = null;
+    this._resizeHandler = null;
     this.selector = selector;
     this.items = items;
     this.options = options;
@@ -151,11 +153,13 @@ class ContextMenu {
     closeBtn.addEventListener('click', () => { this.hide(); });
     this.menu.appendChild(closeBtn);
 
-    // Add Top scroll indicator (appears on content overflow, hidden by default)
-    this.scrollTop = document.createElement('div');
-    this.scrollTop.className = 'ContextMenu-scroll-hint';
+    // Add Top scroll button (appears on content overflow, hidden by default)
+    this.scrollTop = document.createElement('button');
+    this.scrollTop.type = 'button';
+    this.scrollTop.className = 'ContextMenu-scroll-hint btn-lite';
     this.scrollTop.dataset.scrollHint = 'top';
-    this.scrollTop.setAttribute('aria-hidden', 'true');
+    this.scrollTop.title = 'Scroll the menu to the top';
+    this.scrollTop.ariaLabel = 'Scroll the menu to the top';
     this.scrollTop.hidden = true;
     this.scrollTop.textContent = '▲▲▲';
     this.menu.appendChild(this.scrollTop);
@@ -203,14 +207,20 @@ class ContextMenu {
 
     liteNavInitRovingTabIndex(this.menu.querySelectorAll('[data-contextmenuitem]'));
 
-    // Add Bottom scroll indicator (appears on content overflow, hidden by default)
-    this.scrollBottom = document.createElement('div');
-    this.scrollBottom.className = 'ContextMenu-scroll-hint';
+    // Add Bottom scroll button (appears on content overflow, hidden by default)
+    this.scrollBottom = document.createElement('button');
+    this.scrollBottom.type = 'button';
+    this.scrollBottom.className = 'ContextMenu-scroll-hint btn-lite';
     this.scrollBottom.dataset.scrollHint = 'bottom';
-    this.scrollBottom.setAttribute('aria-hidden', 'true');
+    this.scrollBottom.title = 'Scroll the menu to the bottom';
+    this.scrollBottom.ariaLabel = 'Scroll the menu to the bottom';
     this.scrollBottom.hidden = true;
     this.scrollBottom.textContent = '▼▼▼';
     this.menu.appendChild(this.scrollBottom);
+
+    // Add click handlers to scroll hint buttons
+    this.scrollTop.addEventListener('click', (e) => this.handleScrollIndicatorClick(e));
+    this.scrollBottom.addEventListener('click', (e) => this.handleScrollIndicatorClick(e));
 
     // Append to anchor element's (grand)parent
     // This fixes anchor positioning in Firefox
@@ -338,17 +348,82 @@ class ContextMenu {
   // Tab: 
   // Hides the menu (and shift focus to editor) if not in fullscreen mode
   // Shifts focus between last selected menu item and UI in fullscreen mode
+  // Scroll hint buttons appear in tabbing order if shown
   handleTab(e, isFullScreen) {
     if (!isFullScreen) {
+      const shift = e.shiftKey;
+      const focused = document.activeElement;
+
+      // Handle Tab: Focus bottom hint if visible and not already focused
+      if (!shift && !this.scrollBottom.hidden && focused !== this.scrollBottom) {
+        e.preventDefault();
+        this.scrollBottom.focus();
+        return;
+      }
+
+      // Handle Shift + Tab: Focus top hint if visible and not already focused
+      if (shift && !this.scrollTop.hidden && focused !== this.scrollTop) {
+        e.preventDefault();
+        this.scrollTop.focus();
+        return;
+      }
+
       this.hide();
       return;
     }
+
     const focused = document.activeElement;
     const x = this.menu.querySelector('.modal-header-x');
-    if (focused !== x) {
-      e.preventDefault();
-      x.focus();
+    const allItems = Array.from(this.menu.querySelectorAll('[data-contextmenuitem]'));
+    const shift = e.shiftKey;
+
+    // Handle Tab in full screen mode
+    if (!shift) {
+      if (focused === this.scrollTop) {
+        e.preventDefault();
+        const last = this.menu.querySelector('[data-contextmenuitem][tabindex="0"]');
+        if (! last) last.focus({ preventScroll: true });
+        else liteNavFocusWithRovingTabIndex(allItems[allItems.length - 1], allItems);
+        return;
+      }
+      if (focused === x) {
+        e.preventDefault();
+        if (!this.scrollTop.hidden) { this.scrollTop.focus(); return; }
+        const last = this.menu.querySelector('[data-contextmenuitem][tabindex="0"]');
+        if (!last) last.focus({ preventScroll: true });
+        else liteNavFocusWithRovingTabIndex(allItems[allItems.length - 1], allItems);
+        return;
+      }
+      if (focused !== this.scrollBottom && !this.scrollBottom.hidden) {
+        e.preventDefault();
+        this.scrollBottom.focus();
+        return;
+      }
+    // Handle Shift + Tab in full screen mode
+    } else {
+      if (focused === this.scrollBottom) {
+        e.preventDefault();
+        const last = this.menu.querySelector('[data-contextmenuitem][tabindex="0"]');
+        if (!last) last.focus({ preventScroll: true });
+        else liteNavFocusWithRovingTabIndex(allItems[0], allItems);
+        return;
+      }
+      if (focused === x) {
+        e.preventDefault();
+        if (!this.scrollBottom.hidden) { this.scrollBottom.focus(); return; }
+        const last = this.menu.querySelector('[data-contextmenuitem][tabindex="0"]');
+        if (!last) last.focus({ preventScroll: true });
+        else liteNavFocusWithRovingTabIndex(allItems[0], allItems);
+        return;
+      }
+      if (focused !== this.scrollTop && !this.scrollTop.hidden) {
+        e.preventDefault();
+        this.scrollTop.focus();
+        return;
+      }
     }
+    e.preventDefault();
+    x.focus();
   }
 
   // Moves focus to the next/previous menu item
@@ -366,6 +441,41 @@ class ContextMenu {
 
     if (next && isFullScreen) liteNavFocusWithRovingTabIndex(next, allItems);
     if (next) next.focus();
+    this.updateScrollIndicator();
+  }
+
+  // Scroll to the top / bottom of the menu on pressing the hint button
+  // Focus on the first / last menu item after animation completes
+  // Try preventing undershoots and jarring animation (use allow-discrete in CSS)
+  handleScrollIndicatorClick(e) {
+    const hint = e.currentTarget;
+    const isTop = hint.dataset.scrollHint === 'top';
+    const allItems =
+      Array.from(document.querySelectorAll('[data-contextmenuitem]'));
+    const isFullScreen =
+      document.body.dataset.layout === "mobile-true";
+    hint.disabled = true;
+    hint.hidden = true;
+    this.menu.removeEventListener('scroll', this._scrollHandler);
+    this.menu.scrollTo({
+      top: isTop ? 0 : this.menu.scrollHeight - this.menu.clientHeight,
+      behavior: 'smooth'
+    });
+    const onScrollEnd = () => {
+      this.menu.removeEventListener('scrollend', onScrollEnd);
+      this.menu.addEventListener('scroll', this._scrollHandler);
+      if (isTop) this.menu.scrollTop = 0;
+      else this.menu.scrollTop = this.menu.scrollHeight - this.menu.clientHeight;
+      this.updateScrollIndicator();
+      hint.disabled = false;
+      const opts = { preventScroll: true };
+      if (isTop && isFullScreen) liteNavFocusWithRovingTabIndex(allItems[0], allItems);
+      else if (isTop && !isFullScreen) allItems[0].focus(opts);
+      else if (isFullScreen) liteNavFocusWithRovingTabIndex(allItems[allItems.length - 1], allItems);
+      else allItems[allItems.length - 1].focus(opts);
+      requestAnimationFrame(() => this.updateScrollIndicator());
+    };
+    this.menu.addEventListener('scrollend', onScrollEnd);
   }
 
   // Update arrow overlays based on scroll position
